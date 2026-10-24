@@ -15,6 +15,13 @@
       "when": 1792820396632,
       "tag": "0001_questions_private_to_author",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792821872152,
+      "tag": "0002_question_submission_raffle_tickets",
+      "breakpoints": true
     }
   ]
 }
