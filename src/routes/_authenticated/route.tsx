@@ -1,4 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
+import { RaffleBanner } from "@/components/RaffleBanner";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useMyFeedback } from "@/lib/data";
