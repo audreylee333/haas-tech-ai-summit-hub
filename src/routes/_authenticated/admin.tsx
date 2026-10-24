@@ -12,7 +12,15 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Organizers · Haas Tech & AI Summit 2026" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [
+    { title: "Organizers · Haas Tech & AI Summit 2026" },
+    { name: "robots", content: "noindex" },
+    { name: "description", content: "Organizer desk for summit feedback, private audience questions, and the raffle." },
+    { property: "og:title", content: "Organizers · Haas Tech & AI Summit 2026" },
+    { property: "og:description", content: "Manage audience engagement at the Haas Tech & AI Summit 2026." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: AdminPage,
 });
 

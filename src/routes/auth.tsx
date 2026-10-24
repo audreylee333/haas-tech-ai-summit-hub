@@ -13,6 +13,8 @@ export const Route = createFileRoute("/auth")({
       { name: "description", content: "Sign in with Google to rate sessions and enter the summit raffle." },
       { property: "og:title", content: "Sign in · Haas Tech & AI Summit 2026" },
       { property: "og:description", content: "Sign in with Google to rate sessions and enter the raffle." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: AuthPage,
