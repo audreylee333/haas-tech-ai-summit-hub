@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Haas Tech Summit Live — Feedback & Q&A" },
+      { title: "Haas Tech & AI Summit 2026 Engagement Center: feedback & Q&A" },
       { name: "description", content: "Rate sessions, ask speakers questions and earn raffle entries at the Haas Tech Summit." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

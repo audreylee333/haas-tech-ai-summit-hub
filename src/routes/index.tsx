@@ -6,9 +6,9 @@ import { useUser } from "@/lib/data";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Haas Tech Summit Engagement Center — Rate, ask, win" },
-      { name: "description", content: "The Haas Tech Summit engagement center: rate sessions, ask speakers questions, and earn raffle entries for prizes revealed at the end of the day." },
-      { property: "og:title", content: "Haas Tech Summit Engagement Center" },
+      { title: "Haas Tech & AI Summit 2026 Engagement Center: rate, ask, win" },
+      { name: "description", content: "The Haas Tech & AI Summit 2026 engagement center: rate sessions, ask speakers questions, and earn raffle entries for prizes revealed at the end of the day." },
+      { property: "og:title", content: "Haas Tech & AI Summit 2026 Engagement Center" },
       { property: "og:description", content: "Rate sessions, ask speakers questions, and earn raffle entries for end-of-day prizes." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -21,8 +21,8 @@ function Index() {
   const { data: user } = useUser();
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-8 sm:px-8">
-      <header className="flex items-center justify-between">
-        <span className="eyebrow">Haas Tech Club · Summit 2026</span>
+      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <span className="eyebrow">Haas Tech &amp; AI Summit 2026: <span className="text-signal">Where Intelligence Goes Next</span></span>
         <span className="eyebrow">Oct 30 · Spieker Forum</span>
       </header>
 
@@ -32,7 +32,7 @@ function Index() {
           Tell us how it went. <em className="text-signal">Win something.</em>
         </h1>
         <p className="mt-6 max-w-md text-lg text-muted-foreground">
-          Rate sessions as you go and send in questions for the speakers. Every review is a ticket in today's raffle — and it helps us make the summit better every year.
+          Rate sessions as you go and send in questions for the speakers. Every review is a ticket in today's raffle, and it helps us make the summit better every year.
         </p>
 
         <div className="mt-10 rounded-sm border-2 border-dashed border-signal p-6">
@@ -63,10 +63,10 @@ function Index() {
             One ticket for each session you rate, plus one for each part of the day you review: pacing, topics, food, venue and more. Up to 20 tickets each. More tickets, better odds.
           </p>
           <p className="mt-3 max-w-lg text-sm font-semibold">
-            🏆 Winners must be there to claim: stick around until the close — if your name is drawn and you've already headed out, the prize rolls to the next ticket.
+            🏆 Winners must be there to claim: stick around until the close. If your name is drawn and you've already headed out, the prize rolls to the next ticket.
           </p>
           <p className="mt-2 max-w-lg text-sm opacity-80">
-            And every note you leave goes straight to next year's planning — your reviews are how we make the summit better each year.
+            And every note you leave goes straight to next year's planning. Your reviews are how we make the summit better each year.
           </p>
         </div>
 
@@ -76,7 +76,7 @@ function Index() {
         {[
           ["01", "Rate", "A 1–5 score and an optional note. Ten seconds, one ticket."],
           ["02", "Ask", "Send questions in; moderators pick what gets asked on stage."],
-          ["03", "Win", "Stack tickets all day. Winners are drawn at the close — stay to claim yours."],
+          ["03", "Win", "Stack tickets all day. Winners are drawn at the close, so stay to claim yours."],
         ].map(([n, t, d]) => (
           <div key={n}>
             <p className="eyebrow text-signal">{n}</p>
