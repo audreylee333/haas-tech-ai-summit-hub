@@ -47,7 +47,7 @@ function QAModeration() {
   const questions = useQuery({
     queryKey: ["admin-questions"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("questions").select("*").order("vote_count", { ascending: false }).order("created_at");
+      const { data, error } = await supabase.from("questions").select("*").order("created_at", { ascending: true });
       if (error) throw error;
       return data;
     },
@@ -114,14 +114,14 @@ function QAModeration() {
           const s = sessions?.find((x) => x.id === q.session_id);
           return (
             <li key={q.id} className={cn("flex gap-3 rounded-sm border bg-card p-3", q.hidden && "opacity-50")}>
-              <span className="w-10 shrink-0 text-center font-mono text-lg">▲{q.vote_count}</span>
+              <span className="w-16 shrink-0 font-mono text-xs text-muted-foreground">{new Date(q.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</span>
               <div className="min-w-0 flex-1">
                 <p className="break-words">{q.body}</p>
                 <p className="eyebrow mt-1">{q.author_name ?? "Attendee"}{sessionId === "all" && s && ` · ${s.title}`}</p>
               </div>
               <div className="flex shrink-0 flex-col gap-1">
                 <Button size="sm" variant={q.answered ? "outline" : "signal"} onClick={() => update(q.id, { answered: !q.answered })}>
-                  {q.answered ? "Reopen" : "Answered"}
+                  {q.answered ? "Undo" : "Asked"}
                 </Button>
                 <Button size="sm" variant="ghost" onClick={() => update(q.id, { hidden: !q.hidden })}>
                   {q.hidden ? "Unhide" : "Hide"}

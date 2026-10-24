@@ -1,0 +1,2 @@
+drop policy if exists "read visible" on public.questions;
+create policy "read own or admin" on public.questions for select to authenticated using (user_id = auth.uid() or public.has_role(auth.uid(), 'admin'));
