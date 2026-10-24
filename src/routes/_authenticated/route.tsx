@@ -34,7 +34,7 @@ function Shell() {
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-center justify-between">
-          <Link to="/" className="display text-2xl">Engagement <span className="text-signal">Center</span></Link>
+          <Link to="/" className="display text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="text-signal">: Where Intelligence Goes Next</span></Link>
           <div className="flex items-center gap-3">
             <span className="bg-prize rounded-sm px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
               🎟 {data?.entries ?? 0}

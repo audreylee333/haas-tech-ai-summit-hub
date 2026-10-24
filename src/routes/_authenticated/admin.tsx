@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/admin")({
-  head: () => ({ meta: [{ title: "Organizers — Haas Tech Summit Live" }, { name: "robots", content: "noindex" }] }),
+  head: () => ({ meta: [{ title: "Organizers · Haas Tech & AI Summit 2026" }, { name: "robots", content: "noindex" }] }),
   component: AdminPage,
 });
 

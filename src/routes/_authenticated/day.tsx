@@ -8,7 +8,7 @@ import { FeedbackForm } from "@/components/FeedbackForm";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated/day")({
-  head: () => ({ meta: [{ title: "Rate the day — Haas Tech Summit Live" }] }),
+  head: () => ({ meta: [{ title: "Rate the day · Haas Tech & AI Summit 2026" }] }),
   component: DayPage,
 });
 
