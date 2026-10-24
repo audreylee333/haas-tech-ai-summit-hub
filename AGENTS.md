@@ -14,3 +14,4 @@
 - Raffle entries = distinct sessions reviewed + distinct day categories reviewed, enforced by unique constraints; mirrored in `src/lib/raffle.ts` for display.
 - Organizers are granted via rows in `public.user_roles` (role `admin`).
 - Day feedback uses the existing category rating and optional comment fields; the overall category labels its comment as a change suggestion to preserve one raffle entry per category.
+- Session Q&A rendering uses `canSubmitQuestions`; opening remarks are excluded even when an organizer enables their flag, and database session flags remain the submission-policy authority.

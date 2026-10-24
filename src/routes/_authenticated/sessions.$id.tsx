@@ -7,6 +7,7 @@ import { useMyFeedback, useSessions, useUser } from "@/lib/data";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { canSubmitQuestions } from "@/lib/questions";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
@@ -60,7 +61,7 @@ function SessionPage() {
         />
       </section>
 
-      {session.qa_enabled && <QA sessionId={id} />}
+      {canSubmitQuestions(session) && <QA sessionId={id} />}
     </div>
   );
 }
