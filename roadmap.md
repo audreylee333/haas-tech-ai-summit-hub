@@ -10,6 +10,6 @@
 - [x] Disable Q&A for opening remarks and verify it stays available on eligible sessions.
 
 # Multiple questions
-- [ ] Use plural wording and submit multiple questions together in one paragraph.
-- [ ] Count one raffle ticket per question submission in attendee totals and organizer draws.
-- [ ] Test raffle counting and verify a question submission reads back with its ticket.
+- [x] Use plural wording and submit multiple questions together in one paragraph.
+- [x] Count one raffle ticket per question submission in attendee totals and organizer draws.
+- [x] Test raffle counting and verify a question submission reads back with its ticket.
