@@ -45,7 +45,6 @@ function SessionsPage() {
                     {reviewed.has(s.id) ? "Edit review" : "Submit"}<ArrowRight />
                   </Link>
                 </Button>
-                {s.qa_enabled && <span className="eyebrow">Q&amp;A</span>}
               </span>
             </div>
           </li>
