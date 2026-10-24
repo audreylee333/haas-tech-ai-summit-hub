@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMyFeedback, useSessions } from "@/lib/data";
 
 export const Route = createFileRoute("/_authenticated/sessions/")({
-  head: () => ({ meta: [{ title: "Sessions — Haas Tech Summit Live" }] }),
+  head: () => ({ meta: [{ title: "Sessions · Haas Tech & AI Summit 2026" }] }),
   component: SessionsPage,
 });
 

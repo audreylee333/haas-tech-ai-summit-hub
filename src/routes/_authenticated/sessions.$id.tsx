@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
-  head: () => ({ meta: [{ title: "Session — Haas Tech Summit Live" }] }),
+  head: () => ({ meta: [{ title: "Session · Haas Tech & AI Summit 2026" }] }),
   component: SessionPage,
 });
 
