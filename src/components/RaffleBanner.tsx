@@ -11,7 +11,8 @@ export function RaffleBanner({ entries }: { entries: number }) {
         <p className="text-sm font-medium">
           {entries === 0
             ? "Rate your first session to get in the draw."
-            : "Every session and every day topic you rate adds another ticket."}
+            : "Every session and every day topic you rate adds another ticket."}{" "}
+          <span className="font-semibold">Be there at the close to win.</span>
         </p>
       </div>
       <Link to="/day" className="hidden font-mono text-xs underline underline-offset-4 sm:block">

@@ -32,7 +32,7 @@ function Index() {
           Tell us how it went. <em className="text-signal">Win something.</em>
         </h1>
         <p className="mt-6 max-w-md text-lg text-muted-foreground">
-          Rate sessions as you go and send in questions for the speakers. Every review is a ticket in today's raffle.
+          Rate sessions as you go and send in questions for the speakers. Every review is a ticket in today's raffle — and it helps us make the summit better every year.
         </p>
 
         <div className="mt-10 rounded-sm border-2 border-dashed border-signal p-6">
@@ -43,7 +43,7 @@ function Index() {
             {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. Your email is how we reach you if you win."}
+            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. We use your email to credit each review and question to your raffle tickets."}
           </p>
           <div className="mt-5">
             {user ? (
@@ -62,6 +62,12 @@ function Index() {
           <p className="mt-3 max-w-lg text-sm font-medium">
             One ticket for each session you rate, plus one for each part of the day you review: pacing, topics, food, venue and more. Up to 20 tickets each. More tickets, better odds.
           </p>
+          <p className="mt-3 max-w-lg text-sm font-semibold">
+            🏆 Winners must be there to claim: stick around until the close — if your name is drawn and you've already headed out, the prize rolls to the next ticket.
+          </p>
+          <p className="mt-2 max-w-lg text-sm opacity-80">
+            And every note you leave goes straight to next year's planning — your reviews are how we make the summit better each year.
+          </p>
         </div>
 
       </section>
@@ -70,7 +76,7 @@ function Index() {
         {[
           ["01", "Rate", "A 1–5 score and an optional note. Ten seconds, one ticket."],
           ["02", "Ask", "Send questions in; moderators pick what gets asked on stage."],
-          ["03", "Win", "Stack tickets all day. Winners are drawn at the close."],
+          ["03", "Win", "Stack tickets all day. Winners are drawn at the close — stay to claim yours."],
         ].map(([n, t, d]) => (
           <div key={n}>
             <p className="eyebrow text-signal">{n}</p>
