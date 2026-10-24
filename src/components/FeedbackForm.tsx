@@ -15,7 +15,7 @@ export function FeedbackForm({
   initialRating?: number | undefined;
   initialComment?: string | null | undefined;
   placeholder: string;
-  commentLabel?: string;
+  commentLabel?: string | undefined;
   isNew: boolean;
   onSubmit: (rating: number, comment: string | null) => Promise<void>;
 }) {

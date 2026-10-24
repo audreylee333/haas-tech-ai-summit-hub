@@ -10,7 +10,14 @@ import { Button } from "@/components/ui/button";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
-  head: () => ({ meta: [{ title: "Session · Haas Tech & AI Summit 2026" }] }),
+  head: () => ({ meta: [
+    { title: "Session review & Q&A · Haas Tech & AI Summit 2026" },
+    { name: "description", content: "Review a summit session and send private questions to its moderators." },
+    { property: "og:title", content: "Session review & Q&A · Haas Tech & AI Summit 2026" },
+    { property: "og:description", content: "Share session feedback and questions with the summit organizers." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary_large_image" },
+  ] }),
   component: SessionPage,
 });
 
