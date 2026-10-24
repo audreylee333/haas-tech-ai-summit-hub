@@ -5,6 +5,6 @@
 - [x] Verify feedback screens and submission flow.
 
 # Typography and Q&A
-- [ ] Match the Tech Club website fonts and improve readability.
+- [x] Match the Tech Club website fonts and improve readability.
 - [x] Remove small Q&A labels under session Submit buttons.
-- [ ] Disable Q&A for opening remarks and verify it stays available on eligible sessions.
+- [x] Disable Q&A for opening remarks and verify it stays available on eligible sessions.
