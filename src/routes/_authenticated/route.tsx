@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useMyFeedback } from "@/lib/data";
@@ -18,7 +18,6 @@ function Shell() {
   const { data: isAdmin } = useIsAdmin();
   const qc = useQueryClient();
   const navigate = useNavigate();
-  useRouter();
 
   const signOut = async () => {
     await qc.cancelQueries();
