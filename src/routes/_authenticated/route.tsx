@@ -23,7 +23,7 @@ function Shell() {
     await qc.cancelQueries();
     qc.clear();
     await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
+    navigate({ to: "/auth", search: { redirect: undefined }, replace: true });
   };
 
   const tab = "eyebrow px-1 pb-2 border-b-2 border-transparent hover:text-foreground";

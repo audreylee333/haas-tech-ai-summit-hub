@@ -116,11 +116,11 @@ function QA({ sessionId }: { sessionId: string }) {
         onSubmit={async (e) => {
           e.preventDefault();
           const text = body.trim();
-          if (text.length < 3) return toast.error("Question is too short");
+          if (text.length < 3) { toast.error("Question is too short"); return; }
           setBusy(true);
           const { error } = await supabase.from("questions").insert({ session_id: sessionId, body: text.slice(0, 500), user_id: user!.id });
           setBusy(false);
-          if (error) return toast.error("Couldn't post your question");
+          if (error) { toast.error("Could not post your question"); return; }
           setBody("");
           toast.success("Question sent to the moderators");
           qc.invalidateQueries({ queryKey: ["questions", sessionId] });

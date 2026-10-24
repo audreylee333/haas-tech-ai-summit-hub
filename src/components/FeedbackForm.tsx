@@ -11,8 +11,8 @@ export function FeedbackForm({
   onSubmit,
   isNew,
 }: {
-  initialRating?: number;
-  initialComment?: string | null;
+  initialRating?: number | undefined;
+  initialComment?: string | null | undefined;
   placeholder: string;
   isNew: boolean;
   onSubmit: (rating: number, comment: string | null) => Promise<void>;
@@ -31,7 +31,7 @@ export function FeedbackForm({
       className="space-y-4"
       onSubmit={async (e) => {
         e.preventDefault();
-        if (!rating) return toast.error("Pick a rating first");
+        if (!rating) { toast.error("Pick a rating first"); return; }
         setBusy(true);
         try {
           await onSubmit(rating, comment.trim() ? comment.trim().slice(0, 2000) : null);

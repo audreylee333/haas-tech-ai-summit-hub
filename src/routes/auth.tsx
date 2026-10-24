@@ -5,7 +5,7 @@ import { SignInButton } from "@/components/SignInButton";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({
-    redirect: typeof s.redirect === "string" ? s.redirect : undefined,
+    redirect: typeof s['redirect'] === "string" ? s['redirect'] : undefined,
   }),
   head: () => ({
     meta: [
