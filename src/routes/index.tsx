@@ -32,10 +32,31 @@ function Index() {
           Tell us how it went. <em className="text-signal">Win something.</em>
         </h1>
         <p className="mt-6 max-w-md text-lg text-muted-foreground">
-          Rate sessions as you go and ask the speakers questions live. Every review is a ticket in today's raffle.
+          Rate sessions as you go and send in questions for the speakers. Every review is a ticket in today's raffle.
         </p>
 
-        <div className="bg-prize shadow-prize mt-10 rounded-sm p-6 text-signal-foreground">
+        <div className="mt-10 rounded-sm border-2 border-dashed border-signal p-6">
+          <p className="font-mono text-xs uppercase tracking-[0.14em] text-signal">
+            {user ? "✓ You're signed in" : "Step 1 · Start here"}
+          </p>
+          <p className="display mt-2 text-3xl">
+            {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. Your email is how we reach you if you win."}
+          </p>
+          <div className="mt-5">
+            {user ? (
+              <Button asChild variant="start" size="lg" className="h-14 px-6 text-base font-semibold">
+                <Link to="/sessions">Go to sessions →</Link>
+              </Button>
+            ) : (
+              <SignInButton />
+            )}
+          </div>
+        </div>
+
+        <div className="bg-prize shadow-prize mt-8 rounded-sm p-6 text-signal-foreground">
           <p className="font-mono text-xs uppercase tracking-[0.14em]">🎟 The raffle · drawn at the close</p>
           <p className="display mt-2 text-4xl sm:text-5xl">Prizes revealed at the end of the day.</p>
           <p className="mt-3 max-w-lg text-sm font-medium">
@@ -43,21 +64,12 @@ function Index() {
           </p>
         </div>
 
-        <div className="mt-8">
-          {user ? (
-            <Button asChild variant="signal" size="lg" className="h-12 text-base">
-              <Link to="/sessions">Start earning tickets →</Link>
-            </Button>
-          ) : (
-            <SignInButton />
-          )}
-        </div>
       </section>
 
       <section className="rule grid gap-6 pt-6 sm:grid-cols-3">
         {[
           ["01", "Rate", "A 1–5 score and an optional note. Ten seconds, one ticket."],
-          ["02", "Ask", "Post questions to the stage and upvote the best ones."],
+          ["02", "Ask", "Send questions in; moderators pick what gets asked on stage."],
           ["03", "Win", "Stack tickets all day. Winners are drawn at the close."],
         ].map(([n, t, d]) => (
           <div key={n}>
