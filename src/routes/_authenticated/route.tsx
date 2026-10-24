@@ -33,10 +33,10 @@ function Shell() {
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-center justify-between">
-          <Link to="/" className="display text-2xl">Summit Live</Link>
+          <Link to="/" className="display text-2xl">Engagement <span className="text-signal">Center</span></Link>
           <div className="flex items-center gap-3">
-            <span className="rounded-sm bg-signal px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
-              🎟 {data?.entries ?? 0} {data?.entries === 1 ? "entry" : "entries"}
+            <span className="bg-prize rounded-sm px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
+              🎟 {data?.entries ?? 0}
             </span>
             <button onClick={signOut} className="eyebrow hover:text-foreground">Sign out</button>
           </div>
@@ -48,6 +48,9 @@ function Shell() {
         </nav>
       </header>
       <div className="pt-6">
+        <div className="mb-8">
+          <RaffleBanner entries={data?.entries ?? 0} />
+        </div>
         <Outlet />
       </div>
     </div>
