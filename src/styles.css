@@ -121,3 +121,10 @@
     border-top: 1px solid var(--color-foreground);
   }
 }
+
+@utility bg-prize {
+  background-image: var(--gradient-prize);
+}
+@utility shadow-prize {
+  box-shadow: var(--shadow-prize);
+}
