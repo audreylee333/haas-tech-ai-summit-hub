@@ -43,7 +43,7 @@ function Index() {
             {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. We use your email to credit each review and question to your raffle tickets."}
+            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. We use your email to credit each review and question submission to your raffle tickets."}
           </p>
           <div className="mt-5">
             {user ? (
@@ -60,7 +60,7 @@ function Index() {
           <p className="font-mono text-xs uppercase tracking-[0.14em]">🎟 The raffle · drawn at the close</p>
           <p className="display mt-2 text-4xl sm:text-5xl">Prizes revealed at the end of the day.</p>
           <p className="mt-3 max-w-lg text-sm font-medium">
-            One ticket for each session you rate, plus one for each part of the day you review: pacing, topics, food, venue and more. Up to 20 tickets each. More tickets, better odds.
+            One ticket for each session you rate, plus one for each part of the day you review: pacing, topics, food, venue and more. Each question submission also earns one ticket, even if it includes several questions. More tickets, better odds.
           </p>
           <p className="mt-3 max-w-lg text-sm font-semibold">
             🏆 Winners must be there to claim: stick around until the close. If your name is drawn and you've already headed out, the prize rolls to the next ticket.

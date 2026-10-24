@@ -1,7 +1,7 @@
-// Raffle rules: one entry per distinct session reviewed, plus one entry per
-// distinct "rest of the day" category reviewed. Editing a review never adds entries.
-export function countRaffleEntries(sessionIds: string[], categories: string[]): number {
-  return new Set(sessionIds).size + new Set(categories).size;
+// Reviews count once per session/category; each distinct question submission
+// counts once, regardless of how many questions its paragraph contains.
+export function countRaffleEntries(sessionIds: string[], categories: string[], submissionIds: string[] = []): number {
+  return new Set(sessionIds).size + new Set(categories).size + new Set(submissionIds).size;
 }
 
 export const DAY_CATEGORIES = [

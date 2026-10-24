@@ -27,18 +27,21 @@ export function useMyFeedback() {
     queryFn: async () => {
       const uid = (await supabase.auth.getUser()).data.user?.id;
       if (!uid) return { sessions: [], general: [], entries: 0 };
-      const [s, g] = await Promise.all([
+      const [s, g, q] = await Promise.all([
         supabase.from("session_feedback").select("*").eq("user_id", uid),
         supabase.from("general_feedback").select("*").eq("user_id", uid),
+        supabase.from("questions").select("id").eq("user_id", uid),
       ]);
       if (s.error) throw s.error;
       if (g.error) throw g.error;
+      if (q.error) throw q.error;
       return {
         sessions: s.data,
         general: g.data,
         entries: countRaffleEntries(
           s.data.map((r) => r.session_id),
           g.data.map((r) => r.category),
+          q.data.map((r) => r.id),
         ),
       };
     },

@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -49,10 +49,12 @@ function SessionPage() {
           initialComment={existing?.comment}
           placeholder="What stood out? What could be better? (optional)"
           onSubmit={async (rating, comment) => {
+            const user = (await supabase.auth.getUser()).data.user;
+            if (!user) throw new Error("Please sign in to submit feedback");
             const { error } = await supabase
               .from("session_feedback")
               .upsert(
-                { session_id: id, rating, comment, user_id: (await supabase.auth.getUser()).data.user!.id, updated_at: new Date().toISOString() },
+                { session_id: id, rating, comment, user_id: user.id, updated_at: new Date().toISOString() },
                 { onConflict: "user_id,session_id" },
               );
             if (error) throw error;
@@ -76,11 +78,12 @@ function QA({ sessionId }: { sessionId: string }) {
     queryKey: ["my-questions", sessionId],
     enabled: !!user,
     queryFn: async () => {
+      if (!user) return [];
       const { data, error } = await supabase
         .from("questions")
         .select("id, body, answered, created_at")
         .eq("session_id", sessionId)
-        .eq("user_id", user!.id)
+        .eq("user_id", user.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
       return data;
@@ -90,27 +93,30 @@ function QA({ sessionId }: { sessionId: string }) {
   return (
     <section className="rule mt-10 pt-5">
       <p className="eyebrow">Q&amp;A</p>
-      <h2 className="display mt-1 text-3xl">Have a question for the speakers?</h2>
+      <h2 className="display mt-1 text-3xl">Have questions for the speakers?</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Send it in and our moderators will pick questions to put to the stage.
+        Send your questions together in one paragraph. Our moderators will pick which questions to ask on stage.
       </p>
+      <p className="mt-2 text-sm font-medium text-signal">Each submission earns one raffle ticket, no matter how many questions you include.</p>
       <form
         className="mt-4 space-y-3"
         onSubmit={async (e) => {
           e.preventDefault();
-          const text = body.trim();
-          if (text.length < 3) { toast.error("Question is too short"); return; }
+          if (busy || !user) return;
+          const text = body.replace(/\s+/g, " ").trim();
+          if (text.length < 3) { toast.error("Please add your questions"); return; }
           setBusy(true);
-          const { error } = await supabase.from("questions").insert({ session_id: sessionId, body: text.slice(0, 500), user_id: user!.id });
+          const { error } = await supabase.from("questions").insert({ session_id: sessionId, body: text.slice(0, 500), user_id: user.id });
           setBusy(false);
-          if (error) { toast.error("Could not send your question"); return; }
+          if (error) { toast.error("Could not send your questions"); return; }
           setBody("");
-          toast.success("Sent to the moderators");
+          toast.success("Questions sent to the moderators. +1 raffle ticket!");
           qc.invalidateQueries({ queryKey: ["my-questions", sessionId] });
+          qc.invalidateQueries({ queryKey: ["my-feedback"] });
         }}
       >
-        <Textarea value={body} onChange={(e) => setBody(e.target.value)} maxLength={500} placeholder="Your question for the speakers…" className="bg-card" />
-        <Button type="submit" disabled={busy} className="w-full">Send question</Button>
+        <Textarea aria-label="Your questions for the speakers" value={body} onChange={(e) => setBody(e.target.value)} maxLength={500} placeholder="Your questions for the speakers…" className="bg-card" />
+        <Button type="submit" disabled={busy || !user} className="w-full">{busy ? "Sending…" : "Send questions"}</Button>
       </form>
 
       {mine.data && mine.data.length > 0 && (
