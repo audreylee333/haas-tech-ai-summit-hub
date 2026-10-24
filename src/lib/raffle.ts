@@ -5,7 +5,7 @@ export function countRaffleEntries(sessionIds: string[], categories: string[]): 
 }
 
 export const DAY_CATEGORIES = [
-  { id: "overall", label: "The day overall", hint: "Would you come back next year?" },
+  { id: "overall", label: "The day overall", hint: "How would you rate the overall experience today?" },
   { id: "pacing", label: "Pacing & schedule", hint: "Session lengths, breaks, running on time" },
   { id: "topics", label: "Topics covered", hint: "What hit, what was missing" },
   { id: "speakers", label: "Speaker lineup", hint: "Who you'd want to hear from next" },
