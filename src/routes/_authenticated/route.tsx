@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, redirect, useLocation, useNavigate } from "@tanstack/react-router";
 import { RaffleBanner } from "@/components/RaffleBanner";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -17,6 +17,8 @@ export const Route = createFileRoute("/_authenticated")({
 function Shell() {
   const { data } = useMyFeedback();
   const { data: isAdmin } = useIsAdmin();
+  const { pathname } = useLocation();
+  const isDesk = pathname.startsWith("/admin");
   const qc = useQueryClient();
   const navigate = useNavigate();
 
@@ -36,9 +38,11 @@ function Shell() {
         <div className="flex items-center justify-between">
           <Link to="/" className="display text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="text-signal">: Where Intelligence Goes Next</span></Link>
           <div className="flex items-center gap-3">
-            <span className="bg-prize rounded-sm px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
-              🎟 {data?.entries ?? 0}
-            </span>
+            {!isDesk && (
+              <span className="bg-prize rounded-sm px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
+                🎟 {data?.entries ?? 0}
+              </span>
+            )}
             <button onClick={signOut} className="eyebrow hover:text-foreground">Sign out</button>
           </div>
         </div>
@@ -49,9 +53,11 @@ function Shell() {
         </nav>
       </header>
       <div className="pt-6">
-        <div className="mb-8">
-          <RaffleBanner entries={data?.entries ?? 0} />
-        </div>
+        {!isDesk && (
+          <div className="mb-8">
+            <RaffleBanner entries={data?.entries ?? 0} />
+          </div>
+        )}
         <Outlet />
       </div>
     </div>
