@@ -15,3 +15,6 @@
 - Organizers are granted via rows in `public.user_roles` (role `admin`).
 - Day feedback uses the existing category rating and optional comment fields; the overall category labels its comment as a change suggestion to preserve one raffle entry per category.
 - Session Q&A rendering uses `canSubmitQuestions`; opening remarks are excluded even when an organizer enables their flag, and database session flags remain the submission-policy authority.
+- Moderator (= organizer) access comes from `public.moderator_emails`; triggers grant the `admin` role when a matching profile exists — add moderators by inserting emails, never by editing roles in app code.
+- Attendees read other attendees' questions only through the `session_questions` security-definer RPC, which omits author identity; base `questions` RLS stays own-or-admin.
+- AI theme grouping runs in the `groupSessionQuestions` server function (admin-checked) with gateway code in `src/lib/themes.server.ts`; themes are cached client-side, not stored.

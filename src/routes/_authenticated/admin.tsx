@@ -5,6 +5,9 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useSessions } from "@/lib/data";
 import { DAY_CATEGORIES } from "@/lib/raffle";
+import { useServerFn } from "@tanstack/react-start";
+import { groupSessionQuestions } from "@/lib/themes.functions";
+import { applyThemes, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -35,7 +38,7 @@ function AdminPage() {
         <TabsList>
           <TabsTrigger value="qa">Q&amp;A</TabsTrigger>
           <TabsTrigger value="feedback">Feedback</TabsTrigger>
-          <TabsTrigger value="raffle">Raffle</TabsTrigger>
+          <TabsTrigger value="raffle">Raffle &amp; totals</TabsTrigger>
         </TabsList>
         <TabsContent value="qa"><QAModeration /></TabsContent>
         <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>
@@ -94,6 +97,23 @@ function QAModeration() {
     qc.invalidateQueries({ queryKey: ["sessions"] });
   };
   const current = sessions?.find((s) => s.id === sessionId);
+  const [themes, setThemes] = useState<Record<string, Theme[]>>({});
+  const [grouping, setGrouping] = useState(false);
+  const groupFn = useServerFn(groupSessionQuestions);
+  const runGrouping = async () => {
+    setGrouping(true);
+    try {
+      const res = await groupFn({ data: { sessionId } });
+      if (res.error) toast.error(res.error);
+      else setThemes((t) => ({ ...t, [sessionId]: res.themes }));
+    } catch {
+      toast.error("Grouping failed. Try again.");
+    } finally {
+      setGrouping(false);
+    }
+  };
+  const sorted = [...list].sort((a, b) => b.vote_count - a.vote_count);
+  const groups = sessionId !== "all" && themes[sessionId] ? applyThemes(themes[sessionId], sorted) : [{ label: "All", questions: sorted }];
 
   return (
     <div className="space-y-4 pt-4">
@@ -116,29 +136,44 @@ function QAModeration() {
           </label>
         )}
       </div>
-      <p className="eyebrow">{list.length} questions</p>
-      <ul className="space-y-2">
-        {list.map((q) => {
-          const s = sessions?.find((x) => x.id === q.session_id);
-          return (
-            <li key={q.id} className={cn("flex gap-3 rounded-sm border bg-card p-3", q.hidden && "opacity-50")}>
-              <span className="w-16 shrink-0 font-mono text-xs text-muted-foreground">{new Date(q.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</span>
-              <div className="min-w-0 flex-1">
-                <p className="break-words">{q.body}</p>
-                <p className="eyebrow mt-1">{q.author_name ?? "Attendee"}{sessionId === "all" && s && ` · ${s.title}`}</p>
-              </div>
-              <div className="flex shrink-0 flex-col gap-1">
-                <Button size="sm" variant={q.answered ? "outline" : "signal"} onClick={() => update(q.id, { answered: !q.answered })}>
-                  {q.answered ? "Undo" : "Asked"}
-                </Button>
-                <Button size="sm" variant="ghost" onClick={() => update(q.id, { hidden: !q.hidden })}>
-                  {q.hidden ? "Unhide" : "Hide"}
-                </Button>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="flex flex-wrap items-center gap-2">
+        <p className="eyebrow">{list.length} questions</p>
+        {sessionId !== "all" && (
+          <div className="ml-auto flex gap-2">
+            {themes[sessionId] && <Button size="sm" variant="ghost" onClick={() => setThemes((t) => { const n = { ...t }; delete n[sessionId]; return n; })}>All questions</Button>}
+            <Button size="sm" variant="signal" disabled={grouping} onClick={runGrouping}>
+              {grouping ? "Grouping…" : themes[sessionId] ? "Regroup by theme" : "Group by theme"}
+            </Button>
+          </div>
+        )}
+      </div>
+      {groups.map((g) => (
+        <div key={g.label}>
+          {groups.length > 1 || themes[sessionId] ? <p className="eyebrow mb-2 mt-4 text-signal">{g.label} · {g.questions.length}</p> : null}
+          <ul className="space-y-2">
+            {g.questions.map((q) => {
+              const s = sessions?.find((x) => x.id === q.session_id);
+              return (
+                <li key={q.id} className={cn("flex gap-3 rounded-sm border bg-card p-3", q.hidden && "opacity-50")}>
+                  <span className="w-14 shrink-0 font-mono text-sm text-signal">▲ {q.vote_count}</span>
+                  <div className="min-w-0 flex-1">
+                    <p className="break-words">{q.body}</p>
+                    <p className="eyebrow mt-1">{q.author_name ?? "Attendee"} · {new Date(q.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}{sessionId === "all" && s && ` · ${s.title}`}</p>
+                  </div>
+                  <div className="flex shrink-0 flex-col gap-1">
+                    <Button size="sm" variant={q.answered ? "outline" : "signal"} onClick={() => update(q.id, { answered: !q.answered })}>
+                      {q.answered ? "Undo" : "Asked"}
+                    </Button>
+                    <Button size="sm" variant="ghost" onClick={() => update(q.id, { hidden: !q.hidden })}>
+                      {q.hidden ? "Unhide" : "Hide"}
+                    </Button>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 }
@@ -205,6 +240,7 @@ function Raffle() {
   const [busy, setBusy] = useState(false);
   const board = useQuery({
     queryKey: ["raffle-board"],
+    refetchInterval: 15_000,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("raffle_leaderboard");
       if (error) throw error;
@@ -261,7 +297,7 @@ function Raffle() {
       )}
 
       <div>
-        <p className="eyebrow mb-2">Entries by attendee</p>
+        <p className="eyebrow mb-2">Running raffle totals by attendee · updates live</p>
         {board.data?.map((b) => (
           <div key={b.user_id} className="rule flex justify-between py-2 text-sm">
             <span>{b.display_name} <span className="text-muted-foreground">{b.email}</span></span>

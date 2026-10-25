@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
@@ -90,14 +91,44 @@ function QA({ sessionId }: { sessionId: string }) {
     },
   });
 
+  const everyone = useQuery({
+    queryKey: ["session-questions", sessionId],
+    enabled: !!user,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("session_questions", { _session_id: sessionId });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  useEffect(() => {
+    const ch = supabase
+      .channel(`qa-${sessionId}-${Math.random().toString(36).slice(2)}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "questions", filter: `session_id=eq.${sessionId}` }, () =>
+        qc.invalidateQueries({ queryKey: ["session-questions", sessionId] }),
+      )
+      .subscribe();
+    const t = setInterval(() => qc.invalidateQueries({ queryKey: ["session-questions", sessionId] }), 15_000);
+    return () => { supabase.removeChannel(ch); clearInterval(t); };
+  }, [qc, sessionId]);
+
+  const vote = async (questionId: string, voted: boolean) => {
+    if (!user) return;
+    const { error } = voted
+      ? await supabase.from("question_votes").delete().eq("question_id", questionId).eq("user_id", user.id)
+      : await supabase.from("question_votes").insert({ question_id: questionId, user_id: user.id });
+    if (error) toast.error("Could not update your vote");
+    qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
+  };
+
   return (
     <section className="rule mt-10 pt-5">
       <p className="eyebrow">Q&amp;A</p>
       <h2 className="display mt-1 text-3xl">Have questions for the speakers?</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Send your questions together in one paragraph. Our moderators will pick which questions to ask on stage.
+        See what others are asking. Upvote the questions you want to hear. Moderators pick what gets asked on stage.
       </p>
-      <p className="mt-2 text-sm font-medium text-signal">Each submission earns one raffle ticket, no matter how many questions you include.</p>
+      <p className="mt-2 text-sm font-medium text-signal">Each submission earns one raffle ticket, no matter how many questions you include. Upvotes don't add tickets.</p>
       <form
         className="mt-4 space-y-3"
         onSubmit={async (e) => {
@@ -112,6 +143,7 @@ function QA({ sessionId }: { sessionId: string }) {
           setBody("");
           toast.success("Questions sent to the moderators. +1 raffle ticket!");
           qc.invalidateQueries({ queryKey: ["my-questions", sessionId] });
+          qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
           qc.invalidateQueries({ queryKey: ["my-feedback"] });
         }}
       >
@@ -119,19 +151,39 @@ function QA({ sessionId }: { sessionId: string }) {
         <Button type="submit" disabled={busy || !user} className="w-full">{busy ? "Sending…" : "Send questions"}</Button>
       </form>
 
-      {mine.data && mine.data.length > 0 && (
-        <div className="mt-6">
-          <p className="eyebrow mb-2">You sent</p>
-          <ul className="space-y-2">
-            {mine.data.map((q) => (
-              <li key={q.id} className="rounded-sm border bg-card p-3">
-                <p className="break-words">{q.body}</p>
-                {q.answered && <p className="eyebrow mt-1 text-signal">Asked on stage</p>}
-              </li>
-            ))}
-          </ul>
-        </div>
+      {mine.data && mine.data.some((q) => q.answered) && (
+        <p className="eyebrow mt-4 text-signal">One of your submissions was asked on stage 🎤</p>
       )}
+
+      <div className="mt-8">
+        <p className="eyebrow mb-2">What others are asking · {everyone.data?.length ?? 0}</p>
+        {everyone.data?.length === 0 && <p className="text-sm text-muted-foreground">No questions yet. Be the first!</p>}
+        <ul className="space-y-2">
+          {everyone.data?.map((q) => (
+            <li key={q.id} className="flex gap-3 rounded-sm border bg-card p-3">
+              <button
+                type="button"
+                disabled={q.is_mine}
+                aria-pressed={q.voted_by_me}
+                aria-label={q.voted_by_me ? "Remove upvote" : "Upvote"}
+                onClick={() => vote(q.id, q.voted_by_me)}
+                className={cn(
+                  "flex w-12 shrink-0 flex-col items-center rounded-sm border py-1 font-mono text-sm",
+                  q.voted_by_me ? "border-signal bg-signal text-signal-foreground" : "border-input hover:border-signal",
+                  q.is_mine && "cursor-default opacity-60",
+                )}
+              >
+                <span aria-hidden>▲</span>
+                {q.vote_count}
+              </button>
+              <div className="min-w-0 flex-1">
+                <p className="break-words">{q.body}</p>
+                {q.is_mine && <p className="eyebrow mt-1">Yours</p>}
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </section>
   );
 }
