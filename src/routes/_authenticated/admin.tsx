@@ -240,6 +240,7 @@ function Raffle() {
   const [busy, setBusy] = useState(false);
   const board = useQuery({
     queryKey: ["raffle-board"],
+    refetchInterval: 15_000,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("raffle_leaderboard");
       if (error) throw error;
@@ -296,7 +297,7 @@ function Raffle() {
       )}
 
       <div>
-        <p className="eyebrow mb-2">Entries by attendee</p>
+        <p className="eyebrow mb-2">Running raffle totals by attendee · updates live</p>
         {board.data?.map((b) => (
           <div key={b.user_id} className="rule flex justify-between py-2 text-sm">
             <span>{b.display_name} <span className="text-muted-foreground">{b.email}</span></span>
