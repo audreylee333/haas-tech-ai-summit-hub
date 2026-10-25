@@ -1,5 +1,5 @@
 import { createOpenAI } from "@ai-sdk/openai";
-import { jsonSchema, Output, streamText } from "ai";
+import { jsonSchema, Output, streamText, type LanguageModel } from "ai";
 import type { Theme } from "./themes";
 
 const schema = jsonSchema<{ themes: Theme[] }>({
@@ -31,7 +31,7 @@ export async function groupQuestionsByTheme(questions: { id: string; body: strin
     headers: { "Lovable-API-Key": apiKey, "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
   });
   const result = streamText({
-    model: provider.responses("openai/gpt-6-astra"),
+    model: provider.responses("openai/gpt-6-astra") as unknown as LanguageModel,
     output: Output.object({ schema }),
     messages: [
       {
