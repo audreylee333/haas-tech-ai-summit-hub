@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 
-export function SignInButton({ redirect }: { redirect?: string }) {
+export function SignInButton({ redirect }: { redirect?: string | undefined }) {
   const [busy, setBusy] = useState(false);
   return (
     <Button
