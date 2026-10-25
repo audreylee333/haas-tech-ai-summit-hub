@@ -33,12 +33,9 @@ export async function groupQuestionsByTheme(questions: { id: string; body: strin
   const result = streamText({
     model: provider.responses("openai/gpt-6-astra") as unknown as LanguageModel,
     output: Output.object({ schema }),
+    instructions:
+      "You help conference moderators. Group audience questions into 2 to 7 short themes (2-5 word labels). Every question id must appear in exactly one theme. A submission may contain several questions; group it by its main topic.",
     messages: [
-      {
-        role: "system",
-        content:
-          "You help conference moderators. Group audience questions into 2 to 7 short themes (2-5 word labels). Every question id must appear in exactly one theme. A submission may contain several questions; group it by its main topic.",
-      },
       {
         role: "user",
         content: `Session: ${sessionTitle}\n\nQuestions:\n${questions.map((q) => `[${q.id}] ${q.body}`).join("\n")}`,
