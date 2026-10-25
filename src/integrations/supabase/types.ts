@@ -44,6 +44,21 @@ export type Database = {
         }
         Relationships: []
       }
+      moderator_emails: {
+        Row: {
+          created_at: string
+          email: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -296,6 +311,17 @@ export type Database = {
           email: string
           entries: number
           user_id: string
+        }[]
+      }
+      session_questions: {
+        Args: { _session_id: string }
+        Returns: {
+          body: string
+          created_at: string
+          id: string
+          is_mine: boolean
+          vote_count: number
+          voted_by_me: boolean
         }[]
       }
     }
