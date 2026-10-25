@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
-import { useUser } from "@/lib/data";
+import { useIsAdmin, useUser } from "@/lib/data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,6 +19,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const { data: user } = useUser();
+  const { data: isAdmin } = useIsAdmin();
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-8 sm:px-8">
       <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
@@ -43,12 +44,12 @@ function Index() {
             {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? "Head to the sessions to rate and send questions." : "Takes 5 seconds. We use your email to credit each review and question submission to your raffle tickets."}
+            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. We use your email to credit each review and question submission to your raffle tickets."}
           </p>
           <div className="mt-5">
             {user ? (
               <Button asChild variant="start" size="lg" className="h-14 px-6 text-base font-semibold">
-                <Link to="/sessions">Go to sessions →</Link>
+                {isAdmin ? <Link to="/admin">Go to moderator desk →</Link> : <Link to="/sessions">Go to sessions →</Link>}
               </Button>
             ) : (
               <SignInButton />

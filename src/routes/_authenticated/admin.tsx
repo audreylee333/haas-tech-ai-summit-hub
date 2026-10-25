@@ -33,7 +33,8 @@ function AdminPage() {
   if (!isAdmin) return <p className="text-muted-foreground">This page is for organizers only.</p>;
   return (
     <div>
-      <h1 className="display text-5xl">Organizer desk.</h1>
+      <h1 className="display text-5xl">Moderator desk.</h1>
+      <p className="mt-2 text-sm text-muted-foreground">You can also rate sessions and send questions from the Sessions tab, and they count toward your raffle tickets.</p>
       <Tabs defaultValue="qa" className="mt-6">
         <TabsList>
           <TabsTrigger value="qa">Q&amp;A</TabsTrigger>

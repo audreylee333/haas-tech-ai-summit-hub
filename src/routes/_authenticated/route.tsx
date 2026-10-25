@@ -43,9 +43,9 @@ function Shell() {
           </div>
         </div>
         <nav className="rule mt-4 flex gap-5 pt-3">
+          {isAdmin && <Link to="/admin" className={tab} activeProps={active}>Moderator desk</Link>}
           <Link to="/sessions" className={tab} activeProps={active}>Sessions</Link>
           <Link to="/day" className={tab} activeProps={active}>Rate the day</Link>
-          {isAdmin && <Link to="/admin" className={tab} activeProps={active}>Organizers</Link>}
         </nav>
       </header>
       <div className="pt-6">

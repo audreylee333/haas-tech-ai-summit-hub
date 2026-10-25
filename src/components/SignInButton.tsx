@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 
-export function SignInButton({ redirect = "/sessions" }: { redirect?: string }) {
+export function SignInButton({ redirect }: { redirect?: string }) {
   const [busy, setBusy] = useState(false);
   return (
     <Button
@@ -13,8 +13,9 @@ export function SignInButton({ redirect = "/sessions" }: { redirect?: string }) 
       className="h-14 w-full px-6 text-base font-semibold sm:w-auto"
       onClick={async () => {
         setBusy(true);
-        const safe = redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : "/sessions";
-        sessionStorage.setItem("post-auth-redirect", safe);
+        const safe = redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : null;
+        if (safe) sessionStorage.setItem("post-auth-redirect", safe);
+        else sessionStorage.removeItem("post-auth-redirect");
         const result = await lovable.auth.signInWithOAuth("google", {
           redirect_uri: window.location.origin + "/auth",
         });
@@ -24,7 +25,7 @@ export function SignInButton({ redirect = "/sessions" }: { redirect?: string }) 
           return;
         }
         if (result.redirected) return;
-        window.location.assign(safe);
+        window.location.assign(safe ?? "/auth");
       }}
     >
       <svg viewBox="0 0 48 48" aria-hidden="true" className="size-5!">

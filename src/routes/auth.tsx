@@ -36,14 +36,19 @@ function AuthPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const go = () => {
-      const target = safePath(sessionStorage.getItem("post-auth-redirect")) ?? safePath(redirect) ?? "/sessions";
+    const go = async () => {
+      let target = safePath(sessionStorage.getItem("post-auth-redirect")) ?? safePath(redirect);
       sessionStorage.removeItem("post-auth-redirect");
+      if (!target) {
+        const uid = (await supabase.auth.getUser()).data.user?.id;
+        const { data: isMod } = uid ? await supabase.rpc("has_role", { _user_id: uid, _role: "admin" }) : { data: false };
+        target = isMod ? "/admin" : "/sessions";
+      }
       navigate({ to: target, replace: true });
     };
-    supabase.auth.getSession().then(({ data }) => data.session && go());
+    supabase.auth.getSession().then(({ data }) => data.session && void go());
     const { data } = supabase.auth.onAuthStateChange((e, s) => {
-      if (e === "SIGNED_IN" && s) go();
+      if (e === "SIGNED_IN" && s) void go();
     });
     return () => data.subscription.unsubscribe();
   }, [redirect, navigate]);
@@ -56,7 +61,7 @@ function AuthPage() {
         We use your Google email to count your raffle entries and contact you if you win.
       </p>
       <div className="mt-8">
-        <SignInButton redirect={safePath(redirect) ?? "/sessions"} />
+        <SignInButton redirect={safePath(redirect) ?? undefined} />
       </div>
     </main>
   );
