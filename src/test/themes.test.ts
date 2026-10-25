@@ -11,7 +11,7 @@ const qs = [
 describe("theme grouping", () => {
   it("sorts each theme by upvotes and puts new questions in ungrouped", () => {
     const groups = applyThemes([{ label: "Trust", question_ids: ["a", "b"] }], qs);
-    expect(groups[0].questions.map((q) => q.id)).toEqual(["b", "a"]);
+    expect(groups[0]!.questions.map((q) => q.id)).toEqual(["b", "a"]);
     expect(groups[1]).toEqual({ label: "New / ungrouped", questions: [qs[2]] });
   });
   it("never shows a question in two themes", () => {
