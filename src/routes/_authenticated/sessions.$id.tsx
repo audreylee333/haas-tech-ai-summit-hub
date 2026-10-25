@@ -143,6 +143,7 @@ function QA({ sessionId }: { sessionId: string }) {
           setBody("");
           toast.success("Questions sent to the moderators. +1 raffle ticket!");
           qc.invalidateQueries({ queryKey: ["my-questions", sessionId] });
+          qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
           qc.invalidateQueries({ queryKey: ["my-feedback"] });
         }}
       >
