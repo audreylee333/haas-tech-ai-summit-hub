@@ -107,7 +107,7 @@ function GroupForm({ groupId, cats, existing, onDone }: {
           if (!user) throw new Error("Sign in to submit feedback");
           const text = comment.trim() || null;
           const now = new Date().toISOString();
-          const rows = rated.map((c, i) => ({ category: c.id, rating: ratings[c.id], comment: i === 0 ? text : null, user_id: user.id, updated_at: now }));
+          const rows = rated.map((c, i) => ({ category: c.id, rating: ratings[c.id] ?? 0, comment: i === 0 ? text : null, user_id: user.id, updated_at: now }));
           const { error } = await supabase.from("general_feedback").upsert(rows, { onConflict: "user_id,category" });
           if (error) throw error;
           await qc.invalidateQueries({ queryKey: ["my-feedback"] });
