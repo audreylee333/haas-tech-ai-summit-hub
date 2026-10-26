@@ -66,3 +66,23 @@ describe("database raffle rules mirror the app", () => {
     expect(b).toContain("has_role(auth.uid(), 'admin')");
   });
 });
+
+describe("moderator access and question privacy", () => {
+  it("grants the organizer role from the moderator email list, both ways in", () => {
+    expect(sql).toContain("CREATE TRIGGER on_profile_grant_moderator AFTER INSERT OR UPDATE OF email ON public.profiles");
+    expect(sql).toContain("CREATE TRIGGER on_moderator_email_added AFTER INSERT ON public.moderator_emails");
+    expect(sql).toContain("insert into public.user_roles (user_id, role) values (new.id, 'admin') on conflict do nothing");
+  });
+
+  it("hands attendees other people's questions with no author column", () => {
+    const b = body("session_questions");
+    expect(b).toContain("RETURNS TABLE(id uuid, body text, vote_count integer, created_at timestamptz, voted_by_me boolean, is_mine boolean)");
+    expect(b).toContain("not q.hidden");
+    expect(sql).toContain("REVOKE EXECUTE ON FUNCTION public.session_questions(uuid) FROM anon, public");
+  });
+
+  it("rejects voting for your own question in the database, not just in the UI", () => {
+    expect(sql).toContain("q.user_id <> auth.uid()");
+    expect(sql).toContain("NOT q.hidden");
+  });
+});
