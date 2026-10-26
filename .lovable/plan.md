@@ -16,7 +16,7 @@ The real risk is the **live Q&A refresh**. Every new question or upvote tells ev
 
 ## Changes
 
-1. **Batch live refreshes.** Each phone waits about 1.5 seconds and collects updates into a single reload. Ten upvotes in a burst then cause one reload instead of ten. Phones only refresh while the page is on screen.
+1. **Attendees refresh on a timer, moderators stay live.** Attendee phones stop listening for live changes. They reload a session's questions every 30 seconds while the page is on screen, and right away after their own post or upvote. That removes the burst problem. The moderator desk keeps instant updates.
 2. **Moderator desk loads only their sessions.** It listens only to the session currently picked, and reloads in batches.
 3. **Slower raffle refresh.** Totals refresh every 60 seconds while that tab is open, and pause when the browser tab is hidden. A "Refresh" button is there when you need it right away.
 4. **Database lookups by session and by person**, so question lists and ticket counts stay fast as entries grow.
@@ -27,7 +27,7 @@ The real risk is the **live Q&A refresh**. Every new question or upvote tells ev
 ## Technical details
 
 - Indexes: `questions(session_id)`, `questions(user_id)`, `question_votes(user_id)`, `session_feedback(user_id)`, `session_feedback(session_id)`, `general_feedback(user_id)`.
-- Debounced `invalidateQueries` in the realtime handlers in `sessions.$id.tsx` and `admin.tsx`. Admin channel filtered by `session_id` when a session is selected; when "All sessions" is selected, the channel stays unfiltered but debounced.
+- `sessions.$id.tsx`: remove the realtime channel. The `session_questions` query uses `refetchInterval: 30_000` and `refetchIntervalInBackground: false`, and is invalidated after the user's own submit or vote. `admin.tsx` keeps realtime with a short (~500ms) debounce, filtered by `session_id` when one session is picked.
 - `raffle_leaderboard` refetchInterval raised to 60s with `refetchIntervalInBackground: false`. Feedback dashboard raised from 30s to 60s.
 - QueryClient defaults: `staleTime` 30s, `retry: 2`, exponential backoff, and `refetchOnWindowFocus` kept on but rate-limited by staleTime.
 - Load test: a Python script using test sessions makes bounded concurrent RPC calls against `session_questions` and vote inserts. Before and after, I check `db_health` and `slow_queries`. Test rows are removed afterwards.
