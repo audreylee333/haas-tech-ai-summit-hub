@@ -41,7 +41,7 @@ function Shell() {
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-start justify-between gap-4">
-          <Link to="/" className="flex min-w-0 flex-col gap-1" aria-label="Haas Tech & AI Summit 2026: Where Intelligence Goes Next">
+          <Link to="/" className="flex min-w-0 flex-col gap-2.5" aria-label="Haas Tech & AI Summit 2026: Where Intelligence Goes Next">
             <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-44 max-w-full" />
             <span className="eyebrow text-signal">Haas Tech & AI Summit 2026</span>
           </Link>
@@ -52,7 +52,7 @@ function Shell() {
             </Button>
           </div>
         </div>
-        <nav className="rule mt-4 flex gap-5 pt-3">
+        <nav className="rule mt-2.5 flex gap-5 pt-3">
           {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}
           <Link to="/sessions" className={tab} activeProps={active}><CalendarDays className="size-3.5" />Sessions</Link>
           <Link to="/day" className={tab} activeProps={active}><Star className="size-3.5" />Rate the day</Link>
