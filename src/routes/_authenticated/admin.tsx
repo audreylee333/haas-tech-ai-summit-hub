@@ -12,7 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { MessageSquareQuestion, BarChart3, Trophy } from "lucide-react";
+import { MessagesSquare, BarChart3, Trophy } from "lucide-react";
 
 const deskTab =
   "flex items-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground data-[state=active]:border-signal data-[state=active]:bg-signal data-[state=active]:text-signal-foreground";
@@ -40,7 +40,7 @@ function AdminPage() {
       <p className="mt-2 text-sm text-muted-foreground">You can also rate sessions and send questions from the Sessions tab, and they count toward your raffle tickets.</p>
       <Tabs defaultValue="qa" className="mt-6">
         <TabsList className="h-auto w-full justify-start gap-2 rounded-none bg-transparent p-0">
-          <TabsTrigger value="qa" className={deskTab}><MessageSquareQuestion className="size-4" />Q&amp;A</TabsTrigger>
+          <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>
           <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>
           <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>
         </TabsList>
