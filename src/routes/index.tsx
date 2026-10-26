@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
-import { useIsAdmin, useUser } from "@/lib/data";
+import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
 import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
 export const Route = createFileRoute("/")({

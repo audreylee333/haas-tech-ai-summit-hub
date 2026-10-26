@@ -76,7 +76,7 @@ describe("moderator access and question privacy", () => {
   it("grants the organizer role from the moderator email list, both ways in", () => {
     expect(sql).toContain("CREATE TRIGGER on_profile_grant_moderator AFTER INSERT OR UPDATE OF email ON public.profiles");
     expect(sql).toContain("CREATE TRIGGER on_moderator_email_added AFTER INSERT ON public.moderator_emails");
-    expect(sql).toContain("insert into public.user_roles (user_id, role) values (new.id, 'admin') on conflict do nothing");
+    expect(sql).toContain("perform public.sync_staff_role(new.id, new.email)");
   });
 
   it("hands attendees other people's questions with no author column", () => {

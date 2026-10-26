@@ -57,6 +57,20 @@
       "when": 1792992137080,
       "tag": "0007_fix_attendee_question_vote_permissions",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792993725108,
+      "tag": "0008_add_moderator_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792993751865,
+      "tag": "0009_three_access_levels",
+      "breakpoints": true
     }
   ]
 }

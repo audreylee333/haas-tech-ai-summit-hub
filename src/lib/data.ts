@@ -48,14 +48,46 @@ export function useMyFeedback() {
   });
 }
 
-export function useIsAdmin() {
+export type StaffRole = "admin" | "moderator" | null;
+
+/** "admin" = super admin (everything), "moderator" = Q&A for assigned sessions, null = attendee. */
+export function useStaffRole() {
   return useQuery({
-    queryKey: ["is-admin"],
-    queryFn: async () => {
+    queryKey: ["staff-role"],
+    queryFn: async (): Promise<StaffRole> => {
       const uid = (await supabase.auth.getUser()).data.user?.id;
-      if (!uid) return false;
-      const { data } = await supabase.rpc("has_role", { _user_id: uid, _role: "admin" });
-      return !!data;
+      if (!uid) return null;
+      const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
+      return pickStaffRole((data ?? []).map((r) => r.role));
+    },
+  });
+}
+
+export function pickStaffRole(roles: string[]): StaffRole {
+  if (roles.includes("admin")) return "admin";
+  if (roles.includes("moderator")) return "moderator";
+  return null;
+}
+
+/** Super admins only (feedback, raffle). */
+export function useIsAdmin() {
+  const q = useStaffRole();
+  return { ...q, data: q.data === "admin" };
+}
+
+/** Anyone with the moderator desk (super admins and moderators). */
+export function useIsStaff() {
+  const q = useStaffRole();
+  return { ...q, data: !!q.data };
+}
+
+export function useModeratedSessionIds() {
+  return useQuery({
+    queryKey: ["moderated-sessions"],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("my_moderated_sessions");
+      if (error) throw error;
+      return new Set((data ?? []) as string[]);
     },
   });
 }

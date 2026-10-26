@@ -2,7 +2,7 @@ import { createFileRoute, Link, Outlet, redirect, useLocation, useNavigate } fro
 import { RaffleBanner } from "@/components/RaffleBanner";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsAdmin, useMyFeedback } from "@/lib/data";
+import { useIsStaff as useIsAdmin, useMyFeedback } from "@/lib/data";
 import { DAY_GROUPS, dayGroupOf } from "@/lib/raffle";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
