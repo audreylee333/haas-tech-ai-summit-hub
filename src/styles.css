@@ -174,3 +174,59 @@
 @media (prefers-reduced-motion: reduce) {
   .sparkle, .raffle-shine { animation: none; }
 }
+
+/* "Where Intelligence Goes Next" wordmark as live text: soft ghost blur plus
+   intermittent glitch slices, matching the summit poster's pixel wordmark */
+.wm {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+.wm-line {
+  position: relative;
+  display: block;
+  font-size: 3.75rem;
+  line-height: 0.98;
+  color: var(--color-foreground);
+  text-shadow: 0 0 24px oklch(0.95 0.02 85 / 28%);
+}
+.wm-line::before,
+.wm-line::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  text-shadow: none;
+}
+/* the blur: a permanently blurred ghost sitting just behind the letters */
+.wm-line::before {
+  color: oklch(0.95 0.02 85 / 40%);
+  filter: blur(3px);
+  transform: translate(1.5px, 1px);
+}
+/* the glitch: a gold slice that flickers across briefly every few seconds */
+.wm-line::after {
+  color: var(--color-signal);
+  opacity: 0;
+  filter: blur(1px);
+  animation: wm-glitch 5s steps(1, end) infinite;
+  animation-delay: var(--wm-delay, 0s);
+}
+@keyframes wm-glitch {
+  0%, 88% { opacity: 0; transform: none; clip-path: inset(0 0 100% 0); }
+  89% { opacity: 0.65; transform: translate(-2px, 0); clip-path: inset(12% 0 62% 0); }
+  91% { opacity: 0.65; transform: translate(2px, 0); clip-path: inset(58% 0 12% 0); }
+  93% { opacity: 0.45; transform: translate(-1px, 1px); clip-path: inset(34% 0 38% 0); }
+  95%, 100% { opacity: 0; transform: none; clip-path: inset(0 0 100% 0); }
+}
+.wm-summit {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--color-signal);
+  text-shadow: 0 0 18px oklch(0.8 0.15 80 / 35%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .wm-line::after { animation: none; opacity: 0; }
+}
