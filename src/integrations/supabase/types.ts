@@ -280,6 +280,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_upvote_question: { Args: { _question_id: string }; Returns: boolean }
       day_feedback_group: { Args: { _category: string }; Returns: string }
       draw_raffle_winner: {
         Args: never
