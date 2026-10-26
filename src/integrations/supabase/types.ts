@@ -44,18 +44,44 @@ export type Database = {
         }
         Relationships: []
       }
+      moderator_assignments: {
+        Row: {
+          email: string
+          session_id: string
+        }
+        Insert: {
+          email: string
+          session_id: string
+        }
+        Update: {
+          email?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "moderator_assignments_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: false
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       moderator_emails: {
         Row: {
           created_at: string
           email: string
+          role: Database["public"]["Enums"]["app_role"]
         }
         Insert: {
           created_at?: string
           email: string
+          role?: Database["public"]["Enums"]["app_role"]
         }
         Update: {
           created_at?: string
           email?: string
+          role?: Database["public"]["Enums"]["app_role"]
         }
         Relationships: []
       }
@@ -224,6 +250,7 @@ export type Database = {
           id: string
           kind: string
           location: string
+          open_to_all_moderators: boolean
           qa_enabled: boolean
           sort_order: number
           speakers: string | null
@@ -236,6 +263,7 @@ export type Database = {
           id?: string
           kind: string
           location?: string
+          open_to_all_moderators?: boolean
           qa_enabled?: boolean
           sort_order: number
           speakers?: string | null
@@ -248,6 +276,7 @@ export type Database = {
           id?: string
           kind?: string
           location?: string
+          open_to_all_moderators?: boolean
           qa_enabled?: boolean
           sort_order?: number
           speakers?: string | null
@@ -280,6 +309,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_moderate_session: { Args: { _session_id: string }; Returns: boolean }
       can_upvote_question: { Args: { _question_id: string }; Returns: boolean }
       day_feedback_group: { Args: { _category: string }; Returns: string }
       draw_raffle_winner: {
@@ -306,6 +336,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      my_moderated_sessions: { Args: never; Returns: string[] }
       raffle_leaderboard: {
         Args: never
         Returns: {
@@ -325,6 +356,10 @@ export type Database = {
           vote_count: number
           voted_by_me: boolean
         }[]
+      }
+      sync_staff_role: {
+        Args: { _email: string; _user_id: string }
+        Returns: undefined
       }
     }
     Enums: {
