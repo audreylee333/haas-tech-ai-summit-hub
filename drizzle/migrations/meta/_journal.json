@@ -36,6 +36,13 @@
       "when": 1792990209648,
       "tag": "0004_raffle_one_question_ticket_per_session",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792990223114,
+      "tag": "0005_fix_leaderboard_question_count",
+      "breakpoints": true
     }
   ]
 }
