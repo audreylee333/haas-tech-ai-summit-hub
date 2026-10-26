@@ -27,9 +27,14 @@ function body(name: string): string {
 function sqlDayGroups(): Map<string, string> {
   const fn = body("day_feedback_group");
   const map = new Map<string, string>();
-  for (const m of fn.matchAll(/when _category = '([a-z_]+)' then '([a-z_]+)'/g)) map.set(m[1], m[2]);
+  for (const m of fn.matchAll(/when _category = '([a-z_]+)' then '([a-z_]+)'/g)) {
+    const [, id, group] = m;
+    if (id && group) map.set(id, group);
+  }
   for (const m of fn.matchAll(/when _category in \(([^)]*)\) then '([a-z_]+)'/g)) {
-    for (const id of m[1].matchAll(/'([a-z_]+)'/g)) map.set(id[1], m[2]);
+    const [, list, group] = m;
+    if (!list || !group) continue;
+    for (const id of list.matchAll(/'([a-z_]+)'/g)) if (id[1]) map.set(id[1], group);
   }
   return map;
 }
@@ -64,5 +69,25 @@ describe("database raffle rules mirror the app", () => {
     expect(b).toContain("count(distinct public.day_feedback_group(category))");
     expect(b).toContain("count(distinct session_id)");
     expect(b).toContain("has_role(auth.uid(), 'admin')");
+  });
+});
+
+describe("moderator access and question privacy", () => {
+  it("grants the organizer role from the moderator email list, both ways in", () => {
+    expect(sql).toContain("CREATE TRIGGER on_profile_grant_moderator AFTER INSERT OR UPDATE OF email ON public.profiles");
+    expect(sql).toContain("CREATE TRIGGER on_moderator_email_added AFTER INSERT ON public.moderator_emails");
+    expect(sql).toContain("insert into public.user_roles (user_id, role) values (new.id, 'admin') on conflict do nothing");
+  });
+
+  it("hands attendees other people's questions with no author column", () => {
+    const b = body("session_questions");
+    expect(b).toContain("RETURNS TABLE(id uuid, body text, vote_count integer, created_at timestamptz, voted_by_me boolean, is_mine boolean)");
+    expect(b).toContain("not q.hidden");
+    expect(sql).toContain("REVOKE EXECUTE ON FUNCTION public.session_questions(uuid) FROM anon, public");
+  });
+
+  it("rejects voting for your own question in the database, not just in the UI", () => {
+    expect(sql).toContain("q.user_id <> auth.uid()");
+    expect(sql).toContain("NOT q.hidden");
   });
 });
