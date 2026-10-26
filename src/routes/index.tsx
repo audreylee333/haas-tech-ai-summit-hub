@@ -33,8 +33,8 @@ function Index() {
   }, [user, navigate]);
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-10">
-      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
-      <p className="eyebrow mt-7 text-signal">Haas Tech &amp; AI Summit 2026 · Oct 30</p>
+      <GlitchWordmark />
+      <p className="eyebrow mt-6 text-signal">Oct 30 · Spieker Forum</p>
       <span className="banner-tag mt-3 self-start">The Hub for Conference Day</span>
       <h1 className="display mt-3 text-5xl">{user ? "You're in." : "Sign in to get started."}</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />

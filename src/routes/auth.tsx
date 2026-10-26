@@ -57,9 +57,8 @@ function AuthPage() {
 
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
-      <p className="eyebrow mt-7 text-signal">Haas Tech &amp; AI Summit 2026</p>
-      <span className="banner-tag mt-3 self-start">The Hub for Conference Day</span>
+      <GlitchWordmark />
+      <span className="banner-tag mt-7 self-start">The Hub for Conference Day</span>
       <h1 className="display mt-3 text-5xl">Sign in to get started.</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
       <p className="mt-4 text-muted-foreground">
