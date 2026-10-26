@@ -31,8 +31,6 @@ function SessionPage() {
   const { data: mine } = useMyFeedback();
   const session = sessions?.find((s) => s.id === id);
   const existing = mine?.sessions.find((f) => f.session_id === id);
-  const { data: role } = useStaffRole();
-  const { data: moderated } = useModeratedSessionIds(role === "moderator");
 
   if (!sessions) return <p className="eyebrow">Loading…</p>;
   if (!session) return <p>Session not found. <Link to="/sessions" className="underline">Back</Link></p>;

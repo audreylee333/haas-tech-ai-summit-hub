@@ -18,8 +18,6 @@ export const Route = createFileRoute("/_authenticated/sessions/")({
 function SessionsPage() {
   const { data: sessions, isLoading } = useSessions();
   const { data: mine } = useMyFeedback();
-  const { data: role } = useStaffRole();
-  const { data: moderated } = useModeratedSessionIds(role === "moderator");
   const reviewed = new Set(mine?.sessions.map((s) => s.session_id));
 
   return (
