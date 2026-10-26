@@ -10,7 +10,6 @@ import { groupSessionQuestions } from "@/lib/themes.functions";
 import { applyThemes, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -92,12 +91,6 @@ function QAModeration() {
     if (error) toast.error("Update failed");
     qc.invalidateQueries({ queryKey: ["admin-questions"] });
   };
-  const toggleQa = async (id: string, qa_enabled: boolean) => {
-    const { error } = await supabase.from("sessions").update({ qa_enabled }).eq("id", id);
-    if (error) toast.error("Update failed");
-    qc.invalidateQueries({ queryKey: ["sessions"] });
-  };
-  const current = sessions?.find((s) => s.id === sessionId);
   const [themes, setThemes] = useState<Record<string, Theme[]>>({});
   const [grouping, setGrouping] = useState(false);
   const groupFn = useServerFn(groupSessionQuestions);
