@@ -27,9 +27,9 @@ function body(name: string): string {
 function sqlDayGroups(): Map<string, string> {
   const fn = body("day_feedback_group");
   const map = new Map<string, string>();
-  for (const m of fn.matchAll(/when _category = '([a-z_]+)' then '([a-z_]+)'/g)) map.set(m[1], m[2]);
+  for (const m of fn.matchAll(/when _category = '([a-z_]+)' then '([a-z_]+)'/g)) map.set(m[1]!, m[2]!);
   for (const m of fn.matchAll(/when _category in \(([^)]*)\) then '([a-z_]+)'/g)) {
-    for (const id of m[1].matchAll(/'([a-z_]+)'/g)) map.set(id[1], m[2]);
+    for (const id of m[1]!.matchAll(/'([a-z_]+)'/g)) map.set(id[1]!, m[2]!);
   }
   return map;
 }
