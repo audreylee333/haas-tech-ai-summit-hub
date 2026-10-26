@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
-import { GlitchWordmark } from "@/components/GlitchWordmark";
+import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -57,8 +57,9 @@ function AuthPage() {
 
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <GlitchWordmark />
-      <span className="banner-tag mt-7 self-start">The Hub for Conference Day</span>
+      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
+      <p className="eyebrow mt-7 text-signal">Haas Tech & AI Summit 2026</p>
+      <span className="banner-tag mt-3 self-start">The Hub for Conference Day</span>
       <h1 className="display mt-3 text-5xl">Sign in to get started.</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
       <p className="mt-4 text-muted-foreground">

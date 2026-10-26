@@ -230,3 +230,14 @@
 @media (prefers-reduced-motion: reduce) {
   .wm-line::after { animation: none; opacity: 0; }
 }
+
+/* compact variant used in the signed-in header */
+.wm--header .wm-summit {
+  margin: 0 0 0.1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+}
+.wm--header .wm-line {
+  font-size: 1.4rem;
+  line-height: 1.05;
+}
