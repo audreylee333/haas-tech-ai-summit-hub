@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, BarChart3, Trophy, Star } from "lucide-react";
+import { MessagesSquare, BarChart3, Trophy, Star, Download } from "lucide-react";
+import { toCsv, downloadCsv } from "@/lib/csv";
 
 const deskTab =
   "flex items-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground data-[state=active]:border-signal data-[state=active]:bg-signal data-[state=active]:text-signal-foreground";
@@ -199,9 +200,27 @@ function FeedbackDashboard() {
     ...DAY_CATEGORIES.map((c) => ({ key: c.id, label: c.label, sub: `Rate the day · ${DAY_GROUPS.find((g) => g.id === c.group)?.label}`, items: fb.data?.general.filter((f) => f.category === c.id) ?? [] })),
   ];
 
+  const exportCsv = () => {
+    const data: (string | number | null)[][] = [["Type", "Section", "Item", "Rating", "Comment", "Submitted"]];
+    for (const f of fb.data?.sessions ?? []) {
+      const s = sessions?.find((x) => x.id === f.session_id);
+      data.push(["Session", s?.start_time ?? "", s?.title ?? "", f.rating, f.comment, f.created_at]);
+    }
+    for (const g of fb.data?.general ?? []) {
+      const c = DAY_CATEGORIES.find((x) => x.id === g.category);
+      data.push(["Rate the day", DAY_GROUPS.find((x) => x.id === c?.group)?.label ?? "", c?.label ?? g.category, g.rating, g.comment, g.created_at]);
+    }
+    downloadCsv(toCsv(data), "summit-feedback.csv");
+  };
+
   return (
     <div className="pt-4">
-      <p className="eyebrow">{(fb.data?.sessions.length ?? 0) + (fb.data?.general.length ?? 0)} responses total</p>
+      <div className="flex items-center justify-between gap-4">
+        <p className="eyebrow">{(fb.data?.sessions.length ?? 0) + (fb.data?.general.length ?? 0)} responses total</p>
+        <Button variant="outline" size="sm" onClick={exportCsv} disabled={!fb.data}>
+          <Download className="size-4" /> Download for Google Sheets
+        </Button>
+      </div>
       <ul className="mt-3">
         {rows.map((r) => {
           const avg = r.items.length ? r.items.reduce((a, b) => a + b.rating, 0) / r.items.length : null;
