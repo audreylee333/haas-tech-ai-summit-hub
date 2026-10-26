@@ -11,8 +11,9 @@ import { applyThemes, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, BarChart3, Trophy } from "lucide-react";
+import { MessagesSquare, BarChart3, Trophy, Star } from "lucide-react";
 
 const deskTab =
   "flex items-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground data-[state=active]:border-signal data-[state=active]:bg-signal data-[state=active]:text-signal-foreground";
@@ -116,12 +117,17 @@ function QAModeration() {
   return (
     <div className="space-y-4 pt-4">
       <div className="flex flex-wrap gap-2">
-        <select value={sessionId} onChange={(e) => setSessionId(e.target.value)} className="h-9 rounded-sm border border-input bg-card px-2 text-sm">
-          <option value="all">All sessions</option>
-          {sessions?.map((s) => (
-            <option key={s.id} value={s.id}>{s.start_time} · {s.title}</option>
-          ))}
-        </select>
+        <Select value={sessionId} onValueChange={setSessionId}>
+          <SelectTrigger className="h-9 w-auto min-w-56 rounded-sm border-input bg-card text-sm">
+            <SelectValue placeholder="All sessions" />
+          </SelectTrigger>
+          <SelectContent className="rounded-sm bg-card">
+            <SelectItem value="all">All sessions</SelectItem>
+            {sessions?.map((s) => (
+              <SelectItem key={s.id} value={s.id}>{s.start_time} · {s.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-9 max-w-48 bg-card" />
       </div>
       <div className="flex flex-wrap items-center gap-2">
@@ -207,7 +213,10 @@ function FeedbackDashboard() {
                   <span className="eyebrow">{r.sub}</span>
                   <span className="block font-medium">{r.label}</span>
                 </span>
-                <span className="font-mono text-sm text-muted-foreground">{r.items.length} · 💬{comments.length}</span>
+                <span className="flex items-center gap-4 font-mono text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1.5"><Star className="size-3.5 -translate-y-px" />{r.items.length}</span>
+                  <span className="flex items-center gap-1.5"><MessagesSquare className="size-3.5 -translate-y-px" />{comments.length}</span>
+                </span>
                 <span className="display w-14 text-right text-3xl">{avg ? avg.toFixed(1) : "–"}</span>
               </button>
               {openId === r.key && (
