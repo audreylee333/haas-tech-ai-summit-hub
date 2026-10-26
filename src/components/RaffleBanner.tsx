@@ -60,7 +60,7 @@ export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: nu
   return (
     <div className="bg-prize shadow-prize flex flex-wrap items-center gap-4 rounded-sm p-4 text-signal-foreground">
       <div className="flex items-center gap-2">
-        <FlashyTicket className="size-11 shrink-0" />
+        <FlashyTicket className="size-12 shrink-0" />
         <div className="display text-5xl leading-none">{entries}</div>
       </div>
       <div className="min-w-0 flex-1">
