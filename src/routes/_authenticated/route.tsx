@@ -39,7 +39,10 @@ function Shell() {
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-start justify-between gap-4">
-          <Link to="/" className="display min-w-0 text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="mx-1 text-signal">:</span>{" "}<span className="text-signal">Where Intelligence Goes Next</span></Link>
+          <Link to="/" className="wm wm--header min-w-0 leading-tight" aria-label="Haas Tech & AI Summit 2026: Where Intelligence Goes Next">
+            <span className="wm-summit">Haas Tech & AI Summit 2026</span>
+            <span className="wm-line" data-text="Where Intelligence Goes Next">Where Intelligence Goes Next</span>
+          </Link>
           <Button onClick={signOut} variant="outline" size="sm" className="shrink-0 rounded-full border-muted-foreground/60 font-mono uppercase">
             <LogOut aria-hidden="true" />Sign out
           </Button>
