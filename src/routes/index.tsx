@@ -21,14 +21,14 @@ function Index() {
   const { data: user } = useUser();
   const { data: isAdmin } = useIsAdmin();
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-8 sm:px-8">
+    <main className="dotgrid mx-auto flex min-h-screen max-w-3xl flex-col px-5 py-8 sm:px-8">
       <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <span className="eyebrow">Haas Tech &amp; AI Summit 2026: <span className="text-signal">Where Intelligence Goes Next</span></span>
         <span className="eyebrow">Oct 30 · Spieker Forum</span>
       </header>
 
       <section className="rule mt-6 py-12">
-        <p className="eyebrow text-signal">(Live)·engagement center◆</p>
+        <p><span className="banner-tag">Live · Engagement Center</span></p>
         <h1 className="display mt-4 text-6xl sm:text-8xl">
           Tell us how it went. <em className="text-signal">Win something.</em>
         </h1>
@@ -37,14 +37,12 @@ function Index() {
         </p>
 
         <div className="mt-10 rounded-sm border-2 border-dashed border-signal p-6">
-          <p className="font-mono text-xs uppercase tracking-[0.14em] text-signal">
-            {user ? "✓ You're signed in" : "Step 1 · Start here"}
-          </p>
+          <p><span className="banner-tag">{user ? "✓ You're signed in" : "Step 1 · Start here"}</span></p>
           <p className="display mt-2 text-3xl">
-            {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
+            {user ? "You're in. Keep the feedback coming." : "Sign in to join the conversation."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. We use your email to credit each review and question submission to your raffle tickets."}
+            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. Your sign-in opens the audience engagement center: rate sessions, ask speakers questions, and every submission also counts toward the end-of-day raffle."}
           </p>
           <div className="mt-5">
             {user ? (

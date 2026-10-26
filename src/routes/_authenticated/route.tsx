@@ -4,6 +4,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useMyFeedback } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import { LayoutDashboard, CalendarDays, Star } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -29,7 +30,7 @@ function Shell() {
     navigate({ to: "/auth", search: { redirect: undefined }, replace: true });
   };
 
-  const tab = "eyebrow px-1 pb-2 border-b-2 border-transparent hover:text-foreground";
+  const tab = "eyebrow flex items-center gap-1.5 px-1 pb-2 border-b-2 border-transparent hover:text-foreground";
   const active = { className: cn(tab, "border-signal text-foreground") };
 
   return (
@@ -47,9 +48,9 @@ function Shell() {
           </div>
         </div>
         <nav className="rule mt-4 flex gap-5 pt-3">
-          {isAdmin && <Link to="/admin" className={tab} activeProps={active}>Moderator desk</Link>}
-          <Link to="/sessions" className={tab} activeProps={active}>Sessions</Link>
-          <Link to="/day" className={tab} activeProps={active}>Rate the day</Link>
+          {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}
+          <Link to="/sessions" className={tab} activeProps={active}><CalendarDays className="size-3.5" />Sessions</Link>
+          <Link to="/day" className={tab} activeProps={active}><Star className="size-3.5" />Rate the day</Link>
         </nav>
       </header>
       <div className="pt-6">
