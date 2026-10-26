@@ -7,7 +7,7 @@ export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: nu
   return (
     <div className="bg-prize shadow-prize flex flex-wrap items-center gap-4 rounded-sm p-4 text-signal-foreground">
       <div className="flex items-center gap-2">
-        <Ticket className="size-7 shrink-0" aria-hidden />
+        <Ticket className="size-9 shrink-0" aria-hidden />
         <div className="display text-5xl leading-none">{entries}</div>
       </div>
       <div className="min-w-0 flex-1">
