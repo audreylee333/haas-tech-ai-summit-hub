@@ -11,3 +11,4 @@
 - [x] Fix header colon spacing and make Sign out clearly clickable
 - [x] Put header tabs (Moderator desk, Sessions, Rate the day) in rounded pill containers
 - [x] Drop "Upvotes don't add tickets" from session Q&A copy
+- [ ] Export session + day feedback for Google Sheets (awaiting choice: CSV download vs direct sheet)
