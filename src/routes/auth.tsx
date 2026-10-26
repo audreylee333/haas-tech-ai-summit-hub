@@ -63,7 +63,7 @@ function AuthPage() {
       <p className="mt-4 text-muted-foreground">
         Rate sessions, send questions to the speakers, and help shape the summit. Your Google email keeps track of your tickets.
       </p>
-      <div className="mt-8 border-t border-signal/50 pt-6">
+      <div className="mt-9">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
       </div>
     </main>
