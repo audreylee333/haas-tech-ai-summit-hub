@@ -39,10 +39,10 @@ function Index() {
         <div className="mt-10 rounded-sm border-2 border-dashed border-signal p-6">
           <p><span className="banner-tag">{user ? "✓ You're signed in" : "Step 1 · Start here"}</span></p>
           <p className="display mt-2 text-3xl">
-            {user ? "You're in the draw. Keep rating." : "Sign in to start earning tickets."}
+            {user ? "You're in. Keep the feedback coming." : "Sign in to join the conversation."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. We use your email to credit each review and question submission to your raffle tickets."}
+            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. Your sign-in opens the audience engagement center: rate sessions, ask speakers questions, and every submission also counts toward the end-of-day raffle."}
           </p>
           <div className="mt-5">
             {user ? (
