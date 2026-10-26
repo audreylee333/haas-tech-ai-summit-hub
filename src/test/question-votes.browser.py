@@ -69,7 +69,7 @@ async def main():
         await page.locator("header").screenshot(path="/tmp/browser/upvotes/header.png")
         await page.get_by_role("button", name="Sign out", exact=True).click()
         await page.wait_for_url("**/auth*")
-        assert await page.get_by_role("heading", name="Sign in to get started.").count() == 1
+        await page.get_by_role("heading", name="Sign in to get started.", exact=True).wait_for()
         print("PASS: rounded Sign out button returns to sign-in")
         await browser.close()
 
