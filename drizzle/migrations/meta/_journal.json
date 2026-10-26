@@ -29,6 +29,20 @@
       "when": 1792950193331,
       "tag": "0003_moderators_and_public_questions",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792990209648,
+      "tag": "0004_raffle_one_question_ticket_per_session",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1792990223114,
+      "tag": "0005_fix_leaderboard_question_count",
+      "breakpoints": true
     }
   ]
 }
