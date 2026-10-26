@@ -66,6 +66,11 @@ async def main():
         }""", session_path.rsplit("/", 1)[-1])
         assert self_vote_status == 403, "Self-votes must be rejected by the database, not just disabled in the UI"
         print("PASS: attendee upvote, persistence, removal, self-vote rejection, and question privacy")
+        await page.locator("header").screenshot(path="/tmp/browser/upvotes/header.png")
+        await page.get_by_role("button", name="Sign out", exact=True).click()
+        await page.wait_for_url("**/auth*")
+        assert await page.get_by_role("heading", name="Sign in to get started.").count() == 1
+        print("PASS: rounded Sign out button returns to sign-in")
         await browser.close()
 
 
