@@ -10,7 +10,6 @@ import { groupSessionQuestions } from "@/lib/themes.functions";
 import { applyThemes, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -92,12 +91,6 @@ function QAModeration() {
     if (error) toast.error("Update failed");
     qc.invalidateQueries({ queryKey: ["admin-questions"] });
   };
-  const toggleQa = async (id: string, qa_enabled: boolean) => {
-    const { error } = await supabase.from("sessions").update({ qa_enabled }).eq("id", id);
-    if (error) toast.error("Update failed");
-    qc.invalidateQueries({ queryKey: ["sessions"] });
-  };
-  const current = sessions?.find((s) => s.id === sessionId);
   const [themes, setThemes] = useState<Record<string, Theme[]>>({});
   const [grouping, setGrouping] = useState(false);
   const groupFn = useServerFn(groupSessionQuestions);
@@ -131,11 +124,6 @@ function QAModeration() {
         {(["open", "answered", "hidden", "all"] as const).map((f) => (
           <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)} className="capitalize">{f}</Button>
         ))}
-        {current && (
-          <label className="ml-auto flex items-center gap-2 text-sm">
-            Q&amp;A open <Switch checked={current.qa_enabled} onCheckedChange={(v) => toggleQa(current.id, v)} />
-          </label>
-        )}
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <p className="eyebrow">{list.length} questions</p>
