@@ -265,9 +265,9 @@ function Raffle() {
       <div className="rounded-sm border bg-card p-6 text-center">
         <p className="eyebrow">{board.data?.length ?? 0} attendees · {total} tickets</p>
         {latest && (
-          <div className="mt-4">
+          <div className="mt-6 space-y-3">
             <p className="eyebrow">Latest winner</p>
-            <p className="display text-5xl text-signal">{latest.display_name ?? "Attendee"}</p>
+            <p className="display text-5xl leading-tight text-signal">{latest.display_name ?? "Attendee"}</p>
             <p className="font-mono text-sm">{latest.email} · {latest.entries} entries</p>
           </div>
         )}
