@@ -174,6 +174,7 @@ function QAModeration() {
   const groups = sessionId !== "all" && themes[sessionId] ? applyThemes(themes[sessionId], sorted, (q) => starred.has(q.id)) : [{ label: "All", questions: sorted }];
 
   const canRegroup = !themes[sessionId] || hasUngroupedQuestions(themes[sessionId], (questions.data ?? []).filter((q) => q.session_id === sessionId && !q.hidden).map((q) => q.id));
+  const current = sessionId === "all" ? undefined : sessions?.find((s) => s.id === sessionId);
 
   return (
     <div className="space-y-4 pt-4">
@@ -189,6 +190,7 @@ function QAModeration() {
             ))}
           </SelectContent>
         </Select>
+        {isYourSession(role, mine, current) && <span className="self-center rounded-full bg-signal px-2.5 py-0.5 font-mono text-[0.65rem] uppercase text-signal-foreground">Your session</span>}
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-9 max-w-48 bg-card" />
       </div>
       <div className="flex flex-wrap items-center gap-2">

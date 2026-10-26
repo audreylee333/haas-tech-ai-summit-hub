@@ -5,6 +5,7 @@ import { pickStaffRole } from "@/lib/data";
 const qa = { id: "s1", kind: "Panel", qa_enabled: true };
 const opening = { id: "s2", kind: "Opening", qa_enabled: true };
 const noQa = { id: "s3", kind: "Fireside", qa_enabled: false };
+const sharedKeynote = { id: "k2", kind: "Keynote", qa_enabled: true, open_to_all_moderators: true };
 const mine = new Set(["s1", "s2", "s3"]);
 const keynote = { id: "k1", open_to_all_moderators: true, qa_enabled: true };
 const healthcare = { id: "s4", open_to_all_moderators: false, qa_enabled: true };
