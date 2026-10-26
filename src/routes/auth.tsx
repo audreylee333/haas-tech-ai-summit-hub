@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
+import { CaptionsLink } from "@/components/CaptionsLink";
 import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
@@ -68,6 +69,7 @@ function AuthPage() {
       <div className="mt-9">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
       </div>
+      <CaptionsLink variant="text" className="mt-6" />
     </main>
   );
 }

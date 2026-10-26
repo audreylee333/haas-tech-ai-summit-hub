@@ -4,6 +4,7 @@ import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
 import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
 import { GlitchWordmark } from "@/components/GlitchWordmark";
+import { CaptionsLink } from "@/components/CaptionsLink";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,6 +55,7 @@ function Index() {
           <SignInButton />
         )}
       </div>
+      <CaptionsLink variant="text" className="mt-6" />
     </main>
   );
 }
