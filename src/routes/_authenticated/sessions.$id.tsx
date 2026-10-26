@@ -120,7 +120,7 @@ function QA({ sessionId }: { sessionId: string }) {
   };
 
   return (
-    <section className="rule mt-10 pt-5">
+    <section className="rule mt-8 pt-5">
       <p className="eyebrow">Q&amp;A</p>
       <h2 className="display mt-1 text-3xl">Have questions for the speakers?</h2>
       <p className="mt-1 text-sm text-muted-foreground">
