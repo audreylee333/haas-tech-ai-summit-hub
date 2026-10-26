@@ -218,7 +218,7 @@ function FeedbackDashboard() {
       <div className="flex items-center justify-between gap-4">
         <p className="eyebrow">{(fb.data?.sessions.length ?? 0) + (fb.data?.general.length ?? 0)} responses total</p>
         <Button variant="outline" size="sm" onClick={exportCsv} disabled={!fb.data}>
-          <Download className="size-4" /> Download for Google Sheets
+          <Download className="size-4" /> Download results as csv
         </Button>
       </div>
       <ul className="mt-3">
