@@ -21,4 +21,4 @@
 - [x] Prepare for 200 people: attendee timer refresh, live moderator desk, indexes, retries, double-tap guards, rehearsal
 - [x] Cheaper AI theme grouping: shared saved themes, skip when unchanged, short numbers, no extra reasoning, cooldown
 - [x] Session list + session page: "Your session" label for moderators on their Q&A sessions
-- [ ] Moderator desk: land on the moderator's own session by default instead of all sessions
+- [x] Moderator desk: land on the moderator's own session by default instead of all sessions
