@@ -87,13 +87,14 @@ function QAModeration() {
   const list = useMemo(
     () =>
       (questions.data ?? []).filter((q) => {
+        if (!mine?.has(q.session_id)) return false;
         if (sessionId !== "all" && q.session_id !== sessionId) return false;
         if (filter === "open" && (q.answered || q.hidden)) return false;
         if (filter === "answered" && !q.answered) return false;
         if (filter === "hidden" && !q.hidden) return false;
         return !search || q.body.toLowerCase().includes(search.toLowerCase());
       }),
-    [questions.data, sessionId, filter, search],
+    [questions.data, mine, sessionId, filter, search],
   );
 
   const update = async (id: string, patch: { answered?: boolean; hidden?: boolean }) => {
