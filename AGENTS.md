@@ -11,7 +11,7 @@
 
 ## Architecture rules
 - Attendee data access uses the browser client with RLS (no server functions); privileged actions (raffle draw, leaderboard) are security-definer SQL functions that check `has_role(auth.uid(),'admin')` — keeps authorization in the database.
-- Raffle totals and weighted draws count review rows plus question-submission rows, never individual questions within a body; mirror the database calculation in `src/lib/raffle.ts` to keep attendee totals consistent.
+- Raffle totals and weighted draws count review rows plus one per distinct session with a question submission (repeat submissions to a session add nothing); mirror the database calculation in `src/lib/raffle.ts` to keep attendee totals consistent.
 - Organizers are granted via rows in `public.user_roles` (role `admin`).
 - Day feedback uses the existing category rating and optional comment fields; the overall category labels its comment as a change suggestion to preserve one raffle entry per category.
 - Session Q&A rendering uses `canSubmitQuestions`; opening remarks are excluded even when an organizer enables their flag, and database session flags remain the submission-policy authority.

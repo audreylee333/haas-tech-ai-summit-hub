@@ -30,7 +30,7 @@ export function useMyFeedback() {
       const [s, g, q] = await Promise.all([
         supabase.from("session_feedback").select("*").eq("user_id", uid),
         supabase.from("general_feedback").select("*").eq("user_id", uid),
-        supabase.from("questions").select("id").eq("user_id", uid),
+        supabase.from("questions").select("session_id").eq("user_id", uid),
       ]);
       if (s.error) throw s.error;
       if (g.error) throw g.error;
@@ -41,7 +41,7 @@ export function useMyFeedback() {
         entries: countRaffleEntries(
           s.data.map((r) => r.session_id),
           g.data.map((r) => r.category),
-          q.data.map((r) => r.id),
+          q.data.map((r) => r.session_id),
         ),
       };
     },

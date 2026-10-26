@@ -1,7 +1,7 @@
-// Reviews count once per session/category; each distinct question submission
-// counts once, regardless of how many questions its paragraph contains.
-export function countRaffleEntries(sessionIds: string[], categories: string[], submissionIds: string[] = []): number {
-  return new Set(sessionIds).size + new Set(categories).size + new Set(submissionIds).size;
+// Reviews count once per session/category; questions count once per session
+// the attendee submitted to, no matter how many submissions they sent there.
+export function countRaffleEntries(sessionIds: string[], categories: string[], questionSessionIds: string[] = []): number {
+  return new Set(sessionIds).size + new Set(categories).size + new Set(questionSessionIds).size;
 }
 
 export const DAY_CATEGORIES = [

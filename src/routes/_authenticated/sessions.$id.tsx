@@ -128,7 +128,7 @@ function QA({ sessionId }: { sessionId: string }) {
       <p className="mt-1 text-sm text-muted-foreground">
         See what others are asking. Upvote the questions you want to hear. Moderators pick what gets asked on stage.
       </p>
-      <p className="mt-2 text-sm font-medium text-signal">Each submission earns one raffle ticket, no matter how many questions you include. Upvotes don't add tickets.</p>
+      <p className="mt-2 text-sm font-medium text-signal">Your first submission for this session earns one raffle ticket. Send as many more as you like. Upvotes don't add tickets.</p>
       <form
         className="mt-4 space-y-3"
         onSubmit={async (e) => {
@@ -141,7 +141,10 @@ function QA({ sessionId }: { sessionId: string }) {
           setBusy(false);
           if (error) { toast.error("Could not send your questions"); return; }
           setBody("");
-          toast.success("Questions sent to the moderators. +1 raffle ticket!");
+          const hadTicket = (mine.data?.length ?? 0) > 0;
+          toast.success(hadTicket
+            ? "Questions sent. You've already earned your question ticket for this session, and more questions are always welcome."
+            : "Questions sent to the moderators. +1 raffle ticket!");
           qc.invalidateQueries({ queryKey: ["my-questions", sessionId] });
           qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
           qc.invalidateQueries({ queryKey: ["my-feedback"] });
