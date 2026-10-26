@@ -8,7 +8,7 @@ import { deskTabsFor } from "@/lib/access";
 import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
-import { applyThemes, type Theme } from "@/lib/themes";
+import { applyThemes, hasUngroupedQuestions, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -162,7 +162,9 @@ function QAModeration() {
     }
   };
   const sorted = [...list].sort((a, b) => Number(starred.has(b.id)) - Number(starred.has(a.id)) || b.vote_count - a.vote_count);
-  const groups = sessionId !== "all" && themes[sessionId] ? applyThemes(themes[sessionId], sorted) : [{ label: "All", questions: sorted }];
+  const groups = sessionId !== "all" && themes[sessionId] ? applyThemes(themes[sessionId], sorted, (q) => starred.has(q.id)) : [{ label: "All", questions: sorted }];
+
+  const canRegroup = !themes[sessionId] || hasUngroupedQuestions(themes[sessionId], (questions.data ?? []).filter((q) => q.session_id === sessionId && !q.hidden).map((q) => q.id));
 
   return (
     <div className="space-y-4 pt-4">
@@ -193,8 +195,8 @@ function QAModeration() {
         {sessionId !== "all" && (
           <div className="ml-auto flex gap-2">
             {themes[sessionId] && <Button size="sm" variant="ghost" onClick={() => setThemes((t) => { const n = { ...t }; delete n[sessionId]; return n; })}>All questions</Button>}
-            <Button size="sm" variant="signal" disabled={grouping || cooldown} onClick={runGrouping}>
-              {grouping ? "Grouping…" : themes[sessionId] ? "Regroup by theme" : "Group by theme"}
+            <Button size="sm" variant="signal" disabled={grouping || cooldown || !canRegroup} title={canRegroup ? undefined : "No new questions since the last grouping"} onClick={runGrouping}>
+              {grouping ? "Grouping…" : !canRegroup ? "Up to date" : themes[sessionId] ? "Regroup by theme" : "Group by theme"}
             </Button>
           </div>
         )}
