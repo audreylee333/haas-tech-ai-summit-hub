@@ -42,8 +42,8 @@ function AuthPage() {
       sessionStorage.removeItem("post-auth-redirect");
       if (!target) {
         const uid = (await supabase.auth.getUser()).data.user?.id;
-        const { data: isMod } = uid ? await supabase.rpc("has_role", { _user_id: uid, _role: "admin" }) : { data: false };
-        target = isMod ? "/admin" : "/sessions";
+        const { data: roles } = uid ? await supabase.from("user_roles").select("role").eq("user_id", uid) : { data: [] };
+        target = (roles ?? []).length ? "/admin" : "/sessions";
       }
       navigate({ to: target, replace: true });
     };

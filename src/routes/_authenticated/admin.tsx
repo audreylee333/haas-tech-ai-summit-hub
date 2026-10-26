@@ -3,7 +3,8 @@ import { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsAdmin, useSessions } from "@/lib/data";
+import { useModeratedSessionIds, useSessions, useStaffRole } from "@/lib/data";
+import { deskTabsFor } from "@/lib/access";
 import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
@@ -33,9 +34,10 @@ export const Route = createFileRoute("/_authenticated/admin")({
 });
 
 function AdminPage() {
-  const { data: isAdmin, isLoading } = useIsAdmin();
+  const { data: role, isLoading } = useStaffRole();
   if (isLoading) return <p className="eyebrow">Loading…</p>;
-  if (!isAdmin) return <p className="text-muted-foreground">This page is for organizers only.</p>;
+  if (!role) return <p className="text-muted-foreground">This page is for moderators only.</p>;
+  const tabs = deskTabsFor(role);
   return (
     <div>
       <h1 className="display text-5xl">Moderator desk.</h1>
@@ -43,12 +45,12 @@ function AdminPage() {
       <Tabs defaultValue="qa" className="mt-6">
         <TabsList className="h-auto w-full justify-start gap-2 rounded-none bg-transparent p-0">
           <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>
-          <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>
-          <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>
+          {tabs.includes("feedback") && <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>}
+          {tabs.includes("raffle") && <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>}
         </TabsList>
         <TabsContent value="qa"><QAModeration /></TabsContent>
-        <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>
-        <TabsContent value="raffle"><Raffle /></TabsContent>
+        {tabs.includes("feedback") && <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>}
+        {tabs.includes("raffle") && <TabsContent value="raffle"><Raffle /></TabsContent>}
       </Tabs>
     </div>
   );
@@ -56,7 +58,9 @@ function AdminPage() {
 
 function QAModeration() {
   const qc = useQueryClient();
-  const { data: sessions } = useSessions();
+  const { data: allSessions } = useSessions();
+  const { data: mine } = useModeratedSessionIds();
+  const sessions = useMemo(() => allSessions?.filter((s) => mine?.has(s.id)), [allSessions, mine]);
   const [sessionId, setSessionId] = useState<string>("all");
   const [filter, setFilter] = useState<"open" | "answered" | "hidden" | "all">("open");
   const [search, setSearch] = useState("");
