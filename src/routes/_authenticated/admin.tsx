@@ -11,6 +11,7 @@ import { applyThemes, type Theme } from "@/lib/themes";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { MessagesSquare, BarChart3, Trophy } from "lucide-react";
 
@@ -116,12 +117,17 @@ function QAModeration() {
   return (
     <div className="space-y-4 pt-4">
       <div className="flex flex-wrap gap-2">
-        <select value={sessionId} onChange={(e) => setSessionId(e.target.value)} className="h-9 rounded-sm border border-input bg-card px-2 text-sm">
-          <option value="all">All sessions</option>
-          {sessions?.map((s) => (
-            <option key={s.id} value={s.id}>{s.start_time} · {s.title}</option>
-          ))}
-        </select>
+        <Select value={sessionId} onValueChange={setSessionId}>
+          <SelectTrigger className="h-9 w-auto min-w-56 rounded-sm border-input bg-card text-sm">
+            <SelectValue placeholder="All sessions" />
+          </SelectTrigger>
+          <SelectContent className="rounded-sm bg-card">
+            <SelectItem value="all">All sessions</SelectItem>
+            {sessions?.map((s) => (
+              <SelectItem key={s.id} value={s.id}>{s.start_time} · {s.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-9 max-w-48 bg-card" />
       </div>
       <div className="flex flex-wrap items-center gap-2">
