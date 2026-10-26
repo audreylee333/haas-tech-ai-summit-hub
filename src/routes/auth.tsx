@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
-import wordmarkAsset from "@/assets/wordmark.png.asset.json";
+import { GlitchWordmark } from "@/components/GlitchWordmark";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
 import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
-import wordmarkAsset from "@/assets/wordmark.png.asset.json";
+import { GlitchWordmark } from "@/components/GlitchWordmark";
 
 export const Route = createFileRoute("/")({
   head: () => ({
