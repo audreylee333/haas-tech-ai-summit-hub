@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, BarChart3, Trophy } from "lucide-react";
+import { MessagesSquare, BarChart3, Trophy, Star } from "lucide-react";
 
 const deskTab =
   "flex items-center gap-2 rounded-sm border border-border bg-card px-4 py-2.5 text-sm font-semibold text-muted-foreground hover:text-foreground data-[state=active]:border-signal data-[state=active]:bg-signal data-[state=active]:text-signal-foreground";
@@ -213,9 +213,9 @@ function FeedbackDashboard() {
                   <span className="eyebrow">{r.sub}</span>
                   <span className="block font-medium">{r.label}</span>
                 </span>
-                <span className="flex items-center gap-3 font-mono text-sm text-muted-foreground">
-                  <span>{r.items.length}</span>
-                  <span className="flex items-center gap-1.5"><MessagesSquare className="size-3.5" />{comments.length}</span>
+                <span className="flex items-center gap-4 font-mono text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1.5"><Star className="size-3.5 -translate-y-px" />{r.items.length}</span>
+                  <span className="flex items-center gap-1.5"><MessagesSquare className="size-3.5 -translate-y-px" />{comments.length}</span>
                 </span>
                 <span className="display w-14 text-right text-3xl">{avg ? avg.toFixed(1) : "–"}</span>
               </button>
