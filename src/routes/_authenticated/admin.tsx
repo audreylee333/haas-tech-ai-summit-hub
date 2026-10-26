@@ -43,16 +43,20 @@ function AdminPage() {
       <p className="eyebrow">Friday, Oct 30 · {role === "admin" ? "all sessions" : "your sessions"}</p>
       <h1 className="display mt-2 text-5xl">Pick what gets asked.</h1>
       <p className="mt-2 text-sm text-muted-foreground">Star what you want heard and mark what gets asked. You can also rate sessions and send questions from the Sessions tab, and they count toward your raffle tickets.</p>
-      <Tabs defaultValue="qa" className="mt-6">
-        <TabsList className="h-auto w-full justify-start gap-2 rounded-none bg-transparent p-0">
-          <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>
-          {tabs.includes("feedback") && <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>}
-          {tabs.includes("raffle") && <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>}
-        </TabsList>
-        <TabsContent value="qa"><QAModeration /></TabsContent>
-        {tabs.includes("feedback") && <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>}
-        {tabs.includes("raffle") && <TabsContent value="raffle"><Raffle /></TabsContent>}
-      </Tabs>
+      {tabs.length > 1 ? (
+        <Tabs defaultValue="qa" className="mt-6">
+          <TabsList className="h-auto w-full justify-start gap-2 rounded-none bg-transparent p-0">
+            <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>
+            {tabs.includes("feedback") && <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>}
+            {tabs.includes("raffle") && <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>}
+          </TabsList>
+          <TabsContent value="qa"><QAModeration /></TabsContent>
+          {tabs.includes("feedback") && <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>}
+          {tabs.includes("raffle") && <TabsContent value="raffle"><Raffle /></TabsContent>}
+        </Tabs>
+      ) : (
+        <div className="mt-6"><QAModeration /></div>
+      )}
     </div>
   );
 }
@@ -180,7 +184,7 @@ function QAModeration() {
     <div className="space-y-4 pt-4">
       <div className="flex flex-wrap gap-2">
         <Select value={sessionId} onValueChange={setSessionId}>
-          <SelectTrigger className="h-9 w-auto min-w-56 rounded-sm border-input bg-card text-sm">
+          <SelectTrigger className="h-10 w-80 rounded-md border border-input bg-card px-4 text-sm transition-colors hover:border-signal/40 focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:border-signal/50">
             <SelectValue placeholder="All sessions" />
           </SelectTrigger>
           <SelectContent className="rounded-sm bg-card">
@@ -190,7 +194,7 @@ function QAModeration() {
             ))}
           </SelectContent>
         </Select>
-        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-9 max-w-48 bg-card" />
+        <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-10 w-48 border-input bg-card transition-colors hover:border-signal/40 focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:border-signal/50" />
       </div>
       <div className="flex flex-wrap items-center gap-2">
         {(["open", "starred", "answered", "hidden", "all"] as const).map((f) => (
