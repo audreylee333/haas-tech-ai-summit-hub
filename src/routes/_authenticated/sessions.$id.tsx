@@ -10,7 +10,6 @@ import { FeedbackForm } from "@/components/FeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { canSubmitQuestions } from "@/lib/questions";
-import { CaptionsLink } from "@/components/CaptionsLink";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
@@ -43,7 +42,6 @@ function SessionPage() {
       <h1 className="display mt-2 text-5xl">{session.title}</h1>
       {session.subtitle && <p className="mt-2 text-lg text-muted-foreground">{session.subtitle}</p>}
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
-      <CaptionsLink className="mt-4" />
 
       {canSubmitQuestions(session) && <QA sessionId={id} />}
 
