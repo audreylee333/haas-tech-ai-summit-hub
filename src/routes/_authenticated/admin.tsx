@@ -62,7 +62,7 @@ function QAModeration() {
   const { data: mine } = useModeratedSessionIds();
   const sessions = useMemo(() => allSessions?.filter((s) => mine?.has(s.id)), [allSessions, mine]);
   const [sessionId, setSessionId] = useState<string>("all");
-  const [filter, setFilter] = useState<"open" | "answered" | "hidden" | "all">("open");
+  const [filter, setFilter] = useState<"open" | "starred" | "answered" | "hidden" | "all">("open");
   const [search, setSearch] = useState("");
 
   const questions = useQuery({
@@ -92,6 +92,25 @@ function QAModeration() {
     };
   }, [qc, sessionId]);
 
+  const stars = useQuery({
+    queryKey: ["my-stars"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("question_stars").select("question_id");
+      if (error) throw error;
+      return new Set(data.map((r) => r.question_id));
+    },
+  });
+  const starred = stars.data ?? new Set<string>();
+  const toggleStar = async (id: string) => {
+    const on = starred.has(id);
+    qc.setQueryData(["my-stars"], () => { const n = new Set(starred); on ? n.delete(id) : n.add(id); return n; });
+    const { error } = on
+      ? await supabase.from("question_stars").delete().eq("question_id", id)
+      : await supabase.from("question_stars").insert({ question_id: id });
+    if (error) toast.error("Couldn't update star");
+    qc.invalidateQueries({ queryKey: ["my-stars"] });
+  };
+
   const list = useMemo(
     () =>
       (questions.data ?? []).filter((q) => {
@@ -100,9 +119,10 @@ function QAModeration() {
         if (filter === "open" && (q.answered || q.hidden)) return false;
         if (filter === "answered" && !q.answered) return false;
         if (filter === "hidden" && !q.hidden) return false;
+        if (filter === "starred" && !starred.has(q.id)) return false;
         return !search || q.body.toLowerCase().includes(search.toLowerCase());
       }),
-    [questions.data, mine, sessionId, filter, search],
+    [questions.data, mine, sessionId, filter, search, starred],
   );
 
   const update = async (id: string, patch: { answered?: boolean; hidden?: boolean }) => {
@@ -141,7 +161,7 @@ function QAModeration() {
       setTimeout(() => setCooldown(false), 30_000);
     }
   };
-  const sorted = [...list].sort((a, b) => b.vote_count - a.vote_count);
+  const sorted = [...list].sort((a, b) => Number(starred.has(b.id)) - Number(starred.has(a.id)) || b.vote_count - a.vote_count);
   const groups = sessionId !== "all" && themes[sessionId] ? applyThemes(themes[sessionId], sorted) : [{ label: "All", questions: sorted }];
 
   return (
@@ -161,8 +181,11 @@ function QAModeration() {
         <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search…" className="h-9 max-w-48 bg-card" />
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        {(["open", "answered", "hidden", "all"] as const).map((f) => (
-          <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)} className="capitalize">{f}</Button>
+        {(["open", "starred", "answered", "hidden", "all"] as const).map((f) => (
+          <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)} className="capitalize">
+            {f === "starred" && <Star className={cn("size-3.5", filter !== f && "fill-signal text-signal")} />}
+            {f === "starred" ? `Starred · ${starred.size}` : f}
+          </Button>
         ))}
       </div>
       <div className="flex flex-wrap items-center gap-2">
@@ -183,8 +206,17 @@ function QAModeration() {
             {g.questions.map((q) => {
               const s = sessions?.find((x) => x.id === q.session_id);
               return (
-                <li key={q.id} className={cn("flex gap-3 rounded-sm border bg-card p-3", q.hidden && "opacity-50")}>
-                  <span className="w-14 shrink-0 font-mono text-sm text-signal">▲ {q.vote_count}</span>
+                <li key={q.id} className={cn("flex gap-3 rounded-sm border bg-card p-3", q.hidden && "opacity-50", starred.has(q.id) && "border-signal")}>
+                  <button
+                    type="button"
+                    onClick={() => toggleStar(q.id)}
+                    aria-label={starred.has(q.id) ? "Remove from starred" : "Star this question"}
+                    aria-pressed={starred.has(q.id)}
+                    className="shrink-0 self-start rounded-sm p-1 transition-transform hover:scale-110 active:scale-95"
+                  >
+                    <Star className={cn("size-5", starred.has(q.id) ? "fill-signal text-signal" : "text-muted-foreground")} />
+                  </button>
+                  <span className="w-12 shrink-0 font-mono text-sm text-signal">▲ {q.vote_count}</span>
                   <div className="min-w-0 flex-1">
                     <p className="break-words">{q.body}</p>
                     <p className="eyebrow mt-1">{q.author_name ?? "Attendee"} · {new Date(q.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}{sessionId === "all" && s && ` · ${s.title}`}</p>
