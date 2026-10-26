@@ -5,6 +5,7 @@ import { pickStaffRole } from "@/lib/data";
 const qa = { id: "s1", kind: "Panel", qa_enabled: true };
 const opening = { id: "s2", kind: "Opening", qa_enabled: true };
 const noQa = { id: "s3", kind: "Fireside", qa_enabled: false };
+const sharedKeynote = { id: "k2", kind: "Keynote", qa_enabled: true, open_to_all_moderators: true };
 const mine = new Set(["s1", "s2", "s3"]);
 const keynote = { id: "k1", open_to_all_moderators: true, qa_enabled: true };
 const healthcare = { id: "s4", open_to_all_moderators: false, qa_enabled: true };
@@ -22,6 +23,7 @@ describe("access levels", () => {
   it("super admins are not tagged session by session", () => expect(isYourSession("admin", mine, qa)).toBe(false));
   it("attendees never see the label", () => expect(isYourSession(null, mine, qa)).toBe(false));
   it("unassigned sessions are not tagged", () => expect(isYourSession("moderator", new Set(["other"]), qa)).toBe(false));
+  it("keynotes open to every moderator are never tagged as yours", () => expect(isYourSession("moderator", new Set(["k2"]), sharedKeynote)).toBe(false));
   it("moderators land on the session assigned to them", () => expect(firstOwnSession([keynote, healthcare])?.id).toBe("s4"));
   it("keynotes open to every moderator are nobody's landing session", () => expect(firstOwnSession([keynote])).toBeUndefined());
   it("assigned sessions without Q&A are not a landing session", () => expect(firstOwnSession([keynote, noQaAssigned])).toBeUndefined());
