@@ -38,7 +38,7 @@ export function FeedbackForm({
         setBusy(true);
         try {
           await onSubmit(rating, comment.trim() ? comment.trim().slice(0, 2000) : null);
-          toast.success(isNew ? "+1 raffle ticket 🎟 Prizes revealed at the close!" : "Feedback updated");
+          toast.success(isNew ? "+1 raffle ticket 🎟" : "Feedback updated");
         } catch {
           toast.error("Couldn't save. Try again.");
         } finally {

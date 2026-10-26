@@ -1,14 +1,18 @@
 import { Link } from "@tanstack/react-router";
+import { Ticket } from "lucide-react";
 import { DAY_GROUPS } from "@/lib/raffle";
 
 export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: number; dayRemaining: number; onDayPage: boolean }) {
   const total = DAY_GROUPS.length;
   return (
     <div className="bg-prize shadow-prize flex flex-wrap items-center gap-4 rounded-sm p-4 text-signal-foreground">
-      <div className="display text-5xl leading-none">{entries}</div>
+      <div className="flex items-center gap-2">
+        <Ticket className="size-9 shrink-0" aria-hidden />
+        <div className="display text-5xl leading-none">{entries}</div>
+      </div>
       <div className="min-w-0 flex-1">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em]">
-          Raffle {entries === 1 ? "entry" : "entries"} · prizes revealed at the close
+          Raffle {entries === 1 ? "entry" : "entries"}
         </p>
         <p className="text-sm font-medium">
           {entries === 0
