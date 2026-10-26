@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
 import { useIsAdmin, useUser } from "@/lib/data";
+import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -28,7 +29,8 @@ function Index() {
       </header>
 
       <section className="rule mt-6 py-12">
-        <p><span className="banner-tag">Live · Engagement Center</span></p>
+        <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
+        <p className="mt-6"><span className="banner-tag">Live · Engagement Center</span></p>
         <h1 className="display mt-4 text-6xl sm:text-8xl">
           Tell us how it went. <em className="text-signal">Win something.</em>
         </h1>

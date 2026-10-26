@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
+import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (s: Record<string, unknown>) => ({
@@ -10,9 +11,9 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in · Haas Tech & AI Summit 2026" },
-      { name: "description", content: "Sign in with Google to rate sessions and enter the summit raffle." },
+      { name: "description", content: "Sign in with Google to rate sessions, ask speakers questions, and take part in the summit." },
       { property: "og:title", content: "Sign in · Haas Tech & AI Summit 2026" },
-      { property: "og:description", content: "Sign in with Google to rate sessions and enter the raffle." },
+      { property: "og:description", content: "Sign in with Google to rate sessions, ask speakers questions, and take part in the summit." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -55,10 +56,11 @@ function AuthPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <p className="eyebrow">Haas Tech Summit · Live</p>
-      <h1 className="display mt-3 text-5xl">Sign in to join the raffle.</h1>
+      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[13rem]" />
+      <p className="eyebrow mt-6">Haas Tech Summit · Live</p>
+      <h1 className="display mt-3 text-4xl">Sign in to access the audience engagement center.</h1>
       <p className="mt-4 text-muted-foreground">
-        We use your Google email to count your raffle entries and contact you if you win.
+        Your Google email is how we keep track of your tickets and reach you if you win. Once you're in, rate sessions, send questions to the speakers, and help shape the summit.
       </p>
       <div className="mt-8">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
