@@ -43,7 +43,8 @@ function SessionPage() {
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
 
       <section className="rule mt-8 pt-5">
-        <p className="eyebrow mb-3">{existing ? "Your rating · edit anytime" : "Rate this session"}</p>
+        <p className="eyebrow mb-1">{existing ? "Your rating · edit anytime" : "Rate this session"}</p>
+        <p className="mb-3 text-xs text-muted-foreground">Your ratings and comments are shared with organizers without your name. Only your questions and ticket count are linked to you.</p>
         <FeedbackForm
           isNew={!existing}
           initialRating={existing?.rating}
