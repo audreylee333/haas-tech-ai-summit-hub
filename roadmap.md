@@ -22,3 +22,5 @@
 - [x] Cheaper AI theme grouping: shared saved themes, skip when unchanged, short numbers, no extra reasoning, cooldown
 - [x] "Your session" label on the moderator desk for the moderator's own Q&A session (moved off the sessions screens; keynotes never tagged)
 - [x] Moderator desk: land on the moderator's own session by default instead of all sessions
+- [x] Header spacing: even gaps between the wordmark, the gold summit line, and the divider
+- [x] Rate the day heading: bold line is about today's feedback, "next year" moved to smaller text
