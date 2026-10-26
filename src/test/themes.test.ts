@@ -22,7 +22,7 @@ describe("theme grouping", () => {
 
 describe("upvotes", () => {
   it("do not earn raffle tickets: only submissions count", () => {
-    // raffle counts submission ids only; votes have no input
-    expect(countRaffleEntries([], [], ["q1"])).toBe(1);
+    // raffle counts question sessions only; votes have no input
+    expect(countRaffleEntries([], [], ["s1"])).toBe(1);
   });
 });
