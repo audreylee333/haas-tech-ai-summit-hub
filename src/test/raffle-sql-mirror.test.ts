@@ -1,9 +1,10 @@
 import { readFileSync, readdirSync } from "node:fs";
-import { fileURLToPath } from "node:url";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 
-const DIR = fileURLToPath(new URL("../../drizzle/migrations", import.meta.url));
+// Vitest runs from the project root.
+const DIR = path.resolve(process.cwd(), "drizzle/migrations");
 
 // Migrations apply in file-name order, so the last definition of a function is the live one.
 const sql = readdirSync(DIR)
