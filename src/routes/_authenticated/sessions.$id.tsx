@@ -43,7 +43,9 @@ function SessionPage() {
       {session.subtitle && <p className="mt-2 text-lg text-muted-foreground">{session.subtitle}</p>}
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
 
-      <section className="rule mt-8 pt-5">
+      {canSubmitQuestions(session) && <QA sessionId={id} />}
+
+      <section className="rule mt-10 pt-5">
         <p className="eyebrow mb-1">{existing ? "Your rating · edit anytime" : "Rate this session"}</p>
         <p className="mb-3 text-xs text-muted-foreground">Your ratings and comments are shared with organizers without your name. Only your questions and ticket count are linked to you.</p>
         <FeedbackForm
@@ -66,7 +68,6 @@ function SessionPage() {
         />
       </section>
 
-      {canSubmitQuestions(session) && <QA sessionId={id} />}
     </div>
   );
 }
@@ -119,7 +120,7 @@ function QA({ sessionId }: { sessionId: string }) {
   };
 
   return (
-    <section className="rule mt-10 pt-5">
+    <section className="rule mt-8 pt-5">
       <p className="eyebrow">Q&amp;A</p>
       <h2 className="display mt-1 text-3xl">Have questions for the speakers?</h2>
       <p className="mt-1 text-sm text-muted-foreground">
