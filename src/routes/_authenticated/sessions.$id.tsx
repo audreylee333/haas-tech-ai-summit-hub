@@ -42,7 +42,6 @@ function SessionPage() {
       <h1 className="display mt-2 text-5xl">{session.title}</h1>
       {session.subtitle && <p className="mt-2 text-lg text-muted-foreground">{session.subtitle}</p>}
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
-      {isYourSession(role, moderated, session) && <p className="mt-3"><span className="rounded-full bg-signal px-2.5 py-0.5 font-mono text-[0.65rem] uppercase text-signal-foreground">Your session</span></p>}
 
       {canSubmitQuestions(session) && <QA sessionId={id} />}
 

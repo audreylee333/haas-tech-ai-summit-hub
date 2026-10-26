@@ -34,10 +34,7 @@ function SessionsPage() {
             <div className="grid grid-cols-[3.5rem_minmax(0,1fr)] items-start gap-3 py-5 sm:grid-cols-[4.5rem_minmax(0,1fr)_auto] sm:gap-4">
               <span className="font-mono text-xs pt-1">{s.start_time}</span>
               <span>
-                <span className="flex flex-wrap items-center gap-2">
-                  <span className="eyebrow">{s.kind}{s.location !== "Spieker Forum" && ` · ${s.location}`}</span>
-                  {isYourSession(role, moderated, s) && <span className="rounded-full bg-signal px-2.5 py-0.5 font-mono text-[0.65rem] uppercase text-signal-foreground">Your session</span>}
-                </span>
+                <span className="eyebrow">{s.kind}{s.location !== "Spieker Forum" && ` · ${s.location}`}</span>
                 <Link to="/sessions/$id" params={{ id: s.id }} className="display block text-2xl hover:text-signal focus-visible:outline focus-visible:outline-ring">{s.title}</Link>
                 {s.speakers && <span className="block text-sm text-muted-foreground">{s.speakers}</span>}
               </span>

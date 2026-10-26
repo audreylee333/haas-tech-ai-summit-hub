@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useModeratedSessionIds, useSessions, useStaffRole } from "@/lib/data";
-import { deskTabsFor, firstOwnSession } from "@/lib/access";
+import { deskTabsFor, firstOwnSession, isYourSession } from "@/lib/access";
 import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
