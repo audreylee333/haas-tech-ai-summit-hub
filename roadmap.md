@@ -6,4 +6,4 @@
 - [x] Landing sign-in copy: lead with engagement/participation, raffle secondary
 - [x] Verify build + visual check, update font memory
 - [x] Moderator desk: fix arrow spacing on the session picker (native select -> styled Select)
-- [ ] Moderator desk: fix spacing around the speech-bubble icon in Feedback tab rows
+- [x] Moderator desk: fix spacing around the speech-bubble icon in Feedback tab rows
