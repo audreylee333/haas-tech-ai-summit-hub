@@ -26,6 +26,7 @@ function safePath(p?: string | null) {
   try {
     const u = new URL(p, window.location.origin);
     if (u.origin !== window.location.origin) return null;
+    if (u.pathname === "/auth") return null;
     return u.pathname + u.search;
   } catch {
     return null;
