@@ -56,13 +56,14 @@ function AuthPage() {
 
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
-      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[13rem]" />
-      <h1 className="display mt-7 text-5xl">Sign in and have your say.</h1>
+      <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
+      <p className="eyebrow mt-7 text-signal">Haas Tech &amp; AI Summit 2026</p>
+      <h1 className="display mt-2 text-5xl">Sign in and have your say.</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
       <p className="mt-4 text-muted-foreground">
         Rate sessions, send questions to the speakers, and help shape the summit. Your Google email keeps track of your tickets.
       </p>
-      <div className="mt-8 border-t border-signal/40 pt-6">
+      <div className="mt-8 border-t border-signal/50 pt-6">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
       </div>
     </main>
