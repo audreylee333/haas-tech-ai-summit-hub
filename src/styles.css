@@ -150,7 +150,7 @@
 
 /* Flashy raffle ticket: twinkling sparkles + a shine sweep across the ticket */
 @keyframes raffle-twinkle {
-  0%, 100% { opacity: 0.25; transform: scale(0.6); }
+  0%, 100% { opacity: 0.5; transform: scale(0.82); }
   50% { opacity: 1; transform: scale(1.08); }
 }
 @keyframes raffle-shine {

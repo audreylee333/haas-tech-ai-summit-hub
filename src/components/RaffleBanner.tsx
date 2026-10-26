@@ -15,35 +15,36 @@ function FlashyTicket({ className }: { className?: string }) {
         </linearGradient>
         <mask id="raffleTicketMask">
           <rect width="48" height="48" fill="black" />
-          <rect x="6" y="15" width="36" height="18" rx="3" fill="white" />
-          <circle cx="6" cy="24" r="3.2" fill="black" />
-          <circle cx="42" cy="24" r="3.2" fill="black" />
+          <rect x="7" y="17" width="34" height="15" rx="3" fill="white" />
+          <circle cx="7" cy="24.5" r="2.8" fill="black" />
+          <circle cx="41" cy="24.5" r="2.8" fill="black" />
         </mask>
       </defs>
 
       {/* twinkling sparkles */}
       <g fill="url(#raffleGold)" className="raffle-sparkles">
-        <path className="sparkle" d={sparklePath(41, 10, 5)} />
-        <path className="sparkle sparkle-b" d={sparklePath(8.5, 38, 3.6)} />
-        <path className="sparkle sparkle-c" d={sparklePath(13, 8.5, 2.6)} />
-        <path className="sparkle sparkle-d" d={sparklePath(44.5, 34, 2.2)} />
+        <path className="sparkle" d={sparklePath(40, 8, 6.5)} />
+        <path className="sparkle sparkle-b" d={sparklePath(9, 40, 4.6)} />
+        <path className="sparkle sparkle-c" d={sparklePath(11.5, 8.5, 3.2)} />
+        <path className="sparkle sparkle-d" d={sparklePath(44, 33.5, 2.8)} />
       </g>
 
       {/* ticket body with a slow shine sweep */}
       <g mask="url(#raffleTicketMask)">
-        <rect x="6" y="15" width="36" height="18" rx="3" fill="currentColor" />
+        <rect x="7" y="17" width="34" height="15" rx="3" fill="currentColor" />
+        <rect x="7.6" y="17.6" width="32.8" height="13.8" rx="2.6" fill="none" stroke="url(#raffleGold)" strokeWidth="0.9" opacity="0.55" />
         <g className="raffle-shine">
-          <rect x="-14" y="8" width="7" height="32" fill="oklch(0.97 0.02 85)" opacity="0.4" transform="rotate(-18 -10 24)" />
+          <rect x="-14" y="10" width="7" height="30" fill="oklch(0.97 0.02 85)" opacity="0.4" transform="rotate(-18 -10 24)" />
         </g>
       </g>
 
       {/* gold star + perforated stub line */}
       <path
-        d="M18 18 L19.53 21.9 L23.71 22.15 L20.47 24.8 L21.53 28.85 L18 26.6 L14.47 28.85 L15.53 24.8 L12.29 22.15 L16.47 21.9 Z"
+        d="M17.5 19.3 L18.82 22.68 L22.45 22.89 L19.64 25.2 L20.56 28.71 L17.5 26.75 L14.44 28.71 L15.36 25.2 L12.55 22.89 L16.18 22.68 Z"
         fill="url(#raffleGold)"
       />
       <path
-        d="M32 17.5 V30.5"
+        d="M31 19.5 V29.5"
         stroke="url(#raffleGold)"
         strokeWidth="1.4"
         strokeDasharray="2 2.6"
