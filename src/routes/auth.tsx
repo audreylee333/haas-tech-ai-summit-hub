@@ -11,9 +11,9 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in · Haas Tech & AI Summit 2026" },
-      { name: "description", content: "Sign in with Google to rate sessions, send questions to the speakers, and help shape the summit." },
+      { name: "description", content: "Sign in with Google to rate sessions, send questions to the speakers, and earn raffle tickets at the Haas Tech & AI Summit 2026." },
       { property: "og:title", content: "Sign in · Haas Tech & AI Summit 2026" },
-      { property: "og:description", content: "Sign in with Google to rate sessions, send questions to the speakers, and help shape the summit." },
+      { property: "og:description", content: "Sign in with Google to rate sessions, send questions to the speakers, and earn raffle tickets." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -61,7 +61,7 @@ function AuthPage() {
       <h1 className="display mt-2 text-5xl">Sign in to get started.</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
       <p className="mt-4 text-muted-foreground">
-        Rate sessions, send questions to the speakers, and help shape the summit. Your Google email keeps track of your tickets.
+        Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw, and your Google email keeps track of yours.
       </p>
       <p className="mt-2 text-sm text-muted-foreground">
         Your ratings and comments are shared with organizers without your name. Only your questions and ticket count are linked to you.

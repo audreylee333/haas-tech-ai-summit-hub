@@ -32,7 +32,7 @@ function Index() {
           ? isAdmin
             ? "Head to the moderator desk, or rate sessions and send questions yourself."
             : "Head to the sessions to rate talks and send questions."
-          : "Rate sessions, send questions to the speakers, and help shape the summit. Every submission earns a raffle ticket."}
+          : "Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw."}
       </p>
       <div className="mt-9">
         {user ? (
