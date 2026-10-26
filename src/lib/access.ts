@@ -5,13 +5,16 @@ export type DeskTab = "qa" | "feedback" | "raffle";
 
 /**
  * "Your session" label: shown to assigned moderators only (super admins moderate
- * everything, so the label would mean nothing there) and only where Q&A is open.
+ * everything, so the label would mean nothing there), only where Q&A is open, and
+ * only for sessions assigned to that person - the keynotes are open to every
+ * moderator, so they are nobody's own session.
  */
 export function isYourSession(
   role: StaffRole | undefined,
   moderated: Set<string> | undefined,
-  session: { id: string; kind: string; qa_enabled: boolean },
+  session: { id: string; kind: string; qa_enabled: boolean; open_to_all_moderators?: boolean } | undefined,
 ): boolean {
+  if (!session || session.open_to_all_moderators) return false;
   return role === "moderator" && !!moderated?.has(session.id) && canSubmitQuestions(session);
 }
 

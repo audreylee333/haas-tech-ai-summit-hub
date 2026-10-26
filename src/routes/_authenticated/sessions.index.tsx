@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMyFeedback, useSessions, useStaffRole, useModeratedSessionIds } from "@/lib/data";
-import { isYourSession } from "@/lib/access";
+import { useMyFeedback, useSessions } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
