@@ -8,7 +8,7 @@ export type DeskTab = "qa" | "feedback" | "raffle";
  * everything, so the label would mean nothing there) and only where Q&A is open.
  */
 export function isYourSession(
-  role: StaffRole,
+  role: StaffRole | undefined,
   moderated: Set<string> | undefined,
   session: { id: string; kind: string; qa_enabled: boolean },
 ): boolean {
