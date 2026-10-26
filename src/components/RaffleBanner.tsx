@@ -1,23 +1,33 @@
 import { Link } from "@tanstack/react-router";
+import { DAY_GROUPS } from "@/lib/raffle";
 
-export function RaffleBanner({ entries }: { entries: number }) {
+export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: number; dayRemaining: number; onDayPage: boolean }) {
+  const total = DAY_GROUPS.length;
   return (
-    <div className="bg-prize shadow-prize flex items-center gap-4 rounded-sm p-4 text-signal-foreground">
+    <div className="bg-prize shadow-prize flex flex-wrap items-center gap-4 rounded-sm p-4 text-signal-foreground">
       <div className="display text-5xl leading-none">{entries}</div>
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em]">
           Raffle {entries === 1 ? "entry" : "entries"} · prizes revealed at the close
         </p>
         <p className="text-sm font-medium">
           {entries === 0
             ? "Submit a review or questions to get in the draw."
-            : "Each review and each question submission adds one ticket."}{" "}
+            : "Each review, each Rate the day section, and your questions for each session add one ticket."}{" "}
           <span className="font-semibold">Be there at the close to win.</span>
         </p>
       </div>
-      <Link to="/day" className="hidden font-mono text-xs underline underline-offset-4 sm:block">
-        +7 more →
-      </Link>
+      {onDayPage ? (
+        <p className="font-mono text-xs">
+          {dayRemaining > 0 ? `${dayRemaining} of ${total} day tickets left` : "All day tickets earned ✓"}
+        </p>
+      ) : (
+        dayRemaining > 0 && (
+          <Link to="/day" className="font-mono text-xs underline underline-offset-4">
+            +{dayRemaining} on Rate the day →
+          </Link>
+        )
+      )}
     </div>
   );
 }

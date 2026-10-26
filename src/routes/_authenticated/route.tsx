@@ -3,6 +3,7 @@ import { RaffleBanner } from "@/components/RaffleBanner";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useMyFeedback } from "@/lib/data";
+import { DAY_GROUPS, dayGroupOf } from "@/lib/raffle";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, CalendarDays, Star } from "lucide-react";
 
@@ -51,7 +52,7 @@ function Shell() {
       <div className="pt-6">
         {!isDesk && (
           <div className="mb-8">
-            <RaffleBanner entries={data?.entries ?? 0} />
+            <RaffleBanner entries={data?.entries ?? 0} dayRemaining={DAY_GROUPS.length - new Set((data?.general ?? []).map((g) => dayGroupOf(g.category)).filter(Boolean)).size} onDayPage={pathname.startsWith("/day")} />
           </div>
         )}
         <Outlet />
