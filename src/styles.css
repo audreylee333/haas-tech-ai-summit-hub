@@ -147,3 +147,30 @@
   padding: 0.35rem 1.1rem;
   clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
 }
+
+/* Flashy raffle ticket: twinkling sparkles + a shine sweep across the ticket */
+@keyframes raffle-twinkle {
+  0%, 100% { opacity: 0.5; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+@keyframes raffle-shine {
+  0% { transform: translateX(0); }
+  55%, 100% { transform: translateX(58px); }
+}
+.raffle-sparkles {
+  filter: drop-shadow(0 0 3px oklch(0.21 0.06 260 / 40%));
+}
+.sparkle {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: raffle-twinkle 1.9s ease-in-out infinite;
+}
+.sparkle-b { animation-delay: 0.45s; }
+.sparkle-c { animation-delay: 0.9s; }
+.sparkle-d { animation-delay: 1.35s; }
+.raffle-shine {
+  animation: raffle-shine 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sparkle, .raffle-shine { animation: none; }
+}
