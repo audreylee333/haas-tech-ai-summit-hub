@@ -128,7 +128,7 @@ function QA({ sessionId }: { sessionId: string }) {
       <p className="mt-1 text-sm text-muted-foreground">
         See what others are asking. Upvote the questions you want to hear. Moderators pick what gets asked on stage.
       </p>
-      <p className="mt-2 text-sm font-medium text-signal">Your first submission for this session earns one raffle ticket. Send as many more as you like. Upvotes don't add tickets.</p>
+      <p className="mt-2 text-sm font-medium text-signal">Your first submission for this session earns one raffle ticket. Send as many more as you like.</p>
       <form
         className="mt-4 space-y-3"
         onSubmit={async (e) => {
