@@ -16,7 +16,7 @@ export const groupSessionQuestions = createServerFn({ method: "POST" })
     ]);
     if (error) return { error: "Could not load questions", themes: [] as Theme[], cached: false };
     if (!qs?.length) return { error: null, themes: [] as Theme[], cached: false };
-    const latest = qs[qs.length - 1].created_at;
+    const latest = qs[qs.length - 1]!.created_at;
     // Normalize timestamps so the cache comparison is format-independent.
     const latestIso = new Date(latest).toISOString();
     const cacheNorm = cache ? { question_count: cache.question_count, latest_question_at: cache.latest_question_at ? new Date(cache.latest_question_at).toISOString() : null } : null;

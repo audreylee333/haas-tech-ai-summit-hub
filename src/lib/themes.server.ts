@@ -1,6 +1,6 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { jsonSchema, Output, streamText, type LanguageModel } from "ai";
-import { numbersToThemes } from "./themes";
+import { numbersToThemes, type Theme } from "./themes";
 
 const schema = jsonSchema<{ themes: { label: string; question_numbers: number[] }[] }>({
   type: "object",
