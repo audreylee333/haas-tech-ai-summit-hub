@@ -13,4 +13,7 @@
 - [x] Drop "Upvotes don't add tickets" from session Q&A copy
 - [x] Export feedback CSV download on moderator desk
 - [x] Rename export button to "Download results as csv"
-- [ ] Audit test coverage: confirm every important behavior has a regression test, fill gaps
+- [x] Audit test coverage: confirm every important behavior has a regression test, fill gaps
+  - [x] Add csv export tests (quoting, escaping, empty cells)
+  - [x] Add database-rules-mirror-the-app tests (day groupings, ticket counting, admin gate, winner exclusion, moderator allowlist, question privacy, self-vote rejection)
+  - [x] Add raffle access browser check for both roles and run it (moderator reads totals; attendee is refused the leaderboard and the draw)
