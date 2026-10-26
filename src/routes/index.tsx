@@ -44,7 +44,7 @@ function Index() {
             {user ? "You're in. Keep the feedback coming." : "Sign in to join the conversation."}
           </p>
           <p className="mt-1 text-sm text-muted-foreground">
-            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. Your sign-in opens the audience engagement center: rate sessions, ask speakers questions, and every submission also counts toward the end-of-day raffle."}
+            {user ? (isAdmin ? "Moderate live Q&A, or rate sessions and send questions yourself." : "Head to the sessions to rate and send questions.") : "Takes 5 seconds. Rate sessions, ask the speakers anything, and every submission also counts toward the end-of-day raffle."}
           </p>
           <div className="mt-5">
             {user ? (
