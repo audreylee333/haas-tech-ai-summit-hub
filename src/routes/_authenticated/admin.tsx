@@ -213,7 +213,10 @@ function FeedbackDashboard() {
                   <span className="eyebrow">{r.sub}</span>
                   <span className="block font-medium">{r.label}</span>
                 </span>
-                <span className="font-mono text-sm text-muted-foreground">{r.items.length} · 💬{comments.length}</span>
+                <span className="flex items-center gap-3 font-mono text-sm text-muted-foreground">
+                  <span>{r.items.length}</span>
+                  <span className="flex items-center gap-1.5"><MessagesSquare className="size-3.5" />{comments.length}</span>
+                </span>
                 <span className="display w-14 text-right text-3xl">{avg ? avg.toFixed(1) : "–"}</span>
               </button>
               {openId === r.key && (
