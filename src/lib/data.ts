@@ -81,9 +81,10 @@ export function useIsStaff() {
   return { ...q, data: !!q.data };
 }
 
-export function useModeratedSessionIds() {
+export function useModeratedSessionIds(enabled = true) {
   return useQuery({
     queryKey: ["moderated-sessions"],
+    enabled,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("my_moderated_sessions");
       if (error) throw error;

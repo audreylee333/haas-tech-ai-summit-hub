@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useModeratedSessionIds, useSessions, useStaffRole } from "@/lib/data";
-import { deskTabsFor } from "@/lib/access";
+import { deskTabsFor, firstOwnSession } from "@/lib/access";
 import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
@@ -60,10 +60,19 @@ function QAModeration() {
   const qc = useQueryClient();
   const { data: allSessions } = useSessions();
   const { data: mine } = useModeratedSessionIds();
+  const { data: role } = useStaffRole();
   const sessions = useMemo(() => allSessions?.filter((s) => mine?.has(s.id)), [allSessions, mine]);
   const [sessionId, setSessionId] = useState<string>("all");
   const [filter, setFilter] = useState<"open" | "starred" | "answered" | "hidden" | "all">("open");
   const [search, setSearch] = useState("");
+  const landed = useRef(false);
+
+  // Moderators open on their own session; super admins keep the full list.
+  useEffect(() => {
+    if (landed.current || role !== "moderator" || !sessions) return;
+    const own = firstOwnSession(sessions);
+    if (own) { landed.current = true; setSessionId(own.id); }
+  }, [role, sessions]);
 
   const questions = useQuery({
     queryKey: ["admin-questions"],

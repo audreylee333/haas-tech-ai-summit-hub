@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { useMyFeedback, useSessions, useUser } from "@/lib/data";
+import { useMyFeedback, useSessions, useStaffRole, useModeratedSessionIds, useUser } from "@/lib/data";
+import { isYourSession } from "@/lib/access";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -31,6 +32,8 @@ function SessionPage() {
   const { data: mine } = useMyFeedback();
   const session = sessions?.find((s) => s.id === id);
   const existing = mine?.sessions.find((f) => f.session_id === id);
+  const { data: role } = useStaffRole();
+  const { data: moderated } = useModeratedSessionIds(role === "moderator");
 
   if (!sessions) return <p className="eyebrow">Loading…</p>;
   if (!session) return <p>Session not found. <Link to="/sessions" className="underline">Back</Link></p>;
@@ -42,6 +45,7 @@ function SessionPage() {
       <h1 className="display mt-2 text-5xl">{session.title}</h1>
       {session.subtitle && <p className="mt-2 text-lg text-muted-foreground">{session.subtitle}</p>}
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
+      {isYourSession(role, moderated, session) && <p className="mt-3"><span className="rounded-full bg-signal px-2.5 py-0.5 font-mono text-[0.65rem] uppercase text-signal-foreground">Your session</span></p>}
 
       {canSubmitQuestions(session) && <QA sessionId={id} />}
 
