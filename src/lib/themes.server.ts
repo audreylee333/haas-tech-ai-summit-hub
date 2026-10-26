@@ -1,8 +1,8 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { jsonSchema, Output, streamText, type LanguageModel } from "ai";
-import type { Theme } from "./themes";
+import { numbersToThemes } from "./themes";
 
-const schema = jsonSchema<{ themes: Theme[] }>({
+const schema = jsonSchema<{ themes: { label: string; question_numbers: number[] }[] }>({
   type: "object",
   additionalProperties: false,
   required: ["themes"],
@@ -12,10 +12,10 @@ const schema = jsonSchema<{ themes: Theme[] }>({
       items: {
         type: "object",
         additionalProperties: false,
-        required: ["label", "question_ids"],
+        required: ["label", "question_numbers"],
         properties: {
           label: { type: "string" },
-          question_ids: { type: "array", items: { type: "string" } },
+          question_numbers: { type: "array", items: { type: "integer" } },
         },
       },
     },
@@ -34,17 +34,17 @@ export async function groupQuestionsByTheme(questions: { id: string; body: strin
     model: provider.responses("openai/gpt-6-astra") as unknown as LanguageModel,
     output: Output.object({ schema }),
     instructions:
-      "You help conference moderators. Group audience questions into 2 to 7 short themes (2-5 word labels). Every question id must appear in exactly one theme. A submission may contain several questions; group it by its main topic.",
+      "You help conference moderators. Group audience questions into 2 to 7 short themes (2-5 word labels). Every question number must appear in exactly one theme. A submission may contain several questions; group it by its main topic.",
     messages: [
       {
         role: "user",
-        content: `Session: ${sessionTitle}\n\nQuestions:\n${questions.map((q) => `[${q.id}] ${q.body}`).join("\n")}`,
+        content: `Session: ${sessionTitle}\n\nQuestions:\n${questions.map((q, i) => `[${i + 1}] ${q.body}`).join("\n")}`,
       },
     ],
     providerOptions: {
-      openai: { store: false, forceReasoning: true, reasoningEffort: "low", reasoningSummary: "auto", include: ["reasoning.encrypted_content"] },
+      openai: { store: false },
     },
   });
   const out = await result.output;
-  return out.themes;
+  return numbersToThemes(out.themes, questions);
 }

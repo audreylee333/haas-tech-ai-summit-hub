@@ -18,3 +18,16 @@ export function applyThemes<Q extends { id: string; vote_count: number }>(themes
   if (rest.length) groups.push({ label: "New / ungrouped", questions: rest });
   return groups;
 }
+
+/** Maps the AI's short 1-based question numbers back to question ids, dropping unknown numbers. */
+export function numbersToThemes(raw: { label: string; question_numbers: number[] }[], questions: { id: string }[]): Theme[] {
+  return raw.map((t) => ({
+    label: t.label,
+    question_ids: t.question_numbers.map((n) => questions[n - 1]?.id).filter((x): x is string => !!x),
+  }));
+}
+
+/** Cached themes are reusable when the visible question set hasn't changed. */
+export function themesAreFresh(cache: { question_count: number; latest_question_at: string | null } | null, count: number, latest: string | null): boolean {
+  return !!cache && cache.question_count === count && (cache.latest_question_at ?? null) === (latest ?? null);
+}
