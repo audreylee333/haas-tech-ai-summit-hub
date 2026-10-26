@@ -23,6 +23,7 @@ describe("access levels", () => {
   it("super admins are not tagged session by session", () => expect(isYourSession("admin", mine, qa)).toBe(false));
   it("attendees never see the label", () => expect(isYourSession(null, mine, qa)).toBe(false));
   it("unassigned sessions are not tagged", () => expect(isYourSession("moderator", new Set(["other"]), qa)).toBe(false));
+  it("keynotes open to every moderator are never tagged as yours", () => expect(isYourSession("moderator", new Set(["k2"]), sharedKeynote)).toBe(false));
   it("moderators land on the session assigned to them", () => expect(firstOwnSession([keynote, healthcare])?.id).toBe("s4"));
   it("keynotes open to every moderator are nobody's landing session", () => expect(firstOwnSession([keynote])).toBeUndefined());
   it("assigned sessions without Q&A are not a landing session", () => expect(firstOwnSession([keynote, noQaAssigned])).toBeUndefined());
