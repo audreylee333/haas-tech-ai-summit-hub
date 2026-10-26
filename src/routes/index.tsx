@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
 import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
@@ -21,6 +22,15 @@ export const Route = createFileRoute("/")({
 function Index() {
   const { data: user } = useUser();
   const { data: isAdmin } = useIsAdmin();
+  const navigate = useNavigate();
+  // If Google sent the person back here instead of the sign-in page, finish the trip.
+  useEffect(() => {
+    if (!user) return;
+    const next = sessionStorage.getItem("post-auth-redirect");
+    if (next === null) return;
+    sessionStorage.removeItem("post-auth-redirect");
+    navigate({ to: next.startsWith("/") && !next.startsWith("//") ? next : "/sessions", replace: true });
+  }, [user, navigate]);
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-10">
       <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-full max-w-[15rem]" />
