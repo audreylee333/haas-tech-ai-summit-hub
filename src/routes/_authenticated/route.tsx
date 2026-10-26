@@ -5,7 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useMyFeedback } from "@/lib/data";
 import { DAY_GROUPS, dayGroupOf } from "@/lib/raffle";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, CalendarDays, Star } from "lucide-react";
+import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -37,11 +38,11 @@ function Shell() {
   return (
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
-        <div className="flex items-center justify-between">
-          <Link to="/" className="display text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="text-signal">: Where Intelligence Goes Next</span></Link>
-          <div className="flex items-center gap-3">
-            <button onClick={signOut} className="eyebrow hover:text-foreground">Sign out</button>
-          </div>
+        <div className="flex items-start justify-between gap-4">
+          <Link to="/" className="display min-w-0 text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="mx-1 text-signal">:</span>{" "}<span className="text-signal">Where Intelligence Goes Next</span></Link>
+          <Button onClick={signOut} variant="outline" size="sm" className="shrink-0 rounded-full border-muted-foreground/60 font-mono uppercase">
+            <LogOut aria-hidden="true" />Sign out
+          </Button>
         </div>
         <nav className="rule mt-4 flex gap-5 pt-3">
           {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}

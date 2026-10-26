@@ -7,4 +7,5 @@
 - [x] Verify build + visual check, update font memory
 - [x] Moderator desk: fix arrow spacing on the session picker (native select -> styled Select)
 - [x] Moderator desk: fix spacing around the speech-bubble icon in Feedback tab rows
-- [ ] Fix attendee question upvotes and verify adding/removing votes without exposing author identities
+- [x] Fix attendee question upvotes and verify adding/removing votes without exposing author identities
+- [ ] Fix header colon spacing and make Sign out clearly clickable
