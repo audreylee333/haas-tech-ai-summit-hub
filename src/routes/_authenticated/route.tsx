@@ -39,11 +39,6 @@ function Shell() {
         <div className="flex items-center justify-between">
           <Link to="/" className="display text-xl leading-tight sm:text-2xl">Haas Tech &amp; AI Summit 2026<span className="text-signal">: Where Intelligence Goes Next</span></Link>
           <div className="flex items-center gap-3">
-            {!isDesk && (
-              <span className="bg-prize rounded-sm px-2 py-1 font-mono text-xs text-signal-foreground" aria-live="polite">
-                🎟 {data?.entries ?? 0}
-              </span>
-            )}
             <button onClick={signOut} className="eyebrow hover:text-foreground">Sign out</button>
           </div>
         </div>
