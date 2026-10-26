@@ -12,3 +12,5 @@
 - [x] Put header tabs (Moderator desk, Sessions, Rate the day) in rounded pill containers
 - [x] Drop "Upvotes don't add tickets" from session Q&A copy
 - [x] Export feedback CSV download on moderator desk
+- [x] Rename export button to "Download results as csv"
+- [ ] Audit test coverage: confirm every important behavior has a regression test, fill gaps
