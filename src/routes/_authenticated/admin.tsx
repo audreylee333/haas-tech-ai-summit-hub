@@ -124,11 +124,6 @@ function QAModeration() {
         {(["open", "answered", "hidden", "all"] as const).map((f) => (
           <Button key={f} size="sm" variant={filter === f ? "default" : "outline"} onClick={() => setFilter(f)} className="capitalize">{f}</Button>
         ))}
-        {current && (
-          <label className="ml-auto flex items-center gap-2 text-sm">
-            Q&amp;A open <Switch checked={current.qa_enabled} onCheckedChange={(v) => toggleQa(current.id, v)} />
-          </label>
-        )}
       </div>
       <div className="flex flex-wrap items-center gap-2">
         <p className="eyebrow">{list.length} questions</p>
