@@ -50,6 +50,13 @@
       "when": 1792990864557,
       "tag": "0006_raffle_day_feedback_groups",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1792992137080,
+      "tag": "0007_fix_attendee_question_vote_permissions",
+      "breakpoints": true
     }
   ]
 }
