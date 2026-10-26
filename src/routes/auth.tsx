@@ -64,9 +64,6 @@ function AuthPage() {
       <p className="mt-4 text-muted-foreground">
         Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw, and your Google email keeps track of yours.
       </p>
-      <p className="mt-2 text-sm text-muted-foreground">
-        Your ratings and comments are shared with organizers without your name. Only your questions and ticket count are linked to you.
-      </p>
       <div className="mt-9">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
       </div>
