@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet, redirect, useLocation, useNavigate } from "@tanstack/react-router";
 import { RaffleBanner } from "@/components/RaffleBanner";
+import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsStaff as useIsAdmin, useMyFeedback } from "@/lib/data";
@@ -39,9 +40,9 @@ function Shell() {
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-start justify-between gap-4">
-          <Link to="/" className="wm wm--header min-w-0 leading-tight" aria-label="Haas Tech & AI Summit 2026: Where Intelligence Goes Next">
-            <span className="wm-summit">Haas Tech & AI Summit 2026</span>
-            <span className="wm-line" data-text="Where Intelligence Goes Next">Where Intelligence Goes Next</span>
+          <Link to="/" className="flex min-w-0 flex-col gap-1" aria-label="Haas Tech & AI Summit 2026: Where Intelligence Goes Next">
+            <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-44 max-w-full" />
+            <span className="eyebrow text-signal">Haas Tech & AI Summit 2026</span>
           </Link>
           <Button onClick={signOut} variant="outline" size="sm" className="shrink-0 rounded-full border-muted-foreground/60 font-mono uppercase">
             <LogOut aria-hidden="true" />Sign out
