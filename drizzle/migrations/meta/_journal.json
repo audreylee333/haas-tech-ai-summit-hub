@@ -71,6 +71,13 @@
       "when": 1792993751865,
       "tag": "0009_three_access_levels",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792994189258,
+      "tag": "0010_load_indexes_and_theme_cache",
+      "breakpoints": true
     }
   ]
 }
