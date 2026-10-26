@@ -8,6 +8,7 @@ import { DAY_GROUPS, dayGroupOf } from "@/lib/raffle";
 import { cn } from "@/lib/utils";
 import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CaptionsLink } from "@/components/CaptionsLink";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -44,9 +45,12 @@ function Shell() {
             <img src={wordmarkAsset.url} alt="Where Intelligence Goes Next" className="w-44 max-w-full" />
             <span className="eyebrow text-signal">Haas Tech & AI Summit 2026</span>
           </Link>
-          <Button onClick={signOut} variant="outline" size="sm" className="shrink-0 rounded-full border-muted-foreground/60 font-mono uppercase">
-            <LogOut aria-hidden="true" />Sign out
-          </Button>
+          <div className="flex shrink-0 flex-wrap justify-end gap-2">
+            <CaptionsLink />
+            <Button onClick={signOut} variant="outline" size="sm" className="shrink-0 rounded-full border-muted-foreground/60 font-mono uppercase">
+              <LogOut aria-hidden="true" />Sign out
+            </Button>
+          </div>
         </div>
         <nav className="rule mt-4 flex gap-5 pt-3">
           {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}
