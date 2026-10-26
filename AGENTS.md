@@ -17,6 +17,7 @@
 - Session Q&A rendering uses `canSubmitQuestions`; opening remarks are excluded even when an organizer enables their flag, and database session flags remain the submission-policy authority.
 - Attendees read other attendees' questions only through the `session_questions` security-definer RPC, which omits author identity; base `questions` RLS stays own-or-admin.
 - Vote eligibility uses the identity-scoped `can_upvote_question` security-definer predicate in vote INSERT RLS; direct question subqueries cannot see other attendees' rows and incorrectly reject their votes.
-- AI theme grouping runs in the `groupSessionQuestions` server function (admin-checked) with gateway code in `src/lib/themes.server.ts`; themes are cached client-side, not stored.
 
 - Staff access comes from `public.moderator_emails.role` (`admin` = super admin, `moderator` = Q&A only) synced to `user_roles` by `sync_staff_role`; moderator session scope is `moderator_assignments` plus `sessions.open_to_all_moderators`, enforced by `can_moderate_session` in questions RLS and the grouping server function. Change access by editing those rows, never app code.
+- AI theme grouping runs in the `groupSessionQuestions` server function (checked with `can_moderate_session`) with gateway code in `src/lib/themes.server.ts`; results are cached per session in `question_themes` and reused while the visible question set is unchanged, to avoid repeat AI calls.
+- Attendee Q&A lists poll (`QUESTION_REFRESH_MS`) instead of using realtime; only the moderator desk subscribes to realtime, which keeps upvote bursts from fanning out to every attendee.

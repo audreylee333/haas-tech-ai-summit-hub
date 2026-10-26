@@ -1,5 +1,6 @@
+import { QUESTION_REFRESH_MS } from "@/lib/refresh";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -100,26 +101,21 @@ function QA({ sessionId }: { sessionId: string }) {
       if (error) throw error;
       return data;
     },
+    refetchInterval: QUESTION_REFRESH_MS,
+    refetchIntervalInBackground: false,
   });
 
-  useEffect(() => {
-    const ch = supabase
-      .channel(`qa-${sessionId}-${Math.random().toString(36).slice(2)}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "questions", filter: `session_id=eq.${sessionId}` }, () =>
-        qc.invalidateQueries({ queryKey: ["session-questions", sessionId] }),
-      )
-      .subscribe();
-    const t = setInterval(() => qc.invalidateQueries({ queryKey: ["session-questions", sessionId] }), 15_000);
-    return () => { supabase.removeChannel(ch); clearInterval(t); };
-  }, [qc, sessionId]);
-
+  // Attendees don't need instant updates: refresh every 30s while visible, and after their own actions.
+  const [voting, setVoting] = useState<string | null>(null);
   const vote = async (questionId: string, voted: boolean) => {
-    if (!user) return;
+    if (!user || voting) return;
+    setVoting(questionId);
     const { error } = voted
       ? await supabase.from("question_votes").delete().eq("question_id", questionId).eq("user_id", user.id)
       : await supabase.from("question_votes").insert({ question_id: questionId, user_id: user.id });
     if (error) toast.error("Could not update your vote");
-    qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
+    await qc.invalidateQueries({ queryKey: ["session-questions", sessionId] });
+    setVoting(null);
   };
 
   return (
@@ -167,7 +163,7 @@ function QA({ sessionId }: { sessionId: string }) {
             <li key={q.id} className="flex gap-3 rounded-sm border bg-card p-3">
               <button
                 type="button"
-                disabled={q.is_mine}
+                disabled={q.is_mine || voting !== null}
                 aria-pressed={q.voted_by_me}
                 aria-label={q.voted_by_me ? "Remove upvote" : "Upvote"}
                 onClick={() => vote(q.id, q.voted_by_me)}

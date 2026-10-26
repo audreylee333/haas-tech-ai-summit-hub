@@ -74,15 +74,23 @@ function QAModeration() {
     },
   });
 
+  // Moderators stay live; bursts of changes collapse into one reload (~500ms).
   useEffect(() => {
+    let t: ReturnType<typeof setTimeout> | undefined;
+    const reload = () => {
+      clearTimeout(t);
+      t = setTimeout(() => qc.invalidateQueries({ queryKey: ["admin-questions"] }), 500);
+    };
+    const filter = sessionId !== "all" ? { filter: `session_id=eq.${sessionId}` } : {};
     const ch = supabase
       .channel(`admin-qa-${Math.random().toString(36).slice(2)}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "questions" }, () => qc.invalidateQueries({ queryKey: ["admin-questions"] }))
+      .on("postgres_changes", { event: "*", schema: "public", table: "questions", ...filter }, reload)
       .subscribe();
     return () => {
+      clearTimeout(t);
       supabase.removeChannel(ch);
     };
-  }, [qc]);
+  }, [qc, sessionId]);
 
   const list = useMemo(
     () =>
@@ -104,17 +112,33 @@ function QAModeration() {
   };
   const [themes, setThemes] = useState<Record<string, Theme[]>>({});
   const [grouping, setGrouping] = useState(false);
+  const [cooldown, setCooldown] = useState(false);
   const groupFn = useServerFn(groupSessionQuestions);
+  // Themes are shared between moderators: show the last saved grouping for this session.
+  useEffect(() => {
+    if (sessionId === "all" || themes[sessionId]) return;
+    let live = true;
+    supabase.from("question_themes").select("themes").eq("session_id", sessionId).maybeSingle().then(({ data }) => {
+      if (live && data?.themes && (data.themes as unknown as Theme[]).length) setThemes((t) => ({ ...t, [sessionId]: data.themes as unknown as Theme[] }));
+    });
+    return () => { live = false; };
+  }, [sessionId, themes]);
   const runGrouping = async () => {
+    if (grouping || cooldown) return;
     setGrouping(true);
     try {
       const res = await groupFn({ data: { sessionId } });
       if (res.error) toast.error(res.error);
-      else setThemes((t) => ({ ...t, [sessionId]: res.themes }));
+      else {
+        setThemes((t) => ({ ...t, [sessionId]: res.themes }));
+        if (res.cached) toast.message("No new questions since the last grouping.");
+      }
     } catch {
       toast.error("Grouping failed. Try again.");
     } finally {
       setGrouping(false);
+      setCooldown(true);
+      setTimeout(() => setCooldown(false), 30_000);
     }
   };
   const sorted = [...list].sort((a, b) => b.vote_count - a.vote_count);
@@ -146,7 +170,7 @@ function QAModeration() {
         {sessionId !== "all" && (
           <div className="ml-auto flex gap-2">
             {themes[sessionId] && <Button size="sm" variant="ghost" onClick={() => setThemes((t) => { const n = { ...t }; delete n[sessionId]; return n; })}>All questions</Button>}
-            <Button size="sm" variant="signal" disabled={grouping} onClick={runGrouping}>
+            <Button size="sm" variant="signal" disabled={grouping || cooldown} onClick={runGrouping}>
               {grouping ? "Grouping…" : themes[sessionId] ? "Regroup by theme" : "Group by theme"}
             </Button>
           </div>
@@ -197,7 +221,8 @@ function FeedbackDashboard() {
       if (g.error) throw g.error;
       return { sessions: s.data, general: g.data };
     },
-    refetchInterval: 30_000,
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: false,
   });
 
   const rows = [
@@ -266,7 +291,8 @@ function Raffle() {
   const [busy, setBusy] = useState(false);
   const board = useQuery({
     queryKey: ["raffle-board"],
-    refetchInterval: 15_000,
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: false,
     queryFn: async () => {
       const { data, error } = await supabase.rpc("raffle_leaderboard");
       if (error) throw error;
@@ -288,6 +314,9 @@ function Raffle() {
     <div className="space-y-6 pt-4">
       <div className="rounded-sm border bg-card p-6 text-center">
         <p className="eyebrow">{board.data?.length ?? 0} attendees · {total} tickets</p>
+        <Button size="sm" variant="ghost" className="mt-2" disabled={board.isFetching} onClick={() => board.refetch()}>
+          {board.isFetching ? "Refreshing…" : "Refresh totals"}
+        </Button>
         {latest && (
           <div className="mt-6 space-y-3">
             <p className="eyebrow">Latest winner</p>

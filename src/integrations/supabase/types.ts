@@ -109,6 +109,38 @@ export type Database = {
         }
         Relationships: []
       }
+      question_themes: {
+        Row: {
+          latest_question_at: string | null
+          question_count: number
+          session_id: string
+          themes: Json
+          updated_at: string
+        }
+        Insert: {
+          latest_question_at?: string | null
+          question_count?: number
+          session_id: string
+          themes?: Json
+          updated_at?: string
+        }
+        Update: {
+          latest_question_at?: string | null
+          question_count?: number
+          session_id?: string
+          themes?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_themes_session_id_fkey"
+            columns: ["session_id"]
+            isOneToOne: true
+            referencedRelation: "sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       question_votes: {
         Row: {
           created_at: string
