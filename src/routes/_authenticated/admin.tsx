@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useIsAdmin, useSessions } from "@/lib/data";
-import { DAY_CATEGORIES } from "@/lib/raffle";
+import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
 import { applyThemes, type Theme } from "@/lib/themes";
@@ -190,7 +190,7 @@ function FeedbackDashboard() {
 
   const rows = [
     ...(sessions ?? []).map((s) => ({ key: s.id, label: s.title, sub: `${s.start_time} · ${s.kind}`, items: fb.data?.sessions.filter((f) => f.session_id === s.id) ?? [] })),
-    ...DAY_CATEGORIES.map((c) => ({ key: c.id, label: c.label, sub: "Rest of the day", items: fb.data?.general.filter((f) => f.category === c.id) ?? [] })),
+    ...DAY_CATEGORIES.map((c) => ({ key: c.id, label: c.label, sub: `Rate the day · ${DAY_GROUPS.find((g) => g.id === c.group)?.label}`, items: fb.data?.general.filter((f) => f.category === c.id) ?? [] })),
   ];
 
   return (

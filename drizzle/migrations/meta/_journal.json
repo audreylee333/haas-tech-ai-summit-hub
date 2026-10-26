@@ -43,6 +43,13 @@
       "when": 1792990223114,
       "tag": "0005_fix_leaderboard_question_count",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792990864557,
+      "tag": "0006_raffle_day_feedback_groups",
+      "breakpoints": true
     }
   ]
 }

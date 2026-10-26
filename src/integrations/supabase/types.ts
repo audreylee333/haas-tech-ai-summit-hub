@@ -280,6 +280,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      day_feedback_group: { Args: { _category: string }; Returns: string }
       draw_raffle_winner: {
         Args: never
         Returns: {
