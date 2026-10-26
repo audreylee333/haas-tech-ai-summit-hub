@@ -32,8 +32,8 @@ function Shell() {
     navigate({ to: "/auth", search: { redirect: undefined }, replace: true });
   };
 
-  const tab = "eyebrow flex items-center gap-1.5 px-1 pb-2 border-b-2 border-transparent hover:text-foreground";
-  const active = { className: cn(tab, "border-signal text-foreground") };
+  const tab = "eyebrow flex items-center gap-1.5 rounded-full border border-muted-foreground/40 bg-card px-3 py-1.5 text-muted-foreground transition-colors hover:border-signal hover:text-foreground";
+  const active = { className: cn(tab, "border-signal bg-signal text-signal-foreground") };
 
   return (
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
