@@ -14,8 +14,8 @@ export function SignInButton({ redirect }: { redirect?: string | undefined }) {
       onClick={async () => {
         setBusy(true);
         const safe = redirect && redirect.startsWith("/") && !redirect.startsWith("//") ? redirect : null;
-        if (safe) sessionStorage.setItem("post-auth-redirect", safe);
-        else sessionStorage.removeItem("post-auth-redirect");
+        // "/auth" picks the right home (desk or sessions) once signed in.
+        sessionStorage.setItem("post-auth-redirect", safe ?? "/auth");
         const result = await lovable.auth.signInWithOAuth("google", {
           redirect_uri: window.location.origin + "/auth",
         });
