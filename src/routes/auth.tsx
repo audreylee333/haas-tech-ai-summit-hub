@@ -11,9 +11,9 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in · Haas Tech & AI Summit 2026" },
-      { name: "description", content: "Sign in with Google to rate sessions, ask speakers questions, and take part in the summit." },
+      { name: "description", content: "Sign in with Google to rate sessions, send questions to the speakers, and help shape the summit." },
       { property: "og:title", content: "Sign in · Haas Tech & AI Summit 2026" },
-      { property: "og:description", content: "Sign in with Google to rate sessions, ask speakers questions, and take part in the summit." },
+      { property: "og:description", content: "Sign in with Google to rate sessions, send questions to the speakers, and help shape the summit." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
