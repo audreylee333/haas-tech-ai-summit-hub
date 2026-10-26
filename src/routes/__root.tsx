@@ -121,7 +121,13 @@ function RootComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    const { data } = supabase.auth.onAuthStateChange((event) => {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      // Keep the cached "who am I" in step with the real session so a stale
+      // signed-out answer never sends a just-signed-in phone back to sign-in.
+      const cached = queryClient.getQueryData<{ id: string } | null>(["user"]);
+      if ((session?.user?.id ?? null) !== (cached?.id ?? null)) {
+        queryClient.setQueryData(["user"], session?.user ?? null);
+      }
       if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
       router.invalidate();
       if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
