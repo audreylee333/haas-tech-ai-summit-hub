@@ -9,47 +9,47 @@ function FlashyTicket({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 48 48" className={className} aria-hidden fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="raffleGold" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
-          <stop stopColor="oklch(0.93 0.1 90)" />
-          <stop offset="1" stopColor="oklch(0.75 0.16 70)" />
+        <linearGradient id="raffleGold" x1="5" y1="5" x2="43" y2="43" gradientUnits="userSpaceOnUse">
+          <stop stopColor="oklch(0.95 0.06 88)" />
+          <stop offset="1" stopColor="oklch(0.82 0.15 78)" />
         </linearGradient>
         <mask id="raffleTicketMask">
           <rect width="48" height="48" fill="black" />
-          <rect x="7" y="17" width="34" height="15" rx="3" fill="white" />
-          <circle cx="7" cy="24.5" r="2.8" fill="black" />
-          <circle cx="41" cy="24.5" r="2.8" fill="black" />
+          <rect x="5" y="14" width="38" height="20" rx="4" fill="white" />
+          <circle cx="5" cy="24" r="3.4" fill="black" />
+          <circle cx="43" cy="24" r="3.4" fill="black" />
         </mask>
       </defs>
 
       {/* twinkling sparkles */}
-      <g fill="url(#raffleGold)" className="raffle-sparkles">
-        <path className="sparkle" d={sparklePath(40, 8, 6.5)} />
-        <path className="sparkle sparkle-b" d={sparklePath(9, 40, 4.6)} />
-        <path className="sparkle sparkle-c" d={sparklePath(11.5, 8.5, 3.2)} />
-        <path className="sparkle sparkle-d" d={sparklePath(44, 33.5, 2.8)} />
+      <g fill="currentColor" className="raffle-sparkles">
+        <path className="sparkle" d={sparklePath(41, 7, 6)} />
+        <path className="sparkle sparkle-b" d={sparklePath(8, 41, 4.6)} />
+        <path className="sparkle sparkle-c" d={sparklePath(12, 6.5, 3)} />
+        <path className="sparkle sparkle-d" d={sparklePath(44, 40, 2.6)} />
       </g>
 
       {/* ticket body with a slow shine sweep */}
       <g mask="url(#raffleTicketMask)">
-        <rect x="7" y="17" width="34" height="15" rx="3" fill="currentColor" />
-        <rect x="7.6" y="17.6" width="32.8" height="13.8" rx="2.6" fill="none" stroke="url(#raffleGold)" strokeWidth="0.9" opacity="0.55" />
+        <rect x="5" y="14" width="38" height="20" rx="4" fill="currentColor" />
+        <rect x="6" y="15" width="36" height="18" rx="3.2" fill="none" stroke="url(#raffleGold)" strokeWidth="1" opacity="0.6" />
         <g className="raffle-shine">
-          <rect x="-14" y="10" width="7" height="30" fill="oklch(0.97 0.02 85)" opacity="0.4" transform="rotate(-18 -10 24)" />
+          <rect x="-16" y="8" width="8" height="32" fill="oklch(0.97 0.02 85)" opacity="0.45" transform="rotate(-18 -12 24)" />
         </g>
       </g>
 
       {/* gold star + perforated stub line */}
       <path
-        d="M17.5 19.3 L18.82 22.68 L22.45 22.89 L19.64 25.2 L20.56 28.71 L17.5 26.75 L14.44 28.71 L15.36 25.2 L12.55 22.89 L16.18 22.68 Z"
+        d="M16 17.5 L17.65 21.73 L22.18 21.99 L18.66 24.87 L19.82 29.26 L16 26.8 L12.18 29.26 L13.34 24.87 L9.82 21.99 L14.35 21.73 Z"
         fill="url(#raffleGold)"
       />
       <path
-        d="M31 19.5 V29.5"
+        d="M30 17 V31"
         stroke="url(#raffleGold)"
-        strokeWidth="1.4"
+        strokeWidth="1.5"
         strokeDasharray="2 2.6"
         strokeLinecap="round"
-        opacity="0.85"
+        opacity="0.9"
       />
     </svg>
   );

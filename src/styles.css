@@ -158,7 +158,7 @@
   55%, 100% { transform: translateX(58px); }
 }
 .raffle-sparkles {
-  filter: drop-shadow(0 0 4px oklch(0.9 0.12 85 / 65%));
+  filter: drop-shadow(0 0 3px oklch(0.21 0.06 260 / 40%));
 }
 .sparkle {
   transform-box: fill-box;
