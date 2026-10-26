@@ -32,7 +32,7 @@ describe("starred questions within themes", () => {
   it("puts a starred question first in its theme even with fewer upvotes", () => {
     const qs = [{ id: "a", vote_count: 9 }, { id: "b", vote_count: 1 }];
     const g = _apply([{ label: "T", question_ids: ["a", "b"] }], qs, (q) => q.id === "b");
-    expect(g[0].questions.map((q) => q.id)).toEqual(["b", "a"]);
+    expect(g[0]!.questions.map((q) => q.id)).toEqual(["b", "a"]);
   });
   it("only allows regrouping when a question is not yet in a theme", () => {
     const t = [{ label: "T", question_ids: ["a", "b"] }];
