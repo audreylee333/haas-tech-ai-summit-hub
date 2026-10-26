@@ -40,8 +40,9 @@ function AdminPage() {
   const tabs = deskTabsFor(role);
   return (
     <div>
-      <h1 className="display text-5xl">Moderator desk.</h1>
-      <p className="mt-2 text-sm text-muted-foreground">You can also rate sessions and send questions from the Sessions tab, and they count toward your raffle tickets.</p>
+      <p className="eyebrow">Friday, Oct 30 · {role === "admin" ? "all sessions" : "your sessions"}</p>
+      <h1 className="display mt-2 text-5xl">Pick what gets asked.</h1>
+      <p className="mt-2 text-sm text-muted-foreground">Star what you want heard and mark what gets asked. You can also rate sessions and send questions from the Sessions tab, and they count toward your raffle tickets.</p>
       <Tabs defaultValue="qa" className="mt-6">
         <TabsList className="h-auto w-full justify-start gap-2 rounded-none bg-transparent p-0">
           <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>

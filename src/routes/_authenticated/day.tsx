@@ -32,7 +32,7 @@ function DayPage() {
   return (
     <div>
       <p className="eyebrow">Beyond the stage</p>
-      <h1 className="display mt-2 text-5xl">Rate the day.</h1>
+      <h1 className="display mt-2 text-5xl">Help shape next year.</h1>
       <p className="mt-2 text-muted-foreground">Three sections, one raffle ticket each. Rate any topic in a section to earn its ticket.</p>
       <p className="mt-1 text-xs text-muted-foreground">Your ratings and comments are shared with organizers without your name. Only your questions and ticket count are linked to you.</p>
       <ul className="mt-6">
