@@ -1,10 +1,13 @@
 import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 
-/** True when the URL carries a returning Google sign-in. */
+/** True when this page load is a return from Google sign-in (flag set by an early script in the root head). */
 export function hasAuthReturnInUrl() {
   if (typeof window === "undefined") return false;
   const { hash, search } = window.location;
-  return /access_token=|refresh_token=/.test(hash) || /[?&]code=/.test(search);
+  if (/access_token=|refresh_token=/.test(hash) || /[?&]code=/.test(search)) return true;
+  const at = Number(sessionStorage.getItem("auth-returning") ?? 0);
+  sessionStorage.removeItem("auth-returning");
+  return Date.now() - at < 15000;
 }
 
 export function SigningIn() {

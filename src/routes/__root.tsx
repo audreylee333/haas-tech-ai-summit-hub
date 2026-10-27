@@ -107,6 +107,13 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {/* Remember a returning Google sign-in before the auth client strips the URL tokens. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(/access_token=|refresh_token=/.test(location.hash)||/[?&]code=/.test(location.search))sessionStorage.setItem('auth-returning',String(Date.now()))}catch(e){}",
+          }}
+        />
       </head>
       <body>
         {children}
