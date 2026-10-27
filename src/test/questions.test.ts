@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { canSubmitQuestions } from "@/lib/questions";
+import { canSubmitQuestions, qaOffNote } from "@/lib/questions";
 
 describe("session question availability", () => {
   it("does not allow Q&A for opening remarks even if the flag is enabled", () => {
