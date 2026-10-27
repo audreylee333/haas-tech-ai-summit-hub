@@ -12,3 +12,13 @@ describe("session question availability", () => {
     expect(canSubmitQuestions({ kind: "Panel", qa_enabled: false })).toBe(false);
   });
 });
+
+describe("qa off note", () => {
+  it("tells coffee chat visitors questions are asked live", () => {
+    expect(qaOffNote({ kind: "Coffee chat" })).toContain("asked live");
+  });
+  it("shows no note for other sessions without Q&A", () => {
+    expect(qaOffNote({ kind: "Opening" })).toBeNull();
+    expect(qaOffNote({ kind: "Fireside" })).toBeNull();
+  });
+});
