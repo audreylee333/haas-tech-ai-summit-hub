@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SigningIn, hasAuthReturnInUrl } from "@/components/SigningIn";
 import { SignInButton } from "@/components/SignInButton";
 import { Button } from "@/components/ui/button";
 import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
@@ -32,6 +33,14 @@ function Index() {
     sessionStorage.removeItem("post-auth-redirect");
     navigate({ to: next.startsWith("/") && !next.startsWith("//") ? next : "/sessions", replace: true });
   }, [user, navigate]);
+  const [returning, setReturning] = useState(false);
+  useEffect(() => {
+    if (hasAuthReturnInUrl() || sessionStorage.getItem("post-auth-redirect") !== null) setReturning(true);
+    const t = window.setTimeout(() => setReturning(false), 8000);
+    return () => window.clearTimeout(t);
+  }, []);
+  if (returning && !user) return <SigningIn />;
+  if (returning && user && sessionStorage.getItem("post-auth-redirect") !== null) return <SigningIn />;
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6 py-10">
       <GlitchWordmark />
