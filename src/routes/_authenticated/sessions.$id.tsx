@@ -9,7 +9,7 @@ import { useMyFeedback, useSessions, useUser } from "@/lib/data";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { canSubmitQuestions } from "@/lib/questions";
+import { canSubmitQuestions, qaOffNote } from "@/lib/questions";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
@@ -44,6 +44,9 @@ function SessionPage() {
       {session.speakers && <p className="mt-2 text-sm">{session.speakers}</p>}
 
       {canSubmitQuestions(session) && <QA sessionId={id} />}
+      {!canSubmitQuestions(session) && qaOffNote(session) && (
+        <p className="rule mt-8 pt-5 text-sm text-muted-foreground">{qaOffNote(session)}</p>
+      )}
 
       <section className="rule mt-10 pt-5">
         <p className="eyebrow mb-1">{existing ? "Your rating · edit anytime" : "Rate this session"}</p>
