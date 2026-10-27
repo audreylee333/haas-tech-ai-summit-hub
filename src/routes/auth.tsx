@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SigningIn, hasAuthReturnInUrl } from "@/components/SigningIn";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
 import { CaptionsLink } from "@/components/CaptionsLink";
@@ -37,9 +38,15 @@ function safePath(p?: string | null) {
 function AuthPage() {
   const { redirect } = Route.useSearch();
   const navigate = useNavigate();
+  // "checking" until we know whether this visitor is already signed in or returning from Google.
+  const [phase, setPhase] = useState<"checking" | "signing" | "form">("checking");
 
   useEffect(() => {
+    let done = false;
     const go = async () => {
+      if (done) return;
+      done = true;
+      setPhase("signing");
       let target = safePath(sessionStorage.getItem("post-auth-redirect")) ?? safePath(redirect);
       sessionStorage.removeItem("post-auth-redirect");
       if (!target) {
@@ -49,12 +56,24 @@ function AuthPage() {
       }
       navigate({ to: target, replace: true });
     };
-    supabase.auth.getSession().then(({ data }) => data.session && void go());
+    const returning = hasAuthReturnInUrl();
+    if (returning) setPhase("signing");
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) void go();
+      else if (!returning) setPhase((p) => (p === "checking" ? "form" : p));
+    });
     const { data } = supabase.auth.onAuthStateChange((e, s) => {
       if (e === "SIGNED_IN" && s) void go();
     });
-    return () => data.subscription.unsubscribe();
+    // Safety net: never leave someone stuck on the transition screen.
+    const t = window.setTimeout(() => !done && setPhase("form"), 8000);
+    return () => {
+      data.subscription.unsubscribe();
+      window.clearTimeout(t);
+    };
   }, [redirect, navigate]);
+
+  if (phase !== "form") return <SigningIn />;
 
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
