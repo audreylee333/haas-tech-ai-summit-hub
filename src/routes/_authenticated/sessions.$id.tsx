@@ -9,7 +9,7 @@ import { useMyFeedback, useSessions, useUser } from "@/lib/data";
 import { FeedbackForm } from "@/components/FeedbackForm";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { canSubmitQuestions } from "@/lib/questions";
+import { canSubmitQuestions, qaOffNote } from "@/lib/questions";
 
 
 export const Route = createFileRoute("/_authenticated/sessions/$id")({
