@@ -9,6 +9,9 @@ import { cn } from "@/lib/utils";
 import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaptionsLink } from "@/components/CaptionsLink";
+import { SigningIn, markSigningOut } from "@/components/SigningIn";
+import { useState } from "react";
+
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,

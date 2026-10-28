@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { pickStaffRole } from "@/lib/data";
 import { useEffect, useState } from "react";
-import { SigningIn, hasAuthReturnInUrl } from "@/components/SigningIn";
+import { SigningIn, hasAuthReturnInUrl, isSigningOut, clearSigningOut } from "@/components/SigningIn";
 import { supabase } from "@/integrations/supabase/client";
 import { SignInButton } from "@/components/SignInButton";
 import { CaptionsLink } from "@/components/CaptionsLink";
@@ -43,9 +43,13 @@ function AuthPage() {
   const queryClient = useQueryClient();
   // "checking" until we know whether this visitor is already signed in or returning from Google.
   const [phase, setPhase] = useState<"checking" | "signing" | "form">("checking");
+  const [message, setMessage] = useState("Signing you in…");
 
   useEffect(() => {
     let done = false;
+    // Someone just clicked Sign out: keep the transition screen, but say what is happening.
+    const signingOut = isSigningOut();
+    if (signingOut) setMessage("Signing you out…");
     const go = async () => {
       if (done) return;
       done = true;
@@ -61,24 +65,31 @@ function AuthPage() {
       }
       navigate({ to: target, replace: true });
     };
-    const returning = hasAuthReturnInUrl();
+    const returning = !signingOut && hasAuthReturnInUrl();
     if (returning) setPhase("signing");
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) void go();
-      else if (!returning) setPhase((p) => (p === "checking" ? "form" : p));
+      else if (!returning) {
+        clearSigningOut();
+        setPhase((p) => (p === "checking" ? "form" : p));
+      }
     });
     const { data } = supabase.auth.onAuthStateChange((e, s) => {
       if (e === "SIGNED_IN" && s) void go();
     });
     // Safety net: never leave someone stuck on the transition screen.
-    const t = window.setTimeout(() => !done && setPhase("form"), 8000);
+    const t = window.setTimeout(() => {
+      if (done) return;
+      clearSigningOut();
+      setPhase("form");
+    }, 8000);
     return () => {
       data.subscription.unsubscribe();
       window.clearTimeout(t);
     };
   }, [redirect, navigate, queryClient]);
 
-  if (phase !== "form") return <SigningIn />;
+  if (phase !== "form") return <SigningIn message={message} />;
 
   return (
     <main className="dotgrid mx-auto flex min-h-screen max-w-md flex-col justify-center px-6">
