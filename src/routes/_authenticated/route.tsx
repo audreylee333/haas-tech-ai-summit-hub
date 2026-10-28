@@ -45,7 +45,10 @@ function Shell() {
   const tab = "eyebrow flex items-center gap-1.5 rounded-full border border-muted-foreground/40 bg-card px-3 py-1.5 text-muted-foreground transition-colors hover:border-signal hover:text-foreground";
   const active = { className: cn(tab, "border-signal bg-signal text-signal-foreground") };
 
+  if (signingOut) return <SigningIn message="Signing you out…" />;
+
   return (
+
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-start justify-between gap-4">
