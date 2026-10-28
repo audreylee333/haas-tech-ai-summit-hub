@@ -9,6 +9,9 @@ import { cn } from "@/lib/utils";
 import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaptionsLink } from "@/components/CaptionsLink";
+import { SigningIn, markSigningOut } from "@/components/SigningIn";
+import { useState } from "react";
+
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
@@ -27,7 +30,11 @@ function Shell() {
   const qc = useQueryClient();
   const navigate = useNavigate();
 
+  const [signingOut, setSigningOut] = useState(false);
+
   const signOut = async () => {
+    setSigningOut(true);
+    markSigningOut();
     await qc.cancelQueries();
     qc.clear();
     await supabase.auth.signOut();
@@ -35,9 +42,13 @@ function Shell() {
   };
 
   const tab = "eyebrow flex items-center gap-1.5 rounded-full border border-muted-foreground/40 bg-card px-3 py-1.5 text-muted-foreground transition-colors hover:border-signal hover:text-foreground";
+
   const active = { className: cn(tab, "border-signal bg-signal text-signal-foreground") };
 
+  if (signingOut) return <SigningIn message="Signing you out…" />;
+
   return (
+
     <div className="mx-auto min-h-screen max-w-3xl px-5 pb-20 sm:px-8">
       <header className="sticky top-0 z-10 bg-background pt-5">
         <div className="flex items-start justify-between gap-4">
