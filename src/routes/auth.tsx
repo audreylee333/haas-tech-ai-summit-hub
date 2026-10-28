@@ -1,4 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { pickStaffRole } from "@/lib/data";
 import { useEffect, useState } from "react";
 import { SigningIn, hasAuthReturnInUrl } from "@/components/SigningIn";
 import { supabase } from "@/integrations/supabase/client";
@@ -38,6 +40,7 @@ function safePath(p?: string | null) {
 function AuthPage() {
   const { redirect } = Route.useSearch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   // "checking" until we know whether this visitor is already signed in or returning from Google.
   const [phase, setPhase] = useState<"checking" | "signing" | "form">("checking");
 
@@ -50,9 +53,11 @@ function AuthPage() {
       let target = safePath(sessionStorage.getItem("post-auth-redirect")) ?? safePath(redirect);
       sessionStorage.removeItem("post-auth-redirect");
       if (!target) {
-        const uid = (await supabase.auth.getUser()).data.user?.id;
+        const uid = (await supabase.auth.getSession()).data.session?.user.id;
         const { data: roles } = uid ? await supabase.from("user_roles").select("role").eq("user_id", uid) : { data: [] };
-        target = (roles ?? []).length ? "/admin" : "/sessions";
+        const role = pickStaffRole((roles ?? []).map((r) => r.role));
+        queryClient.setQueryData(["staff-role"], role);
+        target = role ? "/admin" : "/sessions";
       }
       navigate({ to: target, replace: true });
     };
@@ -71,7 +76,7 @@ function AuthPage() {
       data.subscription.unsubscribe();
       window.clearTimeout(t);
     };
-  }, [redirect, navigate]);
+  }, [redirect, navigate, queryClient]);
 
   if (phase !== "form") return <SigningIn />;
 

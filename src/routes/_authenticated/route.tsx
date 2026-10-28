@@ -13,8 +13,8 @@ import { CaptionsLink } from "@/components/CaptionsLink";
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
   beforeLoad: async ({ location }) => {
-    const { data } = await supabase.auth.getUser();
-    if (!data.user) throw redirect({ to: "/auth", search: { redirect: location.href } });
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) throw redirect({ to: "/auth", search: { redirect: location.href } });
   },
   component: Shell,
 });

@@ -5,7 +5,7 @@ import { countRaffleEntries } from "@/lib/raffle";
 export function useUser() {
   return useQuery({
     queryKey: ["user"],
-    queryFn: async () => (await supabase.auth.getUser()).data.user,
+    queryFn: async () => (await supabase.auth.getSession()).data.session?.user ?? null,
     staleTime: 60_000,
   });
 }
@@ -25,7 +25,7 @@ export function useMyFeedback() {
   return useQuery({
     queryKey: ["my-feedback"],
     queryFn: async () => {
-      const uid = (await supabase.auth.getUser()).data.user?.id;
+      const uid = (await supabase.auth.getSession()).data.session?.user.id;
       if (!uid) return { sessions: [], general: [], entries: 0 };
       const [s, g, q] = await Promise.all([
         supabase.from("session_feedback").select("*").eq("user_id", uid),
@@ -55,7 +55,7 @@ export function useStaffRole() {
   return useQuery({
     queryKey: ["staff-role"],
     queryFn: async (): Promise<StaffRole> => {
-      const uid = (await supabase.auth.getUser()).data.user?.id;
+      const uid = (await supabase.auth.getSession()).data.session?.user.id;
       if (!uid) return null;
       const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid);
       return pickStaffRole((data ?? []).map((r) => r.role));
