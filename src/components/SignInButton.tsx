@@ -28,7 +28,7 @@ export function SignInButton({ redirect }: { redirect?: string | undefined }) {
         }
         if (result.redirected) return;
         // Signed in without leaving the page (preview window): move on in place, no full reload.
-        navigate({ to: safe ?? "/auth", replace: true });
+        navigate({ href: safe ?? "/auth", replace: true });
       }}
     >
       <svg viewBox="0 0 48 48" aria-hidden="true" className="size-5!">
