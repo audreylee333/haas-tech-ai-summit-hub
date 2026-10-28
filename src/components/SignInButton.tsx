@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { lovable } from "@/integrations/lovable/index";
 import { Button } from "@/components/ui/button";
 
 export function SignInButton({ redirect }: { redirect?: string | undefined }) {
   const [busy, setBusy] = useState(false);
+  const navigate = useNavigate();
   return (
     <Button
       variant="start"
@@ -25,7 +27,8 @@ export function SignInButton({ redirect }: { redirect?: string | undefined }) {
           return;
         }
         if (result.redirected) return;
-        window.location.assign(safe ?? "/auth");
+        // Signed in without leaving the page (preview window): move on in place, no full reload.
+        navigate({ to: safe ?? "/auth", replace: true });
       }}
     >
       <svg viewBox="0 0 48 48" aria-hidden="true" className="size-5!">
