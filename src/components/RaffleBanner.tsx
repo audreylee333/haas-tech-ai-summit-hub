@@ -73,6 +73,9 @@ export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: nu
             : "Each review, each Rate the day section, and your questions for each session add one ticket."}{" "}
           <span className="font-semibold">Be there at the close to win.</span>
         </p>
+        <p className="mt-1 font-mono text-[0.65rem] uppercase tracking-[0.14em]">
+          Prizes: Apple iPad · Fujifilm Instax Mini camera
+        </p>
       </div>
       {onDayPage ? (
         <p className="font-mono text-xs">
