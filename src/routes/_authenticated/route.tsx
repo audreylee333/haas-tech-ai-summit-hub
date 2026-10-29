@@ -65,7 +65,7 @@ function Shell() {
           </div>
         </div>
         <nav className="rule mt-2.5 flex flex-wrap gap-3 pt-3">
-          {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}
+          {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />{role === "admin" ? "Organizer desk" : "Moderator desk"}</Link>}
           {role === "admin" && <Link to="/analytics" className={tab} activeProps={active}><BarChart3 className="size-3.5" />Analytics</Link>}
           <Link to="/sessions" className={tab} activeProps={active}><CalendarDays className="size-3.5" />Sessions</Link>
           <Link to="/day" className={tab} activeProps={active}><Star className="size-3.5" />Rate the day</Link>
