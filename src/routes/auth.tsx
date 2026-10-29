@@ -99,7 +99,7 @@ function AuthPage() {
       <h1 className="display mt-3 text-5xl">Sign in to get started.</h1>
       <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
       <p className="mt-4 text-muted-foreground">
-        Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw, and your Google email keeps track of yours.
+        Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw for an Apple iPad or a Fujifilm Instax Mini camera, and your Google email keeps track of yours.
       </p>
       <div className="mt-9">
         <SignInButton redirect={safePath(redirect) ?? undefined} />
