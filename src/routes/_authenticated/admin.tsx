@@ -413,3 +413,95 @@ function Raffle() {
     </div>
   );
 }
+
+function AttendeesDashboard() {
+  const [search, setSearch] = useState("");
+  const data = useQuery({
+    queryKey: ["admin-attendees"],
+    refetchInterval: 60_000,
+    refetchIntervalInBackground: false,
+    queryFn: async () => {
+      const [p, s, g, q] = await Promise.all([
+        supabase.from("profiles").select("*").order("created_at", { ascending: true }),
+        supabase.from("session_feedback").select("user_id, session_id"),
+        supabase.from("general_feedback").select("user_id, category"),
+        supabase.from("questions").select("user_id, session_id"),
+      ]);
+      if (p.error) throw p.error;
+      if (s.error) throw s.error;
+      if (g.error) throw g.error;
+      if (q.error) throw q.error;
+      return { profiles: p.data, sessionFb: s.data, generalFb: g.data, questions: q.data };
+    },
+  });
+
+  const rows = useMemo(() => {
+    const activity = new Map<string, { sessions: string[]; categories: string[]; questions: string[] }>();
+    const bucket = (uid: string) => {
+      let b = activity.get(uid);
+      if (!b) {
+        b = { sessions: [], categories: [], questions: [] };
+        activity.set(uid, b);
+      }
+      return b;
+    };
+    for (const r of data.data?.sessionFb ?? []) bucket(r.user_id).sessions.push(r.session_id);
+    for (const r of data.data?.generalFb ?? []) bucket(r.user_id).categories.push(r.category);
+    for (const r of data.data?.questions ?? []) bucket(r.user_id).questions.push(r.session_id);
+    return (data.data?.profiles ?? [])
+      .map((p) => {
+        const b = activity.get(p.id) ?? { sessions: [], categories: [], questions: [] };
+        return {
+          ...p,
+          rated: new Set(b.sessions).size,
+          day: new Set(b.categories.map(dayGroupOf).filter(Boolean)).size,
+          asked: new Set(b.questions).size,
+          tickets: countRaffleEntries(b.sessions, b.categories, b.questions),
+        };
+      })
+      .sort((a, b) => b.tickets - a.tickets || a.created_at.localeCompare(b.created_at));
+  }, [data.data]);
+
+  const term = search.trim().toLowerCase();
+  const visible = term
+    ? rows.filter((r) => (r.display_name ?? "").toLowerCase().includes(term) || (r.email ?? "").toLowerCase().includes(term))
+    : rows;
+  const participating = rows.filter((r) => r.tickets > 0).length;
+  const totalTickets = rows.reduce((a, b) => a + b.tickets, 0);
+
+  return (
+    <div className="pt-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <p className="eyebrow">{rows.length} signed in · {participating} participating · {totalTickets} tickets</p>
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search name or email…"
+          className="h-10 w-64 border-input bg-card transition-colors hover:border-signal/40 focus-visible:ring-2 focus-visible:ring-signal/50 focus-visible:border-signal/50"
+        />
+      </div>
+      <div className="eyebrow mt-4 grid grid-cols-[1fr_repeat(4,3.5rem)] items-center gap-4 px-1">
+        <span>Attendee</span>
+        <span className="text-right">Rated</span>
+        <span className="text-right">Day</span>
+        <span className="text-right">Q&amp;A</span>
+        <span className="text-right">Tickets</span>
+      </div>
+      <ul>
+        {visible.map((r) => (
+          <li key={r.id} className="rule grid grid-cols-[1fr_repeat(4,3.5rem)] items-center gap-4 py-3">
+            <span className="min-w-0">
+              <span className="block truncate font-medium">{r.display_name ?? "Attendee"}</span>
+              <span className="eyebrow">{r.email} · joined {new Date(r.created_at).toLocaleDateString([], { month: "short", day: "numeric" })}</span>
+            </span>
+            <span className="text-right font-mono text-sm">{r.rated}</span>
+            <span className="text-right font-mono text-sm">{r.day}</span>
+            <span className="text-right font-mono text-sm">{r.asked}</span>
+            <span className="text-right font-mono text-sm text-signal">{r.tickets}</span>
+          </li>
+        ))}
+      </ul>
+      {visible.length === 0 && <p className="py-6 text-sm text-muted-foreground">No one matches that search.</p>}
+    </div>
+  );
+}
