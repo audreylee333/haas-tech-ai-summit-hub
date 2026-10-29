@@ -7,7 +7,8 @@ const healthcare = { id: "s4", open_to_all_moderators: false, qa_enabled: true }
 const noQaAssigned = { id: "s5", open_to_all_moderators: false, qa_enabled: false };
 
 describe("access levels", () => {
-  it("super admins see Q&A, feedback and raffle", () => expect(deskTabsFor("admin")).toEqual(["qa", "feedback", "raffle"]));
+  it("super admins see Q&A, feedback, raffle and attendees", () => expect(deskTabsFor("admin")).toEqual(["qa", "feedback", "raffle", "attendees"]));
+  it("moderators never see the attendees tab", () => expect(deskTabsFor("moderator")).not.toContain("attendees"));
   it("moderators see only Q&A", () => expect(deskTabsFor("moderator")).toEqual(["qa"]));
   it("attendees get no desk", () => expect(deskTabsFor(null)).toEqual([]));
   it("super admin wins over moderator", () => expect(pickStaffRole(["moderator", "admin"])).toBe("admin"));

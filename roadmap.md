@@ -24,3 +24,4 @@
 - [x] Moderator desk: land on the moderator's own session by default instead of all sessions
 - [x] Header spacing: even gaps between the wordmark, the gold summit line, and the divider
 - [x] Rate the day heading: bold line is about today's feedback, "next year" moved to smaller text
+- [x] Attendees activity tab on moderator desk (super admins only): profiles + per-attendee activity counts, live on /admin
