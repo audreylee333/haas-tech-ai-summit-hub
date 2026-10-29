@@ -3,10 +3,10 @@ import { RaffleBanner } from "@/components/RaffleBanner";
 import wordmarkAsset from "@/assets/wordmark.png.asset.json";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useIsStaff as useIsAdmin, useMyFeedback } from "@/lib/data";
+import { useIsStaff as useIsAdmin, useMyFeedback, useStaffRole } from "@/lib/data";
 import { DAY_GROUPS, dayGroupOf } from "@/lib/raffle";
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, CalendarDays, Star, LogOut } from "lucide-react";
+import { LayoutDashboard, BarChart3, CalendarDays, Star, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CaptionsLink } from "@/components/CaptionsLink";
 import { SigningIn, markSigningOut } from "@/components/SigningIn";
@@ -25,8 +25,9 @@ export const Route = createFileRoute("/_authenticated")({
 function Shell() {
   const { data } = useMyFeedback();
   const { data: isAdmin } = useIsAdmin();
+  const { data: role } = useStaffRole();
   const { pathname } = useLocation();
-  const isDesk = pathname.startsWith("/admin");
+  const isDesk = pathname.startsWith("/admin") || pathname.startsWith("/analytics");
   const qc = useQueryClient();
   const navigate = useNavigate();
 
@@ -63,8 +64,9 @@ function Shell() {
             </Button>
           </div>
         </div>
-        <nav className="rule mt-2.5 flex gap-5 pt-3">
+        <nav className="rule mt-2.5 flex flex-wrap gap-3 pt-3">
           {isAdmin && <Link to="/admin" className={tab} activeProps={active}><LayoutDashboard className="size-3.5" />Moderator desk</Link>}
+          {role === "admin" && <Link to="/analytics" className={tab} activeProps={active}><BarChart3 className="size-3.5" />Analytics</Link>}
           <Link to="/sessions" className={tab} activeProps={active}><CalendarDays className="size-3.5" />Sessions</Link>
           <Link to="/day" className={tab} activeProps={active}><Star className="size-3.5" />Rate the day</Link>
         </nav>

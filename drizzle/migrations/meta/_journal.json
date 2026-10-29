@@ -85,6 +85,13 @@
       "when": 1793032481596,
       "tag": "0011_question_stars",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1793299386259,
+      "tag": "0012_admin_read_moderators",
+      "breakpoints": true
     }
   ]
 }

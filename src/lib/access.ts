@@ -1,6 +1,6 @@
 import type { StaffRole } from "@/lib/data";
 
-export type DeskTab = "qa" | "feedback" | "raffle" | "attendees";
+export type DeskTab = "qa" | "feedback" | "raffle";
 
 
 /**
@@ -15,7 +15,7 @@ export function firstOwnSession<T extends { open_to_all_moderators: boolean; qa_
 
 /** Super admins see everything; moderators only see Q&A. */
 export function deskTabsFor(role: StaffRole): DeskTab[] {
-  if (role === "admin") return ["qa", "feedback", "raffle", "attendees"];
+  if (role === "admin") return ["qa", "feedback", "raffle"];
   if (role === "moderator") return ["qa"];
   return [];
 }
