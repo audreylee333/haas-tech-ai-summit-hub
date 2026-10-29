@@ -5,7 +5,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useModeratedSessionIds, useSessions, useStaffRole } from "@/lib/data";
 import { deskTabsFor, firstOwnSession } from "@/lib/access";
-import { DAY_CATEGORIES, DAY_GROUPS } from "@/lib/raffle";
+import { DAY_CATEGORIES, DAY_GROUPS, countRaffleEntries, dayGroupOf } from "@/lib/raffle";
 import { useServerFn } from "@tanstack/react-start";
 import { groupSessionQuestions } from "@/lib/themes.functions";
 import { applyThemes, hasUngroupedQuestions, type Theme } from "@/lib/themes";
@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { MessagesSquare, BarChart3, Trophy, Star, Download } from "lucide-react";
+import { MessagesSquare, BarChart3, Trophy, Star, Download, Users } from "lucide-react";
 import { toCsv, downloadCsv } from "@/lib/csv";
 
 const deskTab =
@@ -49,10 +49,12 @@ function AdminPage() {
             <TabsTrigger value="qa" className={deskTab}><MessagesSquare className="size-4" />Q&amp;A</TabsTrigger>
             {tabs.includes("feedback") && <TabsTrigger value="feedback" className={deskTab}><BarChart3 className="size-4" />Feedback</TabsTrigger>}
             {tabs.includes("raffle") && <TabsTrigger value="raffle" className={deskTab}><Trophy className="size-4" />Raffle &amp; totals</TabsTrigger>}
+            {tabs.includes("attendees") && <TabsTrigger value="attendees" className={deskTab}><Users className="size-4" />Attendees</TabsTrigger>}
           </TabsList>
           <TabsContent value="qa"><QAModeration /></TabsContent>
           {tabs.includes("feedback") && <TabsContent value="feedback"><FeedbackDashboard /></TabsContent>}
           {tabs.includes("raffle") && <TabsContent value="raffle"><Raffle /></TabsContent>}
+          {tabs.includes("attendees") && <TabsContent value="attendees"><AttendeesDashboard /></TabsContent>}
         </Tabs>
       ) : (
         <div className="mt-6"><QAModeration /></div>
