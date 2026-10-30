@@ -74,7 +74,7 @@ function Shell() {
       <div className="pt-6">
         {!isDesk && (
           <div className="mb-8">
-            <RaffleBanner entries={data?.entries ?? 0} dayRemaining={DAY_GROUPS.length - new Set((data?.general ?? []).map((g) => dayGroupOf(g.category)).filter(Boolean)).size} onDayPage={pathname.startsWith("/day")} />
+            <RaffleBanner entries={data?.entries ?? 0} dayRemaining={DAY_GROUPS.length - new Set((data?.general ?? []).map((g) => dayGroupOf(g.category)).filter(Boolean)).size} />
           </div>
         )}
         <Outlet />

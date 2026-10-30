@@ -1,5 +1,6 @@
-import { Link } from "@tanstack/react-router";
-import { DAY_GROUPS } from "@/lib/raffle";
+import { Link, useLocation } from "@tanstack/react-router";
+
+
 
 function sparklePath(cx: number, cy: number, r: number) {
   return `M ${cx} ${cy - r} Q ${cx} ${cy} ${cx + r} ${cy} Q ${cx} ${cy} ${cx} ${cy + r} Q ${cx} ${cy} ${cx - r} ${cy} Q ${cx} ${cy} ${cx} ${cy - r} Z`;
@@ -55,8 +56,8 @@ function FlashyTicket({ className }: { className?: string }) {
   );
 }
 
-export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: number; dayRemaining: number; onDayPage: boolean }) {
-  const total = DAY_GROUPS.length;
+export function RaffleBanner({ entries, dayRemaining }: { entries: number; dayRemaining: number }) {
+  const { pathname } = useLocation();
   return (
     <div className="bg-prize shadow-prize flex flex-col gap-3 rounded-sm p-4 text-signal-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
       <div className="flex items-center gap-2">
@@ -77,16 +78,10 @@ export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: nu
           Prizes: Apple iPad · Fujifilm Instax Mini camera
         </p>
       </div>
-      {onDayPage ? (
-        <p className="font-mono text-xs">
-          {dayRemaining > 0 ? `${dayRemaining} of ${total} day tickets left` : "All day tickets earned ✓"}
-        </p>
-      ) : (
-        dayRemaining > 0 && (
-          <Link to="/day" className="font-mono text-xs underline underline-offset-4">
-            +{dayRemaining} on Rate the day →
-          </Link>
-        )
+      {dayRemaining > 0 && !pathname.startsWith("/day") && (
+        <Link to="/day" className="font-mono text-xs underline underline-offset-4">
+          +{dayRemaining} on Rate the day →
+        </Link>
       )}
     </div>
   );
