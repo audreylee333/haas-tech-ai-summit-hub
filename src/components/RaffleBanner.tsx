@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { DAY_GROUPS } from "@/lib/raffle";
+
 
 function sparklePath(cx: number, cy: number, r: number) {
   return `M ${cx} ${cy - r} Q ${cx} ${cy} ${cx + r} ${cy} Q ${cx} ${cy} ${cx} ${cy + r} Q ${cx} ${cy} ${cx - r} ${cy} Q ${cx} ${cy} ${cx} ${cy - r} Z`;
