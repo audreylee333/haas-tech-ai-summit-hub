@@ -78,7 +78,7 @@ export function RaffleBanner({ entries, dayRemaining }: { entries: number; dayRe
           Prizes: Apple iPad · Fujifilm Instax Mini camera
         </p>
       </div>
-      {dayRemaining > 0 && (
+      {dayRemaining > 0 && !pathname.startsWith("/day") && (
         <Link to="/day" className="font-mono text-xs underline underline-offset-4">
           +{dayRemaining} on Rate the day →
         </Link>
