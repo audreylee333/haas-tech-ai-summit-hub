@@ -76,16 +76,10 @@ export function RaffleBanner({ entries, dayRemaining }: { entries: number; dayRe
           Prizes: Apple iPad · Fujifilm Instax Mini camera
         </p>
       </div>
-      {onDayPage ? (
-        <p className="font-mono text-xs">
-          {dayRemaining > 0 ? `${dayRemaining} of ${total} day tickets left` : "All day tickets earned ✓"}
-        </p>
-      ) : (
-        dayRemaining > 0 && (
-          <Link to="/day" className="font-mono text-xs underline underline-offset-4">
-            +{dayRemaining} on Rate the day →
-          </Link>
-        )
+      {dayRemaining > 0 && (
+        <Link to="/day" className="font-mono text-xs underline underline-offset-4">
+          +{dayRemaining} on Rate the day →
+        </Link>
       )}
     </div>
   );
