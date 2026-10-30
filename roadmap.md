@@ -25,3 +25,5 @@
 - [x] Header spacing: even gaps between the wordmark, the gold summit line, and the divider
 - [x] Rate the day heading: bold line is about today's feedback, "next year" moved to smaller text
 - [x] Attendees activity tab on moderator desk (super admins only): profiles + per-attendee activity counts, live on /admin
+- [ ] Raffle banner: fix mobile stacking (text column too narrow, wraps word by word)
+- [ ] Update Preeti's fireside title to "From Personalization to Possibility: How AI Is Reshaping Business and Work"
