@@ -1,4 +1,5 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
+
 
 
 function sparklePath(cx: number, cy: number, r: number) {
@@ -56,6 +57,7 @@ function FlashyTicket({ className }: { className?: string }) {
 }
 
 export function RaffleBanner({ entries, dayRemaining }: { entries: number; dayRemaining: number }) {
+  const { pathname } = useLocation();
   return (
     <div className="bg-prize shadow-prize flex flex-col gap-3 rounded-sm p-4 text-signal-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
       <div className="flex items-center gap-2">
