@@ -58,10 +58,10 @@ function FlashyTicket({ className }: { className?: string }) {
 export function RaffleBanner({ entries, dayRemaining, onDayPage }: { entries: number; dayRemaining: number; onDayPage: boolean }) {
   const total = DAY_GROUPS.length;
   return (
-    <div className="bg-prize shadow-prize flex flex-wrap items-center gap-4 rounded-sm p-4 text-signal-foreground">
+    <div className="bg-prize shadow-prize flex flex-col gap-3 rounded-sm p-4 text-signal-foreground sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
       <div className="flex items-center gap-2">
-        <FlashyTicket className="size-12 shrink-0" />
-        <div className="display text-5xl leading-none">{entries}</div>
+        <FlashyTicket className="size-10 shrink-0 sm:size-12" />
+        <div className="display text-4xl leading-none sm:text-5xl">{entries}</div>
       </div>
       <div className="min-w-0 flex-1">
         <p className="font-mono text-[0.65rem] uppercase tracking-[0.14em]">
