@@ -10,6 +10,7 @@
 <!-- LOVABLE:END -->
 
 ## Architecture rules
+- Event closure uses restrictive database write policies and a shared closed-event screen on attendee pages; staff result and moderation views stay accessible without changing roles.
 - Attendee data access uses the browser client with RLS (no server functions); privileged actions (raffle draw, leaderboard) are security-definer SQL functions that check `has_role(auth.uid(),'admin')` — keeps authorization in the database.
 - Raffle totals and weighted draws count session reviews, one per day-feedback group (DAY_CATEGORIES.group, mirrored by a SQL CASE), plus one per distinct session with a question submission (repeat submissions to a session add nothing); mirror the database calculation in `src/lib/raffle.ts` to keep attendee totals consistent.
 - Organizers are granted via rows in `public.user_roles` (role `admin`).

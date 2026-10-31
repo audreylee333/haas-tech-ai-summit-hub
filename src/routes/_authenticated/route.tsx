@@ -11,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import { CaptionsLink } from "@/components/CaptionsLink";
 import { SigningIn, markSigningOut } from "@/components/SigningIn";
 import { useState } from "react";
+import { EventClosed } from "@/components/EventClosed";
+import { EVENT_SUBMISSIONS_OPEN } from "@/lib/event";
 
 
 export const Route = createFileRoute("/_authenticated")({
@@ -72,12 +74,12 @@ function Shell() {
         </nav>
       </header>
       <div className="pt-6">
-        {!isDesk && (
+        {!isDesk && EVENT_SUBMISSIONS_OPEN && (
           <div className="mb-8">
             <RaffleBanner entries={data?.entries ?? 0} dayRemaining={DAY_GROUPS.length - new Set((data?.general ?? []).map((g) => dayGroupOf(g.category)).filter(Boolean)).size} />
           </div>
         )}
-        <Outlet />
+        {!isDesk && !EVENT_SUBMISSIONS_OPEN ? <EventClosed /> : <Outlet />}
       </div>
     </div>
   );
