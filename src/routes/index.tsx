@@ -6,14 +6,15 @@ import { Button } from "@/components/ui/button";
 import { useIsStaff as useIsAdmin, useUser } from "@/lib/data";
 import { GlitchWordmark } from "@/components/GlitchWordmark";
 import { CaptionsLink } from "@/components/CaptionsLink";
+import { EventClosed } from "@/components/EventClosed";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "The Hub for Conference Day · Haas Tech & AI Summit 2026" },
-      { name: "description", content: "Sign in to rate sessions, send questions to the speakers, and earn raffle tickets at the Haas Tech & AI Summit 2026." },
+      { name: "description", content: "The Haas Tech & AI Summit 2026 has ended. Submissions are closed. Stay tuned for next year!" },
       { property: "og:title", content: "Haas Tech & AI Summit 2026" },
-      { property: "og:description", content: "Rate sessions, send questions to the speakers, and earn raffle tickets." },
+      { property: "og:description", content: "The summit has ended. Stay tuned for next year!" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -46,16 +47,8 @@ function Index() {
       <GlitchWordmark />
       <p className="eyebrow mt-6 text-signal">Oct 30 · Spieker Forum</p>
       <span className="banner-tag mt-3 self-start">The Hub for Conference Day</span>
-      <h1 className="display mt-3 text-5xl">{user ? "You're in." : "Sign in to get started."}</h1>
-      <span className="mt-4 block h-1 w-16 bg-signal" aria-hidden="true" />
-      <p className="mt-4 text-muted-foreground">
-        {user
-          ? isAdmin
-            ? "Head to the moderator desk, or rate sessions and send questions yourself."
-            : "Head to the sessions to rate talks and send questions."
-          : "Rate sessions, send questions to the speakers, and help shape the summit. Every rating and question earns a raffle ticket for the end-of-day draw for an Apple iPad or a Fujifilm Instax Mini camera."}
-      </p>
-      <div className="mt-9">
+      <EventClosed />
+      <div className="mt-2">
         {user ? (
           <Button asChild variant="start" size="lg" className="h-14 px-6 text-base font-semibold">
             {isAdmin ? <Link to="/admin">Go to moderator desk →</Link> : <Link to="/sessions">Go to sessions →</Link>}
