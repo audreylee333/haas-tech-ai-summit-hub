@@ -1,6 +1,6 @@
 # Roadmap
 
-- [ ] Close event submissions at the database and show an ended-event message before and after sign-in; preserve staff results and verify.
+- [x] Close event submissions at the database and show an ended-event message before and after sign-in; preserve staff results and verify.
 
 - [x] Poster visual style: Anton display font, dot-grid texture, gold banner strips
 - [x] Restyle moderator desk tabs (Q&A / Feedback / Raffle) with icons
