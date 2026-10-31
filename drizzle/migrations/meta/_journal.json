@@ -92,6 +92,13 @@
       "when": 1793299386259,
       "tag": "0012_admin_read_moderators",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1793468604929,
+      "tag": "0013_close_2026_event_submissions",
+      "breakpoints": true
     }
   ]
 }
