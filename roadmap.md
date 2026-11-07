@@ -19,7 +19,7 @@
   - [x] Add csv export tests (quoting, escaping, empty cells)
   - [x] Add database-rules-mirror-the-app tests (day groupings, ticket counting, admin gate, winner exclusion, moderator allowlist, question privacy, self-vote rejection)
   - [x] Add raffle access browser check for both roles and run it (moderator reads totals; attendee is refused the leaderboard and the draw)
-- [x] Three access levels: super admins, session-scoped moderators, attendees (Ayushman stays attendee; audrey.yupei.lee@gmail.com is test moderator)
+- [x] Three access levels: super admins, session-scoped moderators, attendees (a moderator stays attendee; the test moderator account is test moderator)
 - [x] Prepare for 200 people: attendee timer refresh, live moderator desk, indexes, retries, double-tap guards, rehearsal
 - [x] Cheaper AI theme grouping: shared saved themes, skip when unchanged, short numbers, no extra reasoning, cooldown
 - [x] "Your session" label on the moderator desk for the moderator's own Q&A session (moved off the sessions screens; keynotes never tagged)

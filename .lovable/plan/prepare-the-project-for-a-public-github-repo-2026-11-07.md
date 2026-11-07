@@ -5,7 +5,7 @@ Only the app's code and notes go to GitHub. The database does not, so attendee e
 
 ## What I found in the files
 - No attendee data and no private keys. The one key in the files is a public key that's meant to be visible, and the database rules still protect everything.
-- Staff emails and first names show up in a few old planning notes and the task list (audrey.lee@berkeley.edu, audrey.yupei.lee@gmail.com, audreylee911@gmail.com, plus Yu Jin, Moe, Tony, Joan, Jonathan, Bhavya, Ayushman).
+- Staff emails and first names show up in a few old planning notes and the task list (the lead super admin account, the test moderator account, the attendee test account, plus a super admin, a super admin, a super admin, a moderator, a moderator, a moderator, a moderator).
 
 ## Change
 - Take the emails and names out of the old planning notes and the task list. Use role words like "super admin", "test moderator" and "attendee test account" instead.
