@@ -1,8 +1,10 @@
 # 2026 Haas Tech & AI Summit Hub 
 
-I want to create an audience engagement website that this one will link to: https://haastechclub.com/summit#this-year
+**The problem**
+The problem I wanted to solve was two fold: 1) nobody likes giving feedback on events even though it's critical for organizers, and 2) taking live audience Q&A drags on sessions and introduces more logistical overhead. 
 
-For this conference, I want to give attendees a single place where they can go to submit feedback on sessions throughout the day. This should be lightweight to gather as much valuable feedback as we can, and besides feedback on sessions we should also be collecting live audience Q&A for the sessions we're enabling that for. With every feedback submission, I want it to contribute an entry into a raffle we're doing at the end of the day, so we'll need some way to identify users, like an email address via auth mechanism.
+**The proposed solution**
+For this conference, I want to give attendees a single place where they can go to submit feedback on sessions throughout the day. This should be lightweight to gather as much valuable feedback as we can, and besides feedback on sessions we should also be collecting live audience Q&A for the sessions we're enabling that for. With every feedback submission, I want it to contribute an entry into a raffle we're doing at the end of the day to create an incentive for people to engage, so we'll need some way to identify users, like an email address via auth mechanism.
 
 This project was built with [Lovable](https://lovable.dev).
 
@@ -20,7 +22,7 @@ This project was built with [Lovable](https://lovable.dev).
 | Questions submitted for live Q&A | 90 |
 | Upvotes on questions | 43 |
 | Staff on the allowlist (super admins + moderators) | 13 |
-| Raffle draws | 3 (prizes: Apple iPad, Fujifilm Instax Mini camera) |
+| Raffle draws | 2 |
 
 ## What it does
 
